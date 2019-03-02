@@ -1,0 +1,245 @@
+html {
+	background-color: #fffff0;
+	overflow: hidden;
+}
+
+body {
+	background-color: rgb(245, 245, 245);
+	overflow: auto;
+}
+
+.dropdown-menu li:hover {
+	z-index: 10000;
+	cursor: pointer;
+	position: relative;
+}
+
+#mainWrapper {
+	height: 100%;
+	background-image: -webkit-gradient(linear, right bottom, right top, color-stop(0, #EDEDED),
+		color-stop(0.08, #FAFAFA), color-stop(1, #FFFF2F),
+		color-stop(1, #AAAAAA));
+	background-image: -o-linear-gradient(top, #EDEDED 0%, #FAFAFA 8%, #FFFF2F 100%, #AAAAAA
+		100%);
+	background-image: -moz-linear-gradient(top, #EDEDED 0%, #FAFAFA 8%, #FFFF2F 100%, #AAAAAA
+		100%);
+	background-image: -webkit-linear-gradient(top, #EDEDED 0%, #FAFAFA 8%, #FFFF2F 100%,
+		#AAAAAA 100%);
+	background-image: -ms-linear-gradient(top, #EDEDED 0%, #FAFAFA 8%, #FFFF2F 100%, #AAAAAA
+		100%);
+	background-image: linear-gradient(to top, #EDEDED 0%, #FAFAFA 8%, #FFFF2F 100%, #AAAAAA
+		100%);
+}
+
+.floatRight {
+	float: right;
+	margin-right: 18px;
+}
+
+.has-error {
+	color: red;
+}
+
+#table, table td, .table th {
+	padding: .0001rem;
+	vertical-align: top;
+	border-top: 1px solid #dee2e6;
+	.table-hover;
+	.table-condensed;
+	.table-responsive;
+}
+table.table, table td, .table th {
+	padding: .0001rem;
+	vertical-align: top;
+	border-top: 1px solid #dee2e6;
+	.table-hover;
+	.table-condensed;
+	.table-responsive;
+}
+
+.navbar
+{
+	background-color: #fffff0;
+}
+
+.generic-container {
+	position: relative;
+	width: 100%;
+	height: 100%;
+	margin-left: 10px;
+	margin-top: 10px;
+	margin-bottom: 10px;
+	padding: 10px;
+	background-color: #fffff0;
+	border: 1px solid #ddd;
+	border-radius: 4px;
+	box-shadow: 0 0 30px white;
+	overflow: auto;
+	margin-left: 10px;
+}
+
+.custom-width {
+	width: 80px !important;
+}
+
+body, #mainWrapper {
+	font-size: 16px;
+}
+
+.form-control {
+	font-size: 12px !important;
+}
+
+#mainWrapper {
+	/*height: 720px; Without explicit px values, % in children's does not work*/
+	height: 100vh;
+	/*with Viewport-Percentage, we can handles all devices screens  */
+	padding-left: 10px;
+	padding-right: 10px;
+	padding-bottom: 10px;
+}
+
+.login-container {
+	margin-top: 100px;
+	background-color: floralwhite;
+	width: 40%;
+	left: 30%;
+	position: absolute;
+}
+
+.login-card {
+	width: 80%;
+	margin: auto;
+}
+
+.login-form {
+	padding: 10%;
+}
+
+.authbar {
+	margin-bottom: 15px;
+}
+
+/* Removes the date textbox*/
+input[type="date"]::-webkit-datetime-edit {
+	display: none;
+}
+
+input[type="date"]::-webkit-inner-spin-button {
+	display: none;
+}
+
+input[type="date"]::-webkit-clear-button {
+	display: none;
+	visibility: collapse;
+}
+
+input[type=date]::-webkit-calendar-picker-indicator span {
+	
+}
+
+input[type=date]::-webkit-calendar-picker-indicator {
+	content: "\e109";
+}
+
+input[type=date]::-webkit-calendar-picker-indicator::BEFORE {
+	content: "\e109";
+}
+
+input[type=date]::-webkit-calendar-picker-indicator::after {
+	display: block;
+	content: "\e109";
+	background-size: 10%;
+	width: 100px;
+	height: 100px;
+	position: absolute;
+	transform: translateX(-2%);
+}
+
+/* The Modal (background) */
+.modal {
+	display: none; /* Hidden by default */
+	position: fixed; /* Stay in place */
+	z-index: 1; /* Sit on top */
+	padding-top: 100px; /* Location of the box */
+	left: 0;
+	top: 0;
+	width: 100%; /* Full width */
+	height: 100%; /* Full height */
+	overflow: auto; /* Enable scroll if needed */
+	background-color: rgb(0, 0, 0); /* Fallback color */
+	background-color: rgba(0, 0, 0, 0.9); /* Black w/ opacity */
+}
+
+/* Modal Content (image) */
+.modal-content {
+	margin: auto;
+	display: block;
+	width: 80%;
+	max-width: 700px;
+}
+
+/* Caption of Modal Image */
+#caption {
+	margin: auto;
+	display: block;
+	width: 80%;
+	max-width: 700px;
+	text-align: center;
+	color: #ccc;
+	padding: 10px 0;
+	height: 150px;
+}
+
+/* Add Animation */
+.modal-content, #caption {
+	-webkit-animation-name: zoom;
+	-webkit-animation-duration: 0.6s;
+	animation-name: zoom;
+	animation-duration: 0.6s;
+}
+
+@
+-webkit-keyframes zoom {
+	from {-webkit-transform: scale(0)
+}
+
+to {
+	-webkit-transform: scale(1)
+}
+
+}
+@
+keyframes zoom {
+	from {transform: scale(0)
+}
+
+to {
+	transform: scale(1)
+}
+
+}
+
+/* The Close Button */
+.close {
+	position: absolute;
+	top: 15px;
+	right: 35px;
+	color: #f1f1f1;
+	font-size: 40px;
+	font-weight: bold;
+	transition: 0.3s;
+}
+
+.close:hover, .close:focus {
+	color: #bbb;
+	text-decoration: none;
+	cursor: pointer;
+}
+
+/* 100% Image Width on Smaller Screens */
+@media only screen and (max-width: 700px) {
+	.modal-content {
+		width: 100%;
+	}
+}
