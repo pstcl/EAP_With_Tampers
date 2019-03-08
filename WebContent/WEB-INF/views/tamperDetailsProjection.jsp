@@ -77,7 +77,7 @@
 				<th>Boundary Type</th>
 				<th>Device Type</th>
 				<th>Feeder Name</th>
-                 
+                 <th>Meter</th>
 			
 
 				</tr>
@@ -102,7 +102,13 @@
 					<td>${tamperDetails.locationMaster.deviceTypeMaster.deviceType}</td>
 
 					<td>${tamperDetails.locationMaster.feederMaster.feederName}</td>
+                    <td>Meter
+						Location:${tamperDetails.locationMaster.feederMaster.feederName} 
+						${tamperDetails.locationMaster.locationId} <br>Meter Details(Sr No:
+						${tamperDetails.locationMaster.meterMaster.meterSrNo})(Make:${tamperDetails.locationMaster.meterMaster.meterType})
 
+
+					</td>
 					
 				</tr>
 				

@@ -60,15 +60,19 @@
 			<c:forEach items="${irdetails}"
 				var="irDetail" varStatus="indexStatus">
 
-				<tr>
 				
-				<c:forEach items="${irdetail}"
-				var="irDetailo" varStatus="indexStatus1">
-				<td>${irDetailo.key }</td>
-				<td>${irDetailo.value }</td>
-				</c:forEach>
 				
-				   </tr>
+			
+<!-- 				<tr> -->
+<%-- 				<c:forEach items="${irDetail} --%>
+<%-- 				var="irDetailo" varStatus="indexStatus1"> --%>
+<%-- 				<td><c:out value="${irDetailo.key}"></c:out></td> --%>
+<%-- 				<td><c:out value="${irDetailo.value}"></c:out></td> --%>
+<%-- 				</c:forEach> --%>
+<!-- 				</tr> -->
+				
+				
+				 
 					
 					
 			</c:forEach>
