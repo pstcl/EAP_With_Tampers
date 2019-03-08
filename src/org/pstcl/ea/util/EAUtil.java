@@ -8,6 +8,15 @@ import org.springframework.format.annotation.DateTimeFormat;
 import com.ibm.icu.math.BigDecimal;
 
 public class EAUtil {
+	
+	
+	//Raw MEter reading
+	public static final int DECIMAL_SCALE_INSTANT_REGISTERS=4;
+	//Raw MEter reading
+	public static final int DECIMAL_PRECESION_INSTANT_REGISTERS=16;
+
+	public static final int DECIMAL_SCALE_INSTANT_REGISTERS1=6;
+	
 	//Raw MEter reading
 	public static final int DECIMAL_SCALE_DAILY_SURVEY_IMPORT_EXPORT=3;
 	//Raw MEter reading

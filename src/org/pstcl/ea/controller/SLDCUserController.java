@@ -31,7 +31,8 @@ public class SLDCUserController {
 	@Autowired
 	private SubstationDataServiceImpl substationDataServiceImpl;
 
-
+    @Autowired
+    private LossReportService lossReportService;
 
 
 
@@ -65,6 +66,32 @@ public class SLDCUserController {
 	
 	
 	@PreAuthorize("hasRole('ROLE_SLDC_USER') or hasRole('ROLE_SLDC_ADMIN')")
+	@RequestMapping(value = "/getLocationInstantRegisters-{locationId}", method = RequestMethod.GET)
+	public String getLocationInstantRegisters(@PathVariable String locationId,@RequestParam(value = "month") Integer month,
+			@RequestParam(value = "year") Integer year,ModelMap modelMap) {
+		
+		modelMap.addAttribute("monthOfReport",DateUtil.convertMonthYearToDate(month, year) );
+		
+		modelMap.addAttribute("month",month);
+		modelMap.addAttribute("year",year);
+		modelMap.addAttribute("irdetails", lossReportService.getIRDetails(locationId,month,year));
+
+		return "locationIRDetails";
+	}
+	
+	
+	    //added by leevansha
+		@PreAuthorize("hasRole('ROLE_SLDC_USER') or hasRole('ROLE_SLDC_ADMIN')")
+		@RequestMapping(value = "/processFileInstantRegisters-{id}", method = RequestMethod.GET)
+		public String processFileInstantRegisters(@PathVariable Integer id,ModelMap modelMap) {
+			modelMap.addAttribute("cmriModel", dateService.processRepoFileForInstantRegisters(id));
+			return "processingFilesStatus";
+		}
+
+	
+	
+	
+	@PreAuthorize("hasRole('ROLE_SLDC_USER') or hasRole('ROLE_SLDC_ADMIN')")
 	@RequestMapping(value = "/getAllLocationTampers", method = RequestMethod.GET)
 	public String getLocationTampers(@RequestParam(value = "month") Integer month,
 			@RequestParam(value = "year") Integer year,ModelMap modelMap) {
@@ -78,7 +105,7 @@ public class SLDCUserController {
 
 			return "locationTampers";
 	}
-//leevansha end//
+//leevansha end
 	
 	@PreAuthorize("hasRole('ROLE_SLDC_USER') or hasRole('ROLE_SLDC_ADMIN')")
 	@RequestMapping(value = "/getReportTransactions-{locationId}", method = RequestMethod.GET)
@@ -106,10 +133,10 @@ public class SLDCUserController {
 
 
 	@PreAuthorize("hasRole('ROLE_SLDC_USER') or hasRole('ROLE_SLDC_ADMIN')")
-	@RequestMapping(value = "/processTamperLog", method = RequestMethod.GET)
+	@RequestMapping(value = "/processInstantRegisters", method = RequestMethod.GET)
 	public String processTamperLog(@RequestParam(value = "month") Integer month,
 			@RequestParam(value = "year") Integer year,ModelMap modelMap) {
-		modelMap.addAttribute("fileModel", dateService.processZipFilesForTamper(month,year));
+		modelMap.addAttribute("fileModel", dateService.processZipFilesForInstantRegisters(month,year));
 		modelMap.addAttribute("reportMonthYearDate",DateUtil.convertMonthYearToDate(month, year) );
 
 		return "processingFilesStatus";

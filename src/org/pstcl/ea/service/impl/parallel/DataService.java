@@ -14,6 +14,7 @@ import org.pstcl.ea.model.LocationFileModel;
 import org.pstcl.ea.model.LocationSurveyDataModel;
 import org.pstcl.ea.model.entity.DailyTransaction;
 import org.pstcl.ea.model.entity.FileMaster;
+import org.pstcl.ea.model.entity.InstantRegisters;
 import org.pstcl.ea.model.entity.LocationMaster;
 import org.pstcl.ea.model.entity.LossReportEntity;
 import org.pstcl.ea.model.entity.MeterMaster;
@@ -222,7 +223,7 @@ public class DataService extends EnergyAccountsService{
 		return fileModel;
 	}
 
-	public FileModel processZipFilesForTamper(Integer month, Integer year2)
+	public FileModel processZipFilesForInstantRegisters(Integer month, Integer year2)
 	{
 		FileFilter filter=new FileFilter();
 		filter.setTransactionDateFrom(DateUtil.startDateTimeForDailySurveyRecs(month, year2));
@@ -232,7 +233,7 @@ public class DataService extends EnergyAccountsService{
 		List<FileMaster> fileMasters=fileMasterDao.filterFiles(filter);
 		for (FileMaster fileMaster : fileMasters) {
 			try {
-				processRepoFileForTamper(fileMaster.getTxnId());
+				processRepoFileForInstantRegisters(fileMaster.getTxnId());
 			}catch(Exception e)
 			{
 				e.printStackTrace();
@@ -364,6 +365,53 @@ public class DataService extends EnergyAccountsService{
 
 
 
+	//added by Leevansha
+	public CMRIFileDataModel processRepoFileForInstantRegisters(Integer id) {
+		// TODO Auto-generated method stub
+
+		FileMaster fileMaster=fileMasterDao.findById(id);
+		CMRIFileDataModel cmriDataModel=new CMRIFileDataModel();
+
+
+		processInstantRegisterAsync(fileMaster);
+
+
+		Integer year = 2018;
+		Integer monthOfYear = 9;
+
+		if(null!=fileMaster.getTransactionDate())
+		{
+			Calendar cal = Calendar.getInstance();
+			cal.setTime(fileMaster.getTransactionDate());
+			year = cal.get(Calendar.YEAR);
+			monthOfYear = cal.get(Calendar.MONTH)-1;
+		}
+
+		List<InstantRegisters> instantRegistersDetails =instantRegistersDao.findInstantRegistersByDayAndLocation(fileMaster.getLocation().getLocationId(),monthOfYear,year);
+
+		cmriDataModel.setInstantRegistersDetails(instantRegistersDetails);
+
+		return cmriDataModel;
+
+	}
+
+	private void processInstantRegisterAsync(FileMaster fileDetails) {
+		taskExecutor.execute(new Runnable() {
+
+			@Override
+			public void run() {
+
+				DataReaderThread dataReaderThread= context.getBean(DataReaderThread.class);
+
+				CMRIFileDataModel cmriFileDataModel=new CMRIFileDataModel();
+				cmriFileDataModel.setFileMaster(fileDetails);
+
+				dataReaderThread.extractTransactionDataFromFile(cmriFileDataModel);
+				dataReaderThread.saveInstantRegisterData(cmriFileDataModel);
+
+			}
+		} );
+	}
 
 
 

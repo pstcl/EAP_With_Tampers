@@ -16,6 +16,7 @@ import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.pstcl.ea.dao.IDailyTransactionDao;
 import org.pstcl.ea.dao.IFileMasterDao;
+import org.pstcl.ea.dao.IInstantRegistersDao;
 import org.pstcl.ea.dao.ILoadSurveyTransactionDao;
 import org.pstcl.ea.dao.ILocationMasterDao;
 import org.pstcl.ea.dao.IMeterMasterDao;
@@ -24,6 +25,7 @@ import org.pstcl.ea.model.CMRIFileDataModel;
 import org.pstcl.ea.model.entity.DailyTransaction;
 import org.pstcl.ea.model.entity.EAUser;
 import org.pstcl.ea.model.entity.FileMaster;
+import org.pstcl.ea.model.entity.InstantRegisters;
 import org.pstcl.ea.model.entity.LoadSurveyTransaction;
 import org.pstcl.ea.model.entity.LocationMaster;
 import org.pstcl.ea.model.entity.TamperLogTransaction;
@@ -42,6 +44,566 @@ import org.springframework.stereotype.Service;
 @Scope("prototype")
 public class DataReaderThread {
 
+	//added
+	@Autowired
+	protected IInstantRegistersDao instantRegistersDao;
+	
+	
+	
+	// method currently added not tested
+		private String processInstantRegistersTable(CMRIFileDataModel cmriFileDataModel, File fileToRead,
+				BufferedReader buf) throws IOException, ParseException {
+
+			FileMaster fileDetails = cmriFileDataModel.getFileMaster();
+
+			String fileName = FilenameUtils.getBaseName(fileToRead.getName());
+
+			// Define Variables
+			LocationMaster location = null;
+			Date date = null;
+			BigDecimal phaseAVoltage = null, phaseBVoltage = null, phaseCVoltage = null, phaseACurrent = null;
+			BigDecimal phaseBCurrent = null;
+			BigDecimal phaseCCurrent = null;
+			BigDecimal phaseAVoltAngle = null;
+			BigDecimal phaseBVoltAngle = null;
+			BigDecimal phaseCVoltAngle = null;
+			BigDecimal phaseACurrentAngle = null;
+			BigDecimal phaseBCurrentAngle = null;
+			BigDecimal phaseCCurrentAngle = null;
+			BigDecimal threePhasePF = null;
+			BigDecimal frequency = null;
+			BigDecimal activePowerA = null;
+			BigDecimal activePowerB = null;
+			BigDecimal activePowerC = null;
+			BigDecimal activePowerTotal = null;
+			BigDecimal activePowerFunA = null;
+			BigDecimal activePowerFunB = null;
+			BigDecimal activePowerFunC = null;
+			BigDecimal activePowerFunTotal = null;
+			BigDecimal apparentPowerA = null;
+			BigDecimal apparentPowerB = null;
+			BigDecimal apparentPowerC = null;
+			BigDecimal apparentPowerTotal = null;
+			BigDecimal reactivePowerA = null;
+			BigDecimal reactivePowerB = null;
+			BigDecimal reactivePowerC = null;
+			BigDecimal reactivePowerTotal = null;
+			BigDecimal touChannel1Unified = null;
+			BigDecimal touChannel1Rate1 = null;
+			BigDecimal touChannel1Rate2 = null;
+			BigDecimal touChannel1Rate3 = null;
+			BigDecimal touChannel1Rate4 = null;
+			BigDecimal touChannel1Rate5 = null;
+			BigDecimal touChannel2Unified = null;
+			BigDecimal touChannel2Rate1 = null;
+			BigDecimal touChannel2Rate2 = null;
+			BigDecimal touChannel2Rate3 = null;
+			BigDecimal touChannel2Rate4 = null;
+			BigDecimal touChannel2Rate5 = null;
+			BigDecimal touChannel3Unified = null;
+			BigDecimal touChannel3Rate1 = null;
+			BigDecimal touChannel3Rate2 = null;
+			BigDecimal touChannel3Rate3 = null;
+			BigDecimal touChannel3Rate4 = null;
+			BigDecimal touChannel3Rate5 = null;
+			BigDecimal touChannel4Unified = null;
+			BigDecimal touChannel4Rate1 = null;
+			BigDecimal touChannel4Rate2 = null;
+			BigDecimal touChannel4Rate3 = null;
+			BigDecimal touChannel4Rate4 = null;
+			BigDecimal touChannel4Rate5 = null;
+			BigDecimal touChannel5Unified = null;
+			BigDecimal touChannel5Rate1 = null;
+			BigDecimal touChannel5Rate2 = null;
+			BigDecimal touChannel5Rate3 = null;
+			BigDecimal touChannel5Rate4 = null;
+			BigDecimal touChannel5Rate5 = null;
+			BigDecimal touChannel6Unified = null;
+			BigDecimal touChannel6Rate1 = null;
+			BigDecimal touChannel6Rate2 = null;
+			BigDecimal touChannel6Rate3 = null;
+			BigDecimal touChannel6Rate4 = null;
+			BigDecimal touChannel6Rate5 = null;
+			BigDecimal touChannel7Unified = null;
+			BigDecimal touChannel7Rate1 = null;
+			BigDecimal touChannel7Rate2 = null;
+			BigDecimal touChannel7Rate3 = null;
+			BigDecimal touChannel7Rate4 = null;
+			BigDecimal touChannel7Rate5 = null;
+			BigDecimal touChannel8Unified = null;
+			BigDecimal touChannel8Rate1 = null;
+			BigDecimal touChannel8Rate2 = null;
+			BigDecimal touChannel8Rate3 = null;
+			BigDecimal touChannel8Rate4 = null;
+			BigDecimal touChannel8Rate5 = null;
+			BigDecimal touChannel9Unified = null;
+			BigDecimal touChannel10Unified = null;
+			BigDecimal touChannel11Unified = null;
+			BigDecimal touChannel12Unified = null;
+			BigDecimal demandTouChannel1Rate1 = null;
+			BigDecimal demandTouChannel1Rate2 = null;
+			BigDecimal demandTouChannel1Rate3 = null;
+			BigDecimal demandTouChannel1Rate4 = null;
+			BigDecimal demandTouChannel1Rate5 = null;
+			BigDecimal demandTouChannel2Rate1 = null;
+			BigDecimal demandTouChannel2Rate2 = null;
+			BigDecimal demandTouChannel2Rate3 = null;
+			BigDecimal demandTouChannel2Rate4 = null;
+			BigDecimal demandTouChannel2Rate5 = null;
+			BigDecimal demandTouChannel3Rate1 = null;
+			BigDecimal demandTouChannel3Rate2 = null;
+			BigDecimal demandTouChannel3Rate3 = null;
+			BigDecimal demandTouChannel3Rate4 = null;
+			BigDecimal demandTouChannel3Rate5 = null;
+			BigDecimal demandTouChannel4Rate1 = null;
+			BigDecimal demandTouChannel4Rate2 = null;
+			BigDecimal demandTouChannel4Rate3 = null;
+			BigDecimal demandTouChannel4Rate4 = null;
+			BigDecimal demandTouChannel4Rate5 = null;
+			BigDecimal cTPrimary = null;
+			BigDecimal cTSecondary = null;
+			BigDecimal vTPrimary = null;
+			BigDecimal vTSecondary = null;
+			BigDecimal demandChannel1Unified = null;
+			BigDecimal demandChannel2Unified = null;
+			BigDecimal demandChannel3Unified = null;
+			BigDecimal demandChannel4Unified = null;
+			Date dateChannel1Unified = null, dateChannel2Unified = null, dateChannel1Rate1 = null, dateChannel1Rate2 = null,
+					dateChannel1Rate3 = null, dateChannel1Rate4 = null, dateChannel1Rate5 = null, dateChannel2Rate1 = null,
+					dateChannel2Rate2 = null, dateChannel2Rate3 = null, dateChannel2Rate4 = null, dateChannel2Rate5 = null,
+					dateChannel3Unified = null, dateChannel4Unified = null;
+			long powerOnHours = 0, powerOffHours = 0, mDResetCode = 0;
+			Integer element = -1;
+			String batteryStatus = "", rtcStatus = "", nonVolatileStatus = "", displaySegmentStatus = "";
+
+			while (true) {
+				String instantRegisterLineJustFetched = buf.readLine();
+
+				// ReturnCases
+				if (instantRegisterLineJustFetched == null || instantRegisterLineJustFetched.length() == 0
+						|| instantRegisterLineJustFetched.contains("DAILY_SURVEY")
+						|| instantRegisterLineJustFetched.contains("LOAD_SURVEY")
+						|| instantRegisterLineJustFetched.contains("TAMPER_LOG")
+						|| instantRegisterLineJustFetched.contains("METER_INFO")) {
+					saveInstantRegisterDetails(cmriFileDataModel, fileName, location, date, phaseAVoltage, phaseBVoltage,
+							phaseCVoltage, phaseACurrent, phaseBCurrent, phaseCCurrent, phaseAVoltAngle, phaseBVoltAngle,
+							phaseCVoltAngle, phaseACurrentAngle, phaseBCurrentAngle, phaseCCurrentAngle, threePhasePF,
+							frequency, activePowerA, activePowerB, activePowerC, activePowerTotal, activePowerFunA,
+							activePowerFunB, activePowerFunC, activePowerFunTotal, apparentPowerA, apparentPowerB,
+							apparentPowerC, apparentPowerTotal, reactivePowerA, reactivePowerB, reactivePowerC,
+							reactivePowerTotal, touChannel1Unified, touChannel1Rate1, touChannel1Rate2, touChannel1Rate3,
+							touChannel1Rate4, touChannel1Rate5, touChannel2Unified, touChannel2Rate1, touChannel2Rate2,
+							touChannel2Rate3, touChannel2Rate4, touChannel2Rate5, touChannel3Unified, touChannel3Rate1,
+							touChannel3Rate2, touChannel3Rate3, touChannel3Rate4, touChannel3Rate5, touChannel4Unified,
+							touChannel4Rate1, touChannel4Rate2, touChannel4Rate3, touChannel4Rate4, touChannel4Rate5,
+							touChannel5Unified, touChannel5Rate1, touChannel5Rate2, touChannel5Rate3, touChannel5Rate4,
+							touChannel5Rate5, touChannel6Unified, touChannel6Rate1, touChannel6Rate2, touChannel6Rate3,
+							touChannel6Rate4, touChannel6Rate5, touChannel7Unified, touChannel7Rate1, touChannel7Rate2,
+							touChannel7Rate3, touChannel7Rate4, touChannel7Rate5, touChannel8Unified, touChannel8Rate1,
+							touChannel8Rate2, touChannel8Rate3, touChannel8Rate4, touChannel8Rate5, touChannel9Unified,
+							touChannel10Unified, touChannel11Unified, touChannel12Unified, demandTouChannel1Rate1,
+							demandTouChannel1Rate2, demandTouChannel1Rate3, demandTouChannel1Rate4, demandTouChannel1Rate5,
+							demandTouChannel2Rate1, demandTouChannel2Rate2, demandTouChannel2Rate3, demandTouChannel2Rate4,
+							demandTouChannel2Rate5, demandTouChannel3Rate1, demandTouChannel3Rate2, demandTouChannel3Rate3,
+							demandTouChannel3Rate4, demandTouChannel3Rate5, demandTouChannel4Rate1, demandTouChannel4Rate2,
+							demandTouChannel4Rate3, demandTouChannel4Rate4, demandTouChannel4Rate5, cTPrimary, cTSecondary,
+							vTPrimary, vTSecondary, demandChannel1Unified, demandChannel2Unified, demandChannel3Unified,
+							demandChannel4Unified, dateChannel1Unified, dateChannel2Unified, dateChannel1Rate1,
+							dateChannel1Rate2, dateChannel1Rate3, dateChannel1Rate4, dateChannel1Rate5, dateChannel2Rate1,
+							dateChannel2Rate2, dateChannel2Rate3, dateChannel2Rate4, dateChannel2Rate5, dateChannel3Unified,
+							dateChannel4Unified, powerOnHours, powerOffHours, mDResetCode, element, batteryStatus,
+							rtcStatus, nonVolatileStatus, displaySegmentStatus);
+
+					return instantRegisterLineJustFetched;
+				} else {
+
+					String[] linep = instantRegisterLineJustFetched.split("\t");
+					linep[2]=linep[2].trim();
+					
+					SimpleDateFormat parser = new SimpleDateFormat("dd/MM/yy HH:mm:ss");
+					if (linep[0].equalsIgnoreCase("Date/Time")) {
+						date = parser.parse(linep[2]);
+						fileDetails.setTransactionDate(date);
+
+					} 
+					else if (linep[0].equalsIgnoreCase("Phase A Voltage")) {
+						phaseAVoltage = new BigDecimal(linep[2]);
+					} else if (linep[0].equalsIgnoreCase("Phase B Voltage")) {
+						phaseBVoltage = new BigDecimal(linep[2]);
+					} else if (linep[0].equalsIgnoreCase("Phase C Voltage")) {
+						phaseCVoltage = new BigDecimal(linep[2]);
+					} else if (linep[0].equalsIgnoreCase("Phase A Current")) {
+						phaseACurrent = new BigDecimal(linep[2]);
+					} else if (linep[0].equalsIgnoreCase("Phase B Current")) {
+						phaseBCurrent = new BigDecimal(linep[2]);
+					} else if (linep[0].equalsIgnoreCase("Phase C Current")) {
+						phaseCCurrent = new BigDecimal(linep[2]);
+					} else if (linep[0].equalsIgnoreCase("Phase A Current Angle")) {
+						phaseACurrentAngle = new BigDecimal(linep[2]);
+					} else if (linep[0].equalsIgnoreCase("Phase B Current Angle")) {
+						phaseBCurrentAngle = new BigDecimal(linep[2]);
+					} else if (linep[0].equalsIgnoreCase("Phase C Current Angle")) {
+						phaseCCurrentAngle = new BigDecimal(linep[2]);
+					} else if (linep[0].equalsIgnoreCase("Phase A Volt Angle")) {
+						phaseAVoltAngle = new BigDecimal(linep[2]);
+					} else if (linep[0].equalsIgnoreCase("Phase B Volt Angle")) {
+						phaseBVoltAngle = new BigDecimal(linep[2]);
+					} else if (linep[0].equalsIgnoreCase("Phase C Volt Angle")) {
+						phaseCVoltAngle = new BigDecimal(linep[2]);
+					} else if (linep[0].equalsIgnoreCase("Three Phase PF")) {
+						threePhasePF = new BigDecimal(linep[2]);
+					} else if (linep[0].equalsIgnoreCase("Frequency")) {
+						frequency = new BigDecimal(linep[2]);
+					} else if (linep[0].equalsIgnoreCase("Active Power A")) {
+						activePowerA = new BigDecimal(linep[2]);
+					} else if (linep[0].equalsIgnoreCase("Active Power B")) {
+						activePowerB = new BigDecimal(linep[2]);
+					} else if (linep[0].equalsIgnoreCase("Active Power C")) {
+						activePowerC = new BigDecimal(linep[2]);
+					} else if (linep[0].equalsIgnoreCase("Active Power Total")) {
+						activePowerTotal = new BigDecimal(linep[2]);
+					} else if (linep[0].equalsIgnoreCase("Active Power Fun A")) {
+						activePowerFunA = new BigDecimal(linep[2]);
+					} else if (linep[0].equalsIgnoreCase("Active Power Fun B")) {
+						activePowerFunB = new BigDecimal(linep[2]);
+					} else if (linep[0].equalsIgnoreCase("Active Power Fun C")) {
+						activePowerFunC = new BigDecimal(linep[2]);
+					} else if (linep[0].equalsIgnoreCase("Active Power Fun Total")) {
+						activePowerFunTotal = new BigDecimal(linep[2]);
+					} else if (linep[0].equalsIgnoreCase("Apparent Power A")) {
+						apparentPowerA = new BigDecimal(linep[2]);
+					} else if (linep[0].equalsIgnoreCase("Apparent Power B")) {
+						apparentPowerB = new BigDecimal(linep[2]);
+					} else if (linep[0].equalsIgnoreCase("Apparent Power C")) {
+						apparentPowerC = new BigDecimal(linep[2]);
+					} else if (linep[0].equalsIgnoreCase("Apparent Power Total")) {
+						apparentPowerTotal = new BigDecimal(linep[2]);
+					} else if (linep[0].equalsIgnoreCase("Reactive Power A")) {
+						reactivePowerA = new BigDecimal(linep[2]);
+					} else if (linep[0].equalsIgnoreCase("Reactive Power B")) {
+						reactivePowerB = new BigDecimal(linep[2]);
+					} else if (linep[0].equalsIgnoreCase("Reactive Power C")) {
+						reactivePowerC = new BigDecimal(linep[2]);
+					} else if (linep[0].equalsIgnoreCase("Reactive Power Total")) {
+						reactivePowerTotal = new BigDecimal(linep[2]);
+					} else if (linep[0].equalsIgnoreCase("TOU Channel 1 Unified")) {
+						
+						touChannel1Unified=new BigDecimal(linep[2]);
+					//	System.out.println(a);
+					} else if (linep[0].equalsIgnoreCase("TOU Channel 1 Rate1")) {
+						
+						touChannel1Rate1 = new BigDecimal(linep[2]);
+					} else if (linep[0].equalsIgnoreCase("TOU Channel 1 Rate2")) {
+						touChannel1Rate2 = new BigDecimal(linep[2]);
+					} else if (linep[0].equalsIgnoreCase("TOU Channel 1 Rate3")) {
+						touChannel1Rate3 = new BigDecimal(linep[2]);
+					} else if (linep[0].equalsIgnoreCase("TOU Channel 1 Rate4")) {
+						touChannel1Rate4 = new BigDecimal(linep[2]);
+					} else if (linep[0].equalsIgnoreCase("TOU Channel 1 Rate5")) {
+						touChannel1Rate5 = new BigDecimal(linep[2]);
+					} else if (linep[0].equalsIgnoreCase("TOU Channel 2 Unified")) {
+						touChannel2Unified = new BigDecimal(linep[2]);
+					} else if (linep[0].equalsIgnoreCase("TOU Channel 2 Rate1")) {
+						touChannel2Rate1 = new BigDecimal(linep[2]);
+					} else if (linep[0].equalsIgnoreCase("TOU Channel 2 Rate2")) {
+						touChannel2Rate2 = new BigDecimal(linep[2]);
+					} else if (linep[0].equalsIgnoreCase("TOU Channel 2 Rate3")) {
+						touChannel2Rate3 = new BigDecimal(linep[2]);
+					} else if (linep[0].equalsIgnoreCase("TOU Channel 2 Rate4")) {
+						touChannel2Rate4 = new BigDecimal(linep[2]);
+					} else if (linep[0].equalsIgnoreCase("TOU Channel 2 Rate5")) {
+						touChannel2Rate5 = new BigDecimal(linep[2]);
+					} else if (linep[0].equalsIgnoreCase("TOU Channel 3 Unified")) {
+						touChannel3Unified = new BigDecimal(linep[2]);
+					} else if (linep[0].equalsIgnoreCase("TOU Channel 3 Rate1")) {
+						touChannel3Rate1 = new BigDecimal(linep[2]);
+					} else if (linep[0].equalsIgnoreCase("TOU Channel 3 Rate2")) {
+						touChannel3Rate2 = new BigDecimal(linep[2]);
+					} else if (linep[0].equalsIgnoreCase("TOU Channel 3 Rate3")) {
+						touChannel3Rate3 = new BigDecimal(linep[2]);
+					} else if (linep[0].equalsIgnoreCase("TOU Channel 3 Rate4")) {
+						touChannel3Rate4 = new BigDecimal(linep[2]);
+					} else if (linep[0].equalsIgnoreCase("TOU Channel 3 Rate5")) {
+						touChannel3Rate5 = new BigDecimal(linep[2]);
+					} else if (linep[0].equalsIgnoreCase("TOU Channel 4 Unified")) {
+						touChannel4Unified = new BigDecimal(linep[2]);
+					} else if (linep[0].equalsIgnoreCase("TOU Channel 4 Rate1")) {
+						touChannel4Rate1 = new BigDecimal(linep[2]);
+					} else if (linep[0].equalsIgnoreCase("TOU Channel 4 Rate2")) {
+						touChannel4Rate2 = new BigDecimal(linep[2]);
+					} else if (linep[0].equalsIgnoreCase("TOU Channel 4 Rate3")) {
+						touChannel4Rate3 = new BigDecimal(linep[2]);
+					} else if (linep[0].equalsIgnoreCase("TOU Channel 4 Rate4")) {
+						touChannel4Rate4 = new BigDecimal(linep[2]);
+					} else if (linep[0].equalsIgnoreCase("TOU Channel 4 Rate5")) {
+						touChannel4Rate5 = new BigDecimal(linep[2]);
+					} else if (linep[0].equalsIgnoreCase("TOU Channel 5 Unified")) {
+						touChannel5Unified = new BigDecimal(linep[2]);
+					} else if (linep[0].equalsIgnoreCase("TOU Channel 5 Rate1")) {
+						touChannel5Rate1 = new BigDecimal(linep[2]);
+					} else if (linep[0].equalsIgnoreCase("TOU Channel 5 Rate2")) {
+						touChannel5Rate2 = new BigDecimal(linep[2]);
+					} else if (linep[0].equalsIgnoreCase("TOU Channel 5 Rate3")) {
+						touChannel5Rate3 = new BigDecimal(linep[2]);
+					} else if (linep[0].equalsIgnoreCase("TOU Channel 5 Rate4")) {
+						touChannel5Rate4 = new BigDecimal(linep[2]);
+					} else if (linep[0].equalsIgnoreCase("TOU Channel 5 Rate5")) {
+						touChannel5Rate5 = new BigDecimal(linep[2]);
+					} else if (linep[0].equalsIgnoreCase("TOU Channel 6 Unified")) {
+						touChannel6Unified = new BigDecimal(linep[2]);
+					} else if (linep[0].equalsIgnoreCase("TOU Channel 6 Rate1")) {
+						touChannel6Rate1 = new BigDecimal(linep[2]);
+					} else if (linep[0].equalsIgnoreCase("TOU Channel 6 Rate2")) {
+						touChannel6Rate2 = new BigDecimal(linep[2]);
+					} else if (linep[0].equalsIgnoreCase("TOU Channel 6 Rate3")) {
+						touChannel6Rate3 = new BigDecimal(linep[2]);
+					} else if (linep[0].equalsIgnoreCase("TOU Channel 6 Rate4")) {
+						touChannel6Rate4 = new BigDecimal(linep[2]);
+					} else if (linep[0].equalsIgnoreCase("TOU Channel 6 Rate5")) {
+						touChannel6Rate5 = new BigDecimal(linep[2]);
+					} else if (linep[0].equalsIgnoreCase("TOU Channel 7 Unified")) {
+						touChannel7Unified = new BigDecimal(linep[2]);
+					} else if (linep[0].equalsIgnoreCase("TOU Channel 7 Rate1")) {
+						touChannel7Rate1 = new BigDecimal(linep[2]);
+					} else if (linep[0].equalsIgnoreCase("TOU Channel 7 Rate2")) {
+						touChannel7Rate2 = new BigDecimal(linep[2]);
+					} else if (linep[0].equalsIgnoreCase("TOU Channel 7 Rate3")) {
+						touChannel7Rate3 = new BigDecimal(linep[2]);
+					} else if (linep[0].equalsIgnoreCase("TOU Channel 7 Rate4")) {
+						touChannel7Rate4 = new BigDecimal(linep[2]);
+					} else if (linep[0].equalsIgnoreCase("TOU Channel 7 Rate5")) {
+						touChannel7Rate5 = new BigDecimal(linep[2]);
+					} else if (linep[0].equalsIgnoreCase("TOU Channel 8 Unified")) {
+						touChannel8Unified = new BigDecimal(linep[2]);
+					} else if (linep[0].equalsIgnoreCase("TOU Channel 8 Rate1")) {
+						touChannel8Rate1 = new BigDecimal(linep[2]);
+					} else if (linep[0].equalsIgnoreCase("TOU Channel 8 Rate2")) {
+						touChannel8Rate2 = new BigDecimal(linep[2]);
+					} else if (linep[0].equalsIgnoreCase("TOU Channel 8 Rate3")) {
+						touChannel8Rate3 = new BigDecimal(linep[2]);
+					} else if (linep[0].equalsIgnoreCase("TOU Channel 8 Rate4")) {
+						touChannel8Rate4 = new BigDecimal(linep[2]);
+					} else if (linep[0].equalsIgnoreCase("TOU Channel 8 Rate5")) {
+						touChannel8Rate5 = new BigDecimal(linep[2]);
+					} else if (linep[0].equalsIgnoreCase("TOU Channel 9 Unified")) {
+						touChannel9Unified = new BigDecimal(linep[2]);
+					} else if (linep[0].equalsIgnoreCase("TOU Channel 10 Unified")) {
+						touChannel10Unified = new BigDecimal(linep[2]);
+					} else if (linep[0].equalsIgnoreCase("TOU Channel 11 Unified")) {
+						touChannel11Unified = new BigDecimal(linep[2]);
+					} else if (linep[0].equalsIgnoreCase("TOU Channel 12 Unified")) {
+						touChannel12Unified = new BigDecimal(linep[2]);
+					} else if (linep[0].equalsIgnoreCase("Demand Channel 1 Unified")) {
+						demandChannel1Unified = new BigDecimal(linep[2]);
+					} else if (linep[0].equalsIgnoreCase("Demand Channel 2 Unified")) {
+						demandChannel2Unified = new BigDecimal(linep[2]);
+					} else if (linep[0].equalsIgnoreCase("Demand Channel 3 Unified")) {
+						demandChannel3Unified = new BigDecimal(linep[2]);
+					} else if (linep[0].equalsIgnoreCase("Demand Channel 4 Unified")) {
+						demandChannel4Unified = new BigDecimal(linep[2]);
+					} else if (linep[0].equalsIgnoreCase("Demand TOU Channel 1 Rate1")) {
+						demandTouChannel1Rate1 = new BigDecimal(linep[2]);
+					} else if (linep[0].equalsIgnoreCase("Demand TOU Channel 1 Rate2")) {
+						demandTouChannel1Rate2 = new BigDecimal(linep[2]);
+					} else if (linep[0].equalsIgnoreCase("Demand TOU Channel 1 Rate3")) {
+						demandTouChannel1Rate3 = new BigDecimal(linep[2]);
+					} else if (linep[0].equalsIgnoreCase("Demand TOU Channel 1 Rate4")) {
+						demandTouChannel1Rate4 = new BigDecimal(linep[2]);
+					} else if (linep[0].equalsIgnoreCase("Demand TOU Channel 1 Rate5")) {
+						demandTouChannel1Rate5 = new BigDecimal(linep[2]);
+					} else if (linep[0].equalsIgnoreCase("Demand TOU Channel 2 Rate1")) {
+						demandTouChannel2Rate1 = new BigDecimal(linep[2]);
+					} else if (linep[0].equalsIgnoreCase("Demand TOU Channel 2 Rate2")) {
+						demandTouChannel2Rate2 = new BigDecimal(linep[2]);
+					} else if (linep[0].equalsIgnoreCase("Demand TOU Channel 2 Rate3")) {
+						demandTouChannel2Rate3 = new BigDecimal(linep[2]);
+					} else if (linep[0].equalsIgnoreCase("Demand TOU Channel 2 Rate4")) {
+						demandTouChannel2Rate4 = new BigDecimal(linep[2]);
+					} else if (linep[0].equalsIgnoreCase("Demand TOU Channel 2 Rate5")) {
+						demandTouChannel2Rate5 = new BigDecimal(linep[2]);
+					} else if (linep[0].equalsIgnoreCase("Demand TOU Channel 3 Rate1")) {
+						demandTouChannel3Rate1 = new BigDecimal(linep[2]);
+					} else if (linep[0].equalsIgnoreCase("Demand TOU Channel 3 Rate2")) {
+						demandTouChannel3Rate2 = new BigDecimal(linep[2]);
+					} else if (linep[0].equalsIgnoreCase("Demand TOU Channel 3 Rate3")) {
+						demandTouChannel3Rate3 = new BigDecimal(linep[2]);
+					} else if (linep[0].equalsIgnoreCase("Demand TOU Channel 3 Rate4")) {
+						demandTouChannel3Rate4 = new BigDecimal(linep[2]);
+					} else if (linep[0].equalsIgnoreCase("Demand TOU Channel 3 Rate5")) {
+						demandTouChannel3Rate5 = new BigDecimal(linep[2]);
+					} else if (linep[0].equalsIgnoreCase("Demand TOU Channel 4 Rate1")) {
+						demandTouChannel4Rate1 = new BigDecimal(linep[2]);
+					} else if (linep[0].equalsIgnoreCase("Demand TOU Channel 4 Rate2")) {
+						demandTouChannel4Rate2 = new BigDecimal(linep[2]);
+					} else if (linep[0].equalsIgnoreCase("Demand TOU Channel 4 Rate3")) {
+						demandTouChannel4Rate3 = new BigDecimal(linep[2]);
+					} else if (linep[0].equalsIgnoreCase("Demand TOU Channel 4 Rate4")) {
+						demandTouChannel4Rate4 = new BigDecimal(linep[2]);
+					} else if (linep[0].equalsIgnoreCase("Demand TOU Channel 4 Rate5")) {
+						demandTouChannel4Rate5 = new BigDecimal(linep[2]);
+					} else if (linep[0].equalsIgnoreCase("Date Channel 1 Unified")) {
+						dateChannel1Unified = parser.parse(linep[2]);
+					} else if (linep[0].equalsIgnoreCase("Date Channel 2 Unified")) {
+						dateChannel2Unified = parser.parse(linep[2]);
+					} else if (linep[0].equalsIgnoreCase("Date Channel 3 Unified")) {
+						dateChannel3Unified = parser.parse(linep[2]);
+					} else if (linep[0].equalsIgnoreCase("Date Channel 4 Unified")) {
+						dateChannel4Unified = parser.parse(linep[2]);
+					} else if (linep[0].equalsIgnoreCase("Date Channel 1 Rate1")) {
+						dateChannel1Rate1 = parser.parse(linep[2]);
+					} else if (linep[0].equalsIgnoreCase("Date Channel 1 Rate2")) {
+						dateChannel1Rate2 = parser.parse(linep[2]);
+					} else if (linep[0].equalsIgnoreCase("Date Channel 1 Rate3")) {
+						dateChannel1Rate3 = parser.parse(linep[2]);
+					} else if (linep[0].equalsIgnoreCase("Date Channel 1 Rate4")) {
+						dateChannel1Rate4 = parser.parse(linep[2]);
+					} else if (linep[0].equalsIgnoreCase("Date Channel 1 Rate5")) {
+						dateChannel1Rate5 = parser.parse(linep[2]);
+					} else if (linep[0].equalsIgnoreCase("Date Channel 2 Rate1")) {
+						dateChannel2Rate1 = parser.parse(linep[2]);
+					} else if (linep[0].equalsIgnoreCase("Date Channel 2 Rate2")) {
+						dateChannel2Rate2 = parser.parse(linep[2]);
+					} else if (linep[0].equalsIgnoreCase("Date Channel 2 Rate3")) {
+						dateChannel2Rate3 = parser.parse(linep[2]);
+					} else if (linep[0].equalsIgnoreCase("Date Channel 2 Rate4")) {
+						dateChannel2Rate4 = parser.parse(linep[2]);
+					} else if (linep[0].equalsIgnoreCase("Date Channel 2 Rate5")) {
+						dateChannel2Rate5 = parser.parse(linep[2]);
+					} else if (linep[0].equalsIgnoreCase("MD Reset Count")) {
+						mDResetCode = Integer.parseInt(linep[2]);
+					} else if (linep[0].equalsIgnoreCase("CT Primary")) {
+						cTPrimary = new BigDecimal(linep[2]);
+					} else if (linep[0].equalsIgnoreCase("CT Secondary")) {
+						cTSecondary = new BigDecimal(linep[2]);
+					} else if (linep[0].equalsIgnoreCase("VT Primary")) {
+						vTPrimary = new BigDecimal(linep[2]);
+					} else if (linep[0].equalsIgnoreCase("VT Secondary")) {
+						vTSecondary = new BigDecimal(linep[2]);
+					} else if (linep[0].equalsIgnoreCase("Power On Hours")) {
+						powerOnHours = Long.parseLong(linep[2]);
+					} else if (linep[0].equalsIgnoreCase("Power Off Hours")) {
+						powerOffHours = Long.parseLong(linep[2]);
+					} else if (linep[0].equalsIgnoreCase("Battery Status")) {
+						batteryStatus = linep[2];
+					} else if (linep[0].equalsIgnoreCase("RTC Status")) {
+						rtcStatus = linep[2];
+					} else if (linep[0].equalsIgnoreCase("Display Segment Status")) {
+						displaySegmentStatus = linep[2];
+					} else if (linep[0].equalsIgnoreCase("Non Volatile Status")) {
+						nonVolatileStatus = linep[2];
+					} else if (linep[0].equalsIgnoreCase("Element")) {
+						element = Integer.parseInt(linep[2]);
+					}
+				}
+
+			}
+		}
+
+		public void saveInstantRegisterDetails(CMRIFileDataModel cmriFileDataModel, String fileName,
+				LocationMaster location, Date date, BigDecimal phaseAVoltage, BigDecimal phaseBVoltage,
+				BigDecimal phaseCVoltage, BigDecimal phaseACurrent, BigDecimal phaseBCurrent, BigDecimal phaseCCurrent,
+				BigDecimal phaseAVoltAngle, BigDecimal phaseBVoltAngle, BigDecimal phaseCVoltAngle,
+				BigDecimal phaseACurrentAngle, BigDecimal phaseBCurrentAngle, BigDecimal phaseCCurrentAngle,
+				BigDecimal threePhasePF, BigDecimal frequency, BigDecimal activePowerA, BigDecimal activePowerB,
+				BigDecimal activePowerC, BigDecimal activePowerTotal, BigDecimal activePowerFunA,
+				BigDecimal activePowerFunB, BigDecimal activePowerFunC, BigDecimal activePowerFunTotal,
+				BigDecimal apparentPowerA, BigDecimal apparentPowerB, BigDecimal apparentPowerC,
+				BigDecimal apparentPowerTotal, BigDecimal reactivePowerA, BigDecimal reactivePowerB,
+				BigDecimal reactivePowerC, BigDecimal reactivePowerTotal, BigDecimal touChannel1Unified,
+				BigDecimal touChannel1Rate1, BigDecimal touChannel1Rate2, BigDecimal touChannel1Rate3,
+				BigDecimal touChannel1Rate4, BigDecimal touChannel1Rate5, BigDecimal touChannel2Unified,
+				BigDecimal touChannel2Rate1, BigDecimal touChannel2Rate2, BigDecimal touChannel2Rate3,
+				BigDecimal touChannel2Rate4, BigDecimal touChannel2Rate5, BigDecimal touChannel3Unified,
+				BigDecimal touChannel3Rate1, BigDecimal touChannel3Rate2, BigDecimal touChannel3Rate3,
+				BigDecimal touChannel3Rate4, BigDecimal touChannel3Rate5, BigDecimal touChannel4Unified,
+				BigDecimal touChannel4Rate1, BigDecimal touChannel4Rate2, BigDecimal touChannel4Rate3,
+				BigDecimal touChannel4Rate4, BigDecimal touChannel4Rate5, BigDecimal touChannel5Unified,
+				BigDecimal touChannel5Rate1, BigDecimal touChannel5Rate2, BigDecimal touChannel5Rate3,
+				BigDecimal touChannel5Rate4, BigDecimal touChannel5Rate5, BigDecimal touChannel6Unified,
+				BigDecimal touChannel6Rate1, BigDecimal touChannel6Rate2, BigDecimal touChannel6Rate3,
+				BigDecimal touChannel6Rate4, BigDecimal touChannel6Rate5, BigDecimal touChannel7Unified,
+				BigDecimal touChannel7Rate1, BigDecimal touChannel7Rate2, BigDecimal touChannel7Rate3,
+				BigDecimal touChannel7Rate4, BigDecimal touChannel7Rate5, BigDecimal touChannel8Unified,
+				BigDecimal touChannel8Rate1, BigDecimal touChannel8Rate2, BigDecimal touChannel8Rate3,
+				BigDecimal touChannel8Rate4, BigDecimal touChannel8Rate5, BigDecimal touChannel9Unified,
+				BigDecimal touChannel10Unified, BigDecimal touChannel11Unified, BigDecimal touChannel12Unified,
+				BigDecimal demandTouChannel1Rate1, BigDecimal demandTouChannel1Rate2, BigDecimal demandTouChannel1Rate3,
+				BigDecimal demandTouChannel1Rate4, BigDecimal demandTouChannel1Rate5, BigDecimal demandTouChannel2Rate1,
+				BigDecimal demandTouChannel2Rate2, BigDecimal demandTouChannel2Rate3, BigDecimal demandTouChannel2Rate4,
+				BigDecimal demandTouChannel2Rate5, BigDecimal demandTouChannel3Rate1, BigDecimal demandTouChannel3Rate2,
+				BigDecimal demandTouChannel3Rate3, BigDecimal demandTouChannel3Rate4, BigDecimal demandTouChannel3Rate5,
+				BigDecimal demandTouChannel4Rate1, BigDecimal demandTouChannel4Rate2, BigDecimal demandTouChannel4Rate3,
+				BigDecimal demandTouChannel4Rate4, BigDecimal demandTouChannel4Rate5, BigDecimal cTPrimary,
+				BigDecimal cTSecondary, BigDecimal vTPrimary, BigDecimal vTSecondary, BigDecimal demandChannel1Unified,
+				BigDecimal demandChannel2Unified, BigDecimal demandChannel3Unified, BigDecimal demandChannel4Unified,
+				Date dateChannel1Unified, Date dateChannel2Unified, Date dateChannel1Rate1, Date dateChannel1Rate2,
+				Date dateChannel1Rate3, Date dateChannel1Rate4, Date dateChannel1Rate5, Date dateChannel2Rate1,
+				Date dateChannel2Rate2, Date dateChannel2Rate3, Date dateChannel2Rate4, Date dateChannel2Rate5,
+				Date dateChannel3Unified, Date dateChannel4Unified, long powerOnHours, long powerOffHours, long mDResetCode,
+				Integer element, String batteryStatus, String rtcStatus, String nonVolatileStatus,
+				String displaySegmentStatus) {
+			InstantRegisters register = new InstantRegisters(cmriFileDataModel.getFileMaster().getLocation(), date, phaseAVoltage, phaseBVoltage, phaseCVoltage,
+					phaseACurrent, phaseBCurrent, phaseCCurrent, phaseAVoltAngle, phaseBVoltAngle, phaseCVoltAngle,
+					phaseACurrentAngle, phaseBCurrentAngle, phaseCCurrentAngle, threePhasePF, frequency, activePowerA,
+					activePowerB, activePowerC, activePowerTotal,
+
+					activePowerFunA, activePowerFunB, activePowerFunC, activePowerFunTotal,
+
+					apparentPowerA, apparentPowerB, apparentPowerC, apparentPowerTotal,
+
+					reactivePowerA, reactivePowerB, reactivePowerC, reactivePowerTotal,
+
+					touChannel1Unified, touChannel1Rate1, touChannel1Rate2, touChannel1Rate3, touChannel1Rate4,
+					touChannel1Rate5,
+
+					touChannel2Unified, touChannel2Rate1, touChannel2Rate2, touChannel2Rate3, touChannel2Rate4,
+					touChannel2Rate5,
+
+					touChannel3Unified, touChannel3Rate1, touChannel3Rate2, touChannel3Rate3, touChannel3Rate4,
+					touChannel3Rate5, touChannel4Unified, touChannel4Rate1, touChannel4Rate2, touChannel4Rate3,
+					touChannel4Rate4, touChannel4Rate5, touChannel5Unified, touChannel5Rate1, touChannel5Rate2,
+					touChannel5Rate3, touChannel5Rate4, touChannel5Rate5, touChannel6Unified, touChannel6Rate1,
+					touChannel6Rate2, touChannel6Rate3, touChannel6Rate4, touChannel6Rate5, touChannel7Unified,
+					touChannel7Rate1, touChannel7Rate2, touChannel7Rate3, touChannel7Rate4, touChannel7Rate5,
+					touChannel8Unified, touChannel8Rate1, touChannel8Rate2, touChannel8Rate3, touChannel8Rate4,
+					touChannel8Rate5,
+
+					touChannel9Unified, touChannel10Unified, touChannel11Unified, touChannel12Unified,
+					demandChannel1Unified, demandChannel2Unified, demandChannel3Unified, demandChannel4Unified,
+					demandTouChannel1Rate1, demandTouChannel1Rate2, demandTouChannel1Rate3, demandTouChannel1Rate4,
+					demandTouChannel1Rate5, demandTouChannel2Rate1, demandTouChannel2Rate2, demandTouChannel2Rate3,
+					demandTouChannel2Rate4, demandTouChannel2Rate5, demandTouChannel3Rate1, demandTouChannel3Rate2,
+					demandTouChannel3Rate3, demandTouChannel3Rate4, demandTouChannel3Rate5, demandTouChannel4Rate1,
+					demandTouChannel4Rate2, demandTouChannel4Rate3, demandTouChannel4Rate4, demandTouChannel4Rate5,
+					dateChannel1Unified, dateChannel2Unified, dateChannel1Rate1, dateChannel1Rate2, dateChannel1Rate3,
+					dateChannel1Rate4, dateChannel1Rate5, dateChannel2Rate1, dateChannel2Rate2, dateChannel2Rate3,
+					dateChannel2Rate4, dateChannel2Rate5, dateChannel3Unified, dateChannel4Unified, mDResetCode, cTPrimary,
+					cTSecondary, vTPrimary, vTSecondary, powerOnHours, powerOffHours, element, batteryStatus, rtcStatus,
+					nonVolatileStatus, displaySegmentStatus, fileName);
+			List <InstantRegisters> ir = new ArrayList <InstantRegisters>();
+			ir.add(register);
+			cmriFileDataModel.setInstantRegistersDetails(ir);
+		}
+
+	
+		//added by leevansha
+		public void saveInstantRegisterData(CMRIFileDataModel cmriFileDataModel) {
+			if (cmriFileDataModel.getFileMaster().getFileActionStatus().equals(EAUtil.FILE_ACTION__APPROVED_AE)
+					&& null != cmriFileDataModel.getFileMaster().getLocation()) {
+				// dailyTransactionDao.save(cmriFileDataModel.getDailyTransactions(),
+				// getLoggedInUser());
+				// loadSurveyTransactionDao.save(cmriFileDataModel.getLoadSurveyTransactions(),
+				// getLoggedInUser());
+				instantRegistersDao.save(cmriFileDataModel.getInstantRegistersDetails(), getLoggedInUser());
+				saveFileDetails(cmriFileDataModel.getFileMaster());
+
+			} else {
+				saveFileDetails(cmriFileDataModel.getFileMaster());
+				// fileMasterDao.update(cmriFileDataModel.getFileMaster(), getLoggedInUser());
+			}
+		}
+	
+	
 	//
 	// @Override
 	// public void run() {
@@ -489,7 +1051,7 @@ public class DataReaderThread {
 				q3varhTotal = new BigDecimal(loadSurveyRecord[indexOfLoadSurveyQ3varhTotal].trim());
 				q4varhTotal = new BigDecimal(loadSurveyRecord[indexOfLoadSurveyQ4varhTotal].trim());
 				netWh = new BigDecimal(loadSurveyRecord[indexOfLoadSurveyNetWh].trim());
-				freqcode = new BigDecimal(loadSurveyRecord[indexOfLoadSurveyFreqcode].trim());
+
 				importVAhTotal = new BigDecimal(loadSurveyRecord[indexOfLoadSurveyImportVAhTotal].trim());
 				exportVAhTotal = new BigDecimal(loadSurveyRecord[indexOfLoadSurveyExportVAhTotal].trim());
 				importWhTotal = new BigDecimal(loadSurveyRecord[indexOfLoadSurveyImportWhTotal].trim());
@@ -742,6 +1304,9 @@ public class DataReaderThread {
 							else if (lineJustFetched.contains("DAILY_SURVEY")) {
 								lineJustFetched = processDailySurveyTable(cmriFileDataModel, fileToRead, buf);
 
+							}else if (lineJustFetched.contains("INSTANT_REGISTERS")) {
+
+								lineJustFetched = processInstantRegistersTable(cmriFileDataModel, fileToRead, buf);
 							}
 
 						}

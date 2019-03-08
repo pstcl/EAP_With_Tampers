@@ -92,7 +92,14 @@
 						<li><a class="nav-link"
 							href="javascript:window.location='pendingRepoFiles?month=2&year=2019'"><span
 								class="glyphicon glyphicon-plus"></span>February,2019</a></li>
-
+<li><a class="nav-link"
+							href="javascript:window.location='pendingRepoFiles?month=1&year=2019'"><span
+								class="glyphicon glyphicon-plus"></span>January,2019</a></li>
+					<li><a class="nav-link"
+							href="javascript:window.location='pendingRepoFiles?month=12&year=2018'"><span
+								class="glyphicon glyphicon-plus"></span>December,2018</a></li>
+						
+	
 						
 					</ul>
 				</div>
@@ -169,7 +176,7 @@
 					<div class="dropdown nav-link">
 						<button class="nav-link dropdown-toggle" type="button"
 							data-toggle="dropdown">
-							Process Tamper Information <span class="caret"></span>
+							Process Instant Reg <span class="caret"></span>
 						</button>
 						<ul class="dropdown-menu">
 
@@ -178,11 +185,11 @@
 									will be enabled soon</a></li>
 
 							<li><a class="nav-link"
-								href="<c:url value='/processTamperLog?month=1&year=2019' />"><span
+								href="<c:url value='/processInstantRegisters?month=1&year=2019' />"><span
 									class="glyphicon glyphicon-plus"></span>January,2019</a></li>
 
 							<li><a class="nav-link"
-								href="<c:url value='/processTamperLog?month=12&year=2018' />"><span
+								href="<c:url value='/processInstantRegisters?month=12&year=2018' />"><span
 									class="glyphicon glyphicon-plus"></span>December,2018</a></li>
 
 
