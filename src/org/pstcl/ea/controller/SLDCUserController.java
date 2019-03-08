@@ -47,7 +47,39 @@ public class SLDCUserController {
 		return "pendingLossMetersDetail";
 	}
 
+	//leevansha start//
+	@PreAuthorize("hasRole('ROLE_SLDC_USER') or hasRole('ROLE_SLDC_ADMIN')")
+	@RequestMapping(value = "/getLocationTampers-{locationId}", method = RequestMethod.GET)
+	public String getLocationTampers(@PathVariable String locationId,@RequestParam(value = "month") Integer month,
+			@RequestParam(value = "year") Integer year,ModelMap modelMap) {
+		
+		modelMap.addAttribute("monthOfReport",DateUtil.convertMonthYearToDate(month, year) );
+		
+		modelMap.addAttribute("month",month);
+		modelMap.addAttribute("year",year);
+			
+				modelMap.addAttribute("locationSurveyDataModel", dateService.getTamperReportTransactions(locationId,month,year));
 
+		return "locationTampers";
+	}
+	
+	
+	@PreAuthorize("hasRole('ROLE_SLDC_USER') or hasRole('ROLE_SLDC_ADMIN')")
+	@RequestMapping(value = "/getAllLocationTampers", method = RequestMethod.GET)
+	public String getLocationTampers(@RequestParam(value = "month") Integer month,
+			@RequestParam(value = "year") Integer year,ModelMap modelMap) {
+		
+		modelMap.addAttribute("monthOfReport",DateUtil.convertMonthYearToDate(month, year) );
+		
+		modelMap.addAttribute("month",month);
+		modelMap.addAttribute("year",year);
+				
+		modelMap.addAttribute("locationSurveyDataModel", dateService.getTamperReportTransactions(null,month,year));
+
+			return "locationTampers";
+	}
+//leevansha end//
+	
 	@PreAuthorize("hasRole('ROLE_SLDC_USER') or hasRole('ROLE_SLDC_ADMIN')")
 	@RequestMapping(value = "/getReportTransactions-{locationId}", method = RequestMethod.GET)
 	public String getReportTransactions(@PathVariable String locationId,@RequestParam(value = "month") Integer month,

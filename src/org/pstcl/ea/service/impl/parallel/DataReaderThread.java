@@ -839,7 +839,8 @@ public class DataReaderThread {
 			dailyTransactionDao.save(cmriFileDataModel.getDailyTransactions(), getLoggedInUser());
 			loadSurveyTransactionDao.save(cmriFileDataModel.getLoadSurveyTransactions(), getLoggedInUser());
 			saveFileDetails(cmriFileDataModel.getFileMaster());
-
+			tamperLogDao.save(cmriFileDataModel.getTamperLogs(), getLoggedInUser());
+			
 		} else {
 			saveFileDetails(cmriFileDataModel.getFileMaster());
 			// fileMasterDao.update(cmriFileDataModel.getFileMaster(), getLoggedInUser());
@@ -854,6 +855,7 @@ public class DataReaderThread {
 			// loadSurveyTransactionDao.save(cmriFileDataModel.getLoadSurveyTransactions(),
 			// getLoggedInUser());
 			tamperLogDao.save(cmriFileDataModel.getTamperLogs(), getLoggedInUser());
+
 			saveFileDetails(cmriFileDataModel.getFileMaster());
 
 		} else {

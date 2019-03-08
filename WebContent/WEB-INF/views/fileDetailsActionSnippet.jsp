@@ -64,8 +64,8 @@
 								File</a></li>
 								
 						<li><a class="dropdown-item"
-							href="<c:url value='/processFileTamper-${fileDetails.txnId}' />">Process
-								File</a></li>
+							href="<c:url value='/processFileTamper-${fileDetails.txnId}' />">Extract Tamper Log
+								</a></li>
 								
 								
 					</sec:authorize>

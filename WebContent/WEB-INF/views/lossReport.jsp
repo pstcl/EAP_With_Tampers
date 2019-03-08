@@ -39,39 +39,28 @@
 
 				<li><a class="nav-link"
 					href="javascript:window.location='getLossReport?month=${monthOfReport}&year=${yearOfReport}'"><span
-					class="glyphicon glyphicon-plus"></span>Consolidated Loss Report</a>
-
-				</li><li><a class="nav-link"
+						class="glyphicon glyphicon-plus"></span>Consolidated Loss Report</a></li>
+				<li><a class="nav-link"
 					href="javascript:window.location='getReport?type=<%=EAUtil.LOSS_REPORT_CRITERIA_G_T%>&month=${monthOfReport}&year=${yearOfReport}'"><span
-					class="glyphicon glyphicon-plus"></span>Report (G-T)</a>
-
-
-				</li><li><a class="nav-link"
+						class="glyphicon glyphicon-plus"></span>Report (G-T)</a></li>
+				<li><a class="nav-link"
 					href="javascript:window.location='getReport?type=<%=EAUtil.LOSS_REPORT_CRITERIA_I_T_%>&month=${monthOfReport}&year=${yearOfReport}'"><span
-					class="glyphicon glyphicon-plus"></span>Report (I-T)</a>
-
-				</li><li><a class="nav-link"
+						class="glyphicon glyphicon-plus"></span>Report (I-T)</a></li>
+				<li><a class="nav-link"
 					href="javascript:window.location='getReport?type=<%=EAUtil.LOSS_REPORT_CRITERIA_T_D_220_66_%>&month=${monthOfReport}&year=${yearOfReport}'"><span
-					class="glyphicon glyphicon-plus"></span>Report (T-D)(220/66)</a>
-
-
-				</li><li><a class="nav-link"
+						class="glyphicon glyphicon-plus"></span>Report (T-D)(220/66)</a></li>
+				<li><a class="nav-link"
 					href="javascript:window.location='getReport?type=<%=EAUtil.LOSS_REPORT_CRITERIA_T_D_132_11_%>&month=${monthOfReport}&year=${yearOfReport}'"><span
-					class="glyphicon glyphicon-plus"></span>Report (T-D)(132/11)</a>
-
-				</li><li><a class="nav-link"
+						class="glyphicon glyphicon-plus"></span>Report (T-D)(132/11)</a></li>
+				<li><a class="nav-link"
 					href="javascript:window.location='getReport?type=<%=EAUtil.LOSS_REPORT_CRITERIA_T_D_132_33_%>&month=${monthOfReport}&year=${yearOfReport}'"><span
-					class="glyphicon glyphicon-plus"></span>Report (T-D)(132/33)</a>
-
-				</li><li><a class="nav-link"
+						class="glyphicon glyphicon-plus"></span>Report (T-D)(132/33)</a></li>
+				<li><a class="nav-link"
 					href="javascript:window.location='getReport?type=<%=EAUtil.LOSS_REPORT_CRITERIA_T_D_132_66%>&month=${monthOfReport}&year=${yearOfReport}'"><span
-					class="glyphicon glyphicon-plus"></span>Report (T-D)(132/66)</a>
-
-				</li><li><a class="nav-link"
+						class="glyphicon glyphicon-plus"></span>Report (T-D)(132/66)</a></li>
+				<li><a class="nav-link"
 					href="javascript:window.location='getReport?type=<%=EAUtil.LOSS_REPORT_CRITERIA_INDEPENDENT_%>&month=${monthOfReport}&year=${yearOfReport}'"><span
-					class="glyphicon glyphicon-plus"></span>Report (T-D)(Independent)</a>
-
-
+						class="glyphicon glyphicon-plus"></span>Report (T-D)(Independent)</a>
 			</ul>
 		</div>
 
@@ -120,7 +109,7 @@
 
 
 						<th>Serial No</th>
-						<th >Location Id</th>
+						<th>Location Id</th>
 						<th>Utility Name</th>
 						<th>Boundary Type</th>
 						<th>Station Name</th>
@@ -130,7 +119,7 @@
 						<th>Meter Category</th>
 						<th>External MF</th>
 						<th>Sign</th>
-						<th style="align-content: right;" >Import Wh</th>
+						<th style="align-content: right;">Import Wh</th>
 
 
 						<th style="align-content: flex-end;">Export Wh</th>
@@ -151,68 +140,75 @@
 				<tbody>
 					<c:forEach items="${lossReportModel.lossReportEntities}"
 						var="lossReportEntity" varStatus="indexStatus">
-						
 
 
 
-							<c:choose>
-								<c:when test="${ lossReportEntity.location != null}">
 
-									<c:choose>
-										<c:when
-											test="${ lossReportEntity.exportWHFCount < lossReportEntity.daysInMonthCount}">
-											<tr class="bg-warning">
-											<td ><i class="fa fa-warning"
-												style="font-size: 18px; color: red;"> 
+						<c:choose>
+							<c:when test="${ lossReportEntity.location != null}">
 
-												${lossReportEntity.location.lossReportOrder}
-												</i>
-												</td>
-										</c:when>
-										<c:otherwise>
-											<tr><td>${lossReportEntity.location.lossReportOrder}</td>
-										</c:otherwise>
-									</c:choose>
-								</c:when>
-								<c:otherwise>
-	<tr>								<td></td>
-								</c:otherwise>
-							</c:choose>
-							<td><a
-								href="javascript:window.location='getReportTransactions-${lossReportEntity.location.locationId}?month=${monthOfReport}&year=${yearOfReport}'">
+								<c:choose>
+									<c:when
+										test="${ lossReportEntity.exportWHFCount < lossReportEntity.daysInMonthCount}">
+										<tr class="bg-warning">
+											<td><i class="fa fa-warning"
+												style="font-size: 18px; color: red;">
 
-									${lossReportEntity.location.locationId} </a> <c:if
-									test="${ lossReportEntity.location == null}">
+													${lossReportEntity.location.lossReportOrder} </i></td>
+									</c:when>
+									<c:otherwise>
+										<tr>
+											<td>${lossReportEntity.location.lossReportOrder}</td>
+									</c:otherwise>
+								</c:choose>
+							</c:when>
+							<c:otherwise>
+								<tr>
+									<td></td>
+							</c:otherwise>
+						</c:choose>
+						<td>
+						<c:if test="${ lossReportEntity.location != null}">
+								
+						<a
+							href="javascript:window.location='getReportTransactions-${lossReportEntity.location.locationId}?month=${monthOfReport}&year=${yearOfReport}'">
+
+								${lossReportEntity.location.locationId} </a> <a
+							href="javascript:window.location='getLocationTampers-${lossReportEntity.location.locationId}?month=${monthOfReport}&year=${yearOfReport}'">
+
+								(Tamper Log) </a> 
+							</c:if>	
+								<c:if test="${ lossReportEntity.location == null}">
 									TOTAL
 									</c:if></td>
 
 
 
-							<td>${lossReportEntity.location.utiltiyName}</td>
-							<td>${lossReportEntity.location.boundaryTypeMaster.boundaryType}</td>
-							<td>${lossReportEntity.location.substationMaster.stationName}</td>
-							<td>${lossReportEntity.location.feederMaster.feederName}</td>
-							<td>${lossReportEntity.location.voltageLevel}</td>
-							<td>${lossReportEntity.location.meterMaster.meterSrNo}</td>
+						<td>${lossReportEntity.location.utiltiyName}</td>
+						<td>${lossReportEntity.location.boundaryTypeMaster.boundaryType}</td>
+						<td>${lossReportEntity.location.substationMaster.stationName}</td>
+						<td>${lossReportEntity.location.feederMaster.feederName}</td>
+						<td>${lossReportEntity.location.voltageLevel}</td>
+						<td>${lossReportEntity.location.meterMaster.meterSrNo}</td>
 
-							<td>${lossReportEntity.location.meterMaster.meterCategory}</td>
-							<td>${lossReportEntity.location.externalMF}</td>
-							<td>${lossReportEntity.location.netWHSign}</td>
+						<td>${lossReportEntity.location.meterMaster.meterCategory}</td>
+						<td>${lossReportEntity.location.externalMF}</td>
+						<td>${lossReportEntity.location.netWHSign}</td>
 
 
-							<th style="text-align:right">${lossReportEntity.importWHFSum}</th>
-							<th style="text-align:right">${lossReportEntity.exportWHFSum}</th>
+						<th style="text-align: right">${lossReportEntity.importWHFSum}</th>
+						<th style="text-align: right">${lossReportEntity.exportWHFSum}</th>
 
-							<th style="text-align:right">${lossReportEntity.importBoundaryPtMWH}</th>
-							<th style="text-align:right">${lossReportEntity.exportBoundaryPtMWH}</th>
+						<th style="text-align: right">${lossReportEntity.importBoundaryPtMWH}</th>
+						<th style="text-align: right">${lossReportEntity.exportBoundaryPtMWH}</th>
 
-							<td align="right">${lossReportEntity.boundaryPtImportExportDifferenceMWH}</td>
-							<td align="right">${lossReportEntity.netMWH}</td>
+						<td align="right">${lossReportEntity.boundaryPtImportExportDifferenceMWH}</td>
+						<td align="right">${lossReportEntity.netMWH}</td>
 
-							<td>No of Days of Export
-								Data:${lossReportEntity.exportWHFCount} No of Days of Import
-								Data:${lossReportEntity.importWHFCount} No of Days in the Month
-								Data:${lossReportEntity.daysInMonthCount}</td>
+						<td>No of Days of Export
+							Data:${lossReportEntity.exportWHFCount} No of Days of Import
+							Data:${lossReportEntity.importWHFCount} No of Days in the Month
+							Data:${lossReportEntity.daysInMonthCount}</td>
 
 						</tr>
 

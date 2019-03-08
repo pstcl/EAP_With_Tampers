@@ -31,6 +31,8 @@ public class LossReportController {
 		return "lossReport";
 	}
 
+	
+
 	@PreAuthorize("hasRole('ROLE_SLDC_USER') or hasRole('ROLE_SLDC_ADMIN')")
 	@RequestMapping(value = "/getLossReport", method = RequestMethod.GET)
 	public String getLossReport(@RequestParam(value = "month") Integer month,
@@ -42,6 +44,19 @@ public class LossReportController {
 		modelMap.addAttribute("yearOfReport", year);
 
 		return "lossReportConsolidated";
+	}
+	
+	//get Tamper Loss Report
+	@PreAuthorize("hasRole('ROLE_SLDC_USER') or hasRole('ROLE_SLDC_ADMIN')")
+	@RequestMapping(value = "/getTamperLossReport", method = RequestMethod.GET)
+	public String getTamperLossReport(@RequestParam(value = "month") Integer month,
+			@RequestParam(value = "year") Integer year,ModelMap modelMap) {
+        modelMap.addAttribute("tamperDetailsProjectionModel", lossReportService.getTamperDetailsProjectionReport(month,year));
+        modelMap.addAttribute("reportMonthYearDate",DateUtil.convertMonthYearToDate(month, year) );
+
+		modelMap.addAttribute("monthOfReport", month);
+		modelMap.addAttribute("yearOfReport", year);
+		return "tamperDetailsProjection";
 	}
 	
 	@PreAuthorize("hasRole('ROLE_SLDC_USER') or hasRole('ROLE_SLDC_ADMIN')")

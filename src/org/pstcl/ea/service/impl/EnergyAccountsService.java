@@ -32,7 +32,7 @@ public abstract class EnergyAccountsService {
 	protected IDailyTransactionDao dailyTransactionDao;
 	
 	@Autowired
-	protected ITamperLogDao tamperLogDao;
+	protected ITamperLogDao tamperLogTransactionDao;
 	
 	@Autowired
 	protected ILossReportDao lossReportDao;

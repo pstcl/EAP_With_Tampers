@@ -13,14 +13,17 @@ import org.hibernate.Transaction;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import org.hibernate.exception.ConstraintViolationException;
+import org.hibernate.transform.Transformers;
 import org.pstcl.ea.dao.ITamperLogDao;
 import org.pstcl.ea.dao.ITamperLogDao;
 import org.pstcl.ea.model.ImportExportModel;
 import org.pstcl.ea.model.entity.DailyTransaction;
 import org.pstcl.ea.model.entity.EAUser;
 import org.pstcl.ea.model.entity.TamperLogTransaction;
+import org.pstcl.ea.util.DateUtil;
 import org.pstcl.ea.model.entity.LocationMaster;
 import org.pstcl.ea.model.entity.SubstationMaster;
+import org.pstcl.ea.model.entity.TamperDetailsProjectionEntity;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -263,13 +266,14 @@ public class TamperLogDaoImpl  implements ITamperLogDao {
 			}
 			catch(ConstraintViolationException dupExp)
 			{
-				
+				dupExp.printStackTrace();
 				transaction.rollback();
 				session.close();
 				saveOrUpdateInException(loadSurveyList, loggedInUser);;
 				return;
 			}
 			catch (Exception e) {
+				e.printStackTrace();
 				transaction.rollback();
 				session.close();
 				saveOrUpdateInException(loadSurveyList, loggedInUser);;
@@ -309,7 +313,7 @@ public class TamperLogDaoImpl  implements ITamperLogDao {
 			}
 			catch(ConstraintViolationException dupExp)
 			{
-
+				dupExp.printStackTrace();
 				System.out.println(tamperLog);
 				System.out.println(dupExp.getClass());
 				transaction.rollback();
@@ -328,4 +332,74 @@ public class TamperLogDaoImpl  implements ITamperLogDao {
 		transaction.commit();
 		session.close();
 	}
+	
+	
+	
+	//Methods Added by Leevansha
+	@Transactional(value="sldcTxnManager")
+	@Override
+	public List<TamperLogTransaction> getTamperLogTransactionsByMonth(LocationMaster locationMaster, Integer month, Integer year
+			){
+
+		Criteria criteria = createEntityCriteria();
+		if(null!=locationMaster)
+		{
+		criteria.add(Restrictions.eq("location.locationId", locationMaster.getLocationId()));
+		}
+		
+		
+		Date startDate=DateUtil.startDateTimeForDailySurveyRecs(month, year);
+		Date endDate=DateUtil.endDateTimeForDailySurveyRecs(month, year);
+
+
+
+		criteria.add(Restrictions.ge("transactionDate",startDate));
+		criteria.add(Restrictions.le("transactionDate",endDate));
+
+
+		List<TamperLogTransaction> results=criteria.list();
+		
+		
+//		@SuppressWarnings("unchecked")
+//		List<TamperLogTransaction> totalAll = criteria
+//		.setProjection(Projections.projectionList()
+//				.add(Projections.sum("exportWHF"), "exportWHF")
+//				.add(Projections.sum("importWHF"), "importWHF"))
+//		.setResultTransformer(Transformers.aliasToBean(TamperLogTransaction.class)).list();
+//		results.addAll(totalAll);
+
+		return results;
+	}
+	
+	
+	@Transactional(value="sldcTxnManager")
+	@Override
+	public List<TamperDetailsProjectionEntity> getTamperLogTransactionsCountByDateRange(Date startDate, Date endDate){
+
+		Criteria criteria = createEntityCriteria();
+		if(null==startDate || null==endDate)
+		{
+			return null;
+		}
+		
+
+
+
+		criteria.add(Restrictions.ge("transactionDate",startDate));
+		criteria.add(Restrictions.le("transactionDate",endDate));
+
+
+		List<TamperDetailsProjectionEntity> results=criteria.setProjection(Projections.projectionList()
+				.add(Projections.groupProperty("location"),"location")
+				.add(Projections.count("location"),"count")).
+				setResultTransformer(Transformers.aliasToBean(TamperDetailsProjectionEntity.class)).list();
+		
+		
+		return results;
+
+
+
+	}
+    
+
 }

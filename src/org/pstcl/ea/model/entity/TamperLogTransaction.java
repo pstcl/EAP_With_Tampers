@@ -27,6 +27,18 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 public class TamperLogTransaction {
 
 	
+	@Override
+	public String toString() {
+		return "TamperLogTransaction [location=" + location + ", createDateTime=" + createDateTime + ", dayOfMonth="
+				+ dayOfMonth + ", fileName=" + fileName + ", hourOfDay=" + hourOfDay + ", voltageRed=" + voltageRed
+				+ ", voltageYellow=" + voltageYellow + ", voltageBlue=" + voltageBlue + ", currentRed=" + currentRed
+				+ ", currentYellow=" + currentYellow + ", currentBlue=" + currentBlue + ", impWh=" + impWh + ", expWh="
+				+ expWh + ", minuteOfHour=" + minuteOfHour + ", monthOfYear=" + monthOfYear + ", recordNo=" + recordNo
+				+ ", recordStatus=" + recordStatus + ", secondofMinute=" + secondofMinute + ", tamperType=" + tamperType
+				+ ", tamperDuration=" + tamperDuration + ", tamperCount=" + tamperCount + ", transactionDate="
+				+ transactionDate + ", txnId=" + txnId + ", updateDateTime=" + updateDateTime + ", year=" + year + "]";
+	}
+
 	@JsonIgnore
 	@ManyToOne
 	@JoinColumn(name = "LOC_ID")
@@ -350,6 +362,14 @@ public class TamperLogTransaction {
 
 	public Date getTransactionDate() {
 		return transactionDate;
+	}
+	
+	
+	
+	
+	public TamperLogTransaction()
+	{
+		super();
 	}
 
 	public TamperLogTransaction(LocationMaster location, String fileName, BigDecimal voltageRed, BigDecimal voltageYellow,
