@@ -67,9 +67,13 @@
 							href="<c:url value='/processFileTamper-${fileDetails.txnId}' />">Extract Tamper Log
 								</a></li>
 								
-								
+							<li><a class="dropdown-item"
+							href="<c:url value='/processFileInstantRegisters-${fileDetails.txnId}' />">Process Instant Registers
+								</a></li>		
+							
 					</sec:authorize>
 				</c:when>
+
 
 			</c:choose>
 

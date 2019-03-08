@@ -9,10 +9,13 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
+import org.pstcl.ea.dao.IInstantRegistersDao;
 import org.pstcl.ea.dao.ILossReportDao;
 import org.pstcl.ea.dao.ITamperLogDao;
 import org.pstcl.ea.model.ConsolidatedLossReportModel;
 import org.pstcl.ea.model.LossReportModel;
+import org.pstcl.ea.model.entity.InstantRegisters;
+import org.pstcl.ea.model.entity.LocationMaster;
 import org.pstcl.ea.model.entity.LossReportEntity;
 import org.pstcl.ea.model.entity.TamperDetailsProjectionEntity;
 import org.pstcl.ea.util.BigDecimalUtil;
@@ -393,4 +396,13 @@ public class LossReportService {
 		}
 		return lossReportEntity;
 	}
+	
+	
+	
+	@Autowired
+	IInstantRegistersDao instantRegistersDao;
+	public List<InstantRegisters> getIRDetails(LocationMaster location,int month,int year){
+		return instantRegistersDao.findInstantRegistersByDayAndLocation(location,  month, year);
+	}
+
 }

@@ -62,6 +62,15 @@ public class SLDCUserController {
 
 		return "locationTampers";
 	}
+	    //added by leevansha
+		@PreAuthorize("hasRole('ROLE_SLDC_USER') or hasRole('ROLE_SLDC_ADMIN')")
+		@RequestMapping(value = "/processFileInstantRegisters-{id}", method = RequestMethod.GET)
+		public String processFileInstantRegisters(@PathVariable Integer id,ModelMap modelMap) {
+			modelMap.addAttribute("cmriModel", dateService.processRepoFileForInstantRegisters(id));
+			return "processingFilesStatus";
+		}
+
+	
 	
 	
 	@PreAuthorize("hasRole('ROLE_SLDC_USER') or hasRole('ROLE_SLDC_ADMIN')")
