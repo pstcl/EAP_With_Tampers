@@ -138,7 +138,7 @@ public class DataService extends EnergyAccountsService{
 			monthOfYear = cal.get(Calendar.MONTH)-1;
 		}
 
-		List<TamperLogTransaction> tamperLogs=tamperLogDao.findTamperLogByDayAndLocation(fileMaster.getLocation(),null , monthOfYear,year);
+		List<TamperLogTransaction> tamperLogs=tamperLogTransactionDao.findTamperLogByDayAndLocation(fileMaster.getLocation(),null , monthOfYear,year);
 
 		cmriDataModel.setTamperLogs(tamperLogs);
 
@@ -301,7 +301,7 @@ public class DataService extends EnergyAccountsService{
 
 
 
-	
+
 
 
 	@Autowired
@@ -315,10 +315,26 @@ public class DataService extends EnergyAccountsService{
 		locationSurveyDataModel.setLocationMaster(locationMaster);
 		locationSurveyDataModel.setMeterMaster(meterMaster);
 		locationSurveyDataModel.setDailyTransactions(dailyTransactionDao.getDailyTransactionsByMonth(locationMaster, month, year));
+		locationSurveyDataModel.setTamperLogTransactions(tamperLogTransactionDao.getTamperLogTransactionsByMonth(locationMaster, month, year));
 		return locationSurveyDataModel;
 	}
-	
-	
+
+	public LocationSurveyDataModel getTamperReportTransactions(String locationId, int month, int year) {
+
+		LocationSurveyDataModel locationSurveyDataModel=new LocationSurveyDataModel();
+		if(locationId!=null) {
+			LocationMaster locationMaster=locationMasterDao.findById(locationId);
+			MeterMaster  meterMaster=meterDao.findMeterForMonth(locationId, month, year);
+			locationSurveyDataModel.setLocationMaster(locationMaster);
+			locationSurveyDataModel.setMeterMaster(meterMaster);
+			//locationSurveyDataModel.setDailyTransactions(dailyTransactionDao.getDailyTransactionsByMonth(locationMaster, month, year));
+			locationSurveyDataModel.setTamperLogTransactions(tamperLogTransactionDao.getTamperLogTransactionsByMonth(locationMaster, month, year));
+		}
+		else {
+			locationSurveyDataModel.setTamperLogTransactions(tamperLogTransactionDao.getTamperLogTransactionsByMonth(null,month, year));
+		}
+		return locationSurveyDataModel;
+	}
 
 	public List<LocationFileModel> getPendingLossReportLocation(Integer month, Integer year) {
 
@@ -327,7 +343,7 @@ public class DataService extends EnergyAccountsService{
 		Date endDate=DateUtil.endDateTimeForDailySurveyRecs(month, year);
 		//locationMasterDao.findPendingLossReportLocations1(startDate,endDate);
 		//List <LocationMaster> locations =lossReportDao.getIncompleteDailyEntryLocations(null,startDate,endDate);
-		
+
 		List <LocationMaster> locations =lossReportDao.findPendingLossReportLocations(startDate,endDate);
 		FileFilter filter=new FileFilter();
 		filter.setTransactionDateFrom(DateUtil.startDateTimeForDailySurveyRecs(month+1, year));

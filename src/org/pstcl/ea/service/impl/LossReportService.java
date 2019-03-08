@@ -10,9 +10,11 @@ import java.util.Map;
 import java.util.Objects;
 
 import org.pstcl.ea.dao.ILossReportDao;
+import org.pstcl.ea.dao.ITamperLogDao;
 import org.pstcl.ea.model.ConsolidatedLossReportModel;
 import org.pstcl.ea.model.LossReportModel;
 import org.pstcl.ea.model.entity.LossReportEntity;
+import org.pstcl.ea.model.entity.TamperDetailsProjectionEntity;
 import org.pstcl.ea.util.BigDecimalUtil;
 import org.pstcl.ea.util.DateUtil;
 import org.pstcl.ea.util.EAUtil;
@@ -24,7 +26,23 @@ public class LossReportService {
 
 	@Autowired
 	ILossReportDao lossReportDao;
-
+    @Autowired
+    ITamperLogDao tamperLogDao;
+	
+	//tamper loss month year report 
+	public List<TamperDetailsProjectionEntity> getTamperDetailsProjectionReport(int month,int year){
+		Date startDate=DateUtil.startDateTimeForDailySurveyRecs(month, year);
+		Date endDate=DateUtil.endDateTimeForDailySurveyRecs(month, year);
+		return getTamperDetailsProjectionDateRangeReport(startDate, endDate);	
+	}
+	
+	//tamper loss date range report
+	public List<TamperDetailsProjectionEntity> getTamperDetailsProjectionDateRangeReport(Date startDate, Date endDate){
+		List<TamperDetailsProjectionEntity> results =  tamperLogDao.getTamperLogTransactionsCountByDateRange(startDate, endDate);
+	    return results;
+	}
+	
+	
 	public List<LossReportEntity> persistLossReport(int month, int year) {
 		Date startDate=DateUtil.startDateTimeForDailySurveyRecs(month, year);
 		Date endDate=DateUtil.endDateTimeForDailySurveyRecs(month, year);

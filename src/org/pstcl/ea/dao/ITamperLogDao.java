@@ -4,9 +4,11 @@ import java.util.Date;
 import java.util.List;
 
 import org.pstcl.ea.model.ImportExportModel;
+import org.pstcl.ea.model.entity.DailyTransaction;
 import org.pstcl.ea.model.entity.EAUser;
 import org.pstcl.ea.model.entity.LocationMaster;
 import org.pstcl.ea.model.entity.SubstationMaster;
+import org.pstcl.ea.model.entity.TamperDetailsProjectionEntity;
 import org.pstcl.ea.model.entity.TamperLogTransaction;
 
 
@@ -22,5 +24,9 @@ public interface ITamperLogDao  {
 	
 	List<TamperLogTransaction> findTamperLogBySubstation(SubstationMaster location, int dayOfMonth, int monthOfYear,
 			int year);
+	List<TamperLogTransaction> getTamperLogTransactionsByMonth(LocationMaster locationMaster, Integer month, Integer year
+			);
 	void save(List<TamperLogTransaction> loadSurveyList, EAUser loggedInUser);
+	List<TamperDetailsProjectionEntity> getTamperLogTransactionsCountByDateRange(Date startDate, Date endDate);
+	
 }

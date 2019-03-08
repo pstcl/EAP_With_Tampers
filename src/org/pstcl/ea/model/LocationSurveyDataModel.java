@@ -7,11 +7,12 @@ import org.pstcl.ea.model.entity.DailyTransaction;
 import org.pstcl.ea.model.entity.LoadSurveyTransaction;
 import org.pstcl.ea.model.entity.LocationMaster;
 import org.pstcl.ea.model.entity.MeterMaster;
+import org.pstcl.ea.model.entity.TamperLogTransaction;
 
 public class LocationSurveyDataModel {
 	
 	private List<DailyTransaction> dailyTransactions;
-	
+	private List<TamperLogTransaction> tamperLogTransactions;
 	
 	private Date endDate;
 	private List<LoadSurveyTransaction> loadSurveyTransactions;
@@ -70,6 +71,12 @@ public class LocationSurveyDataModel {
 	}
 	public void setMeterMaster(MeterMaster meterMaster) {
 		this.meterMaster = meterMaster;
+	}
+	public List<TamperLogTransaction> getTamperLogTransactions() {
+		return tamperLogTransactions;
+	}
+	public void setTamperLogTransactions(List<TamperLogTransaction> tamperLogTransactions) {
+		this.tamperLogTransactions = tamperLogTransactions;
 	}
 
 }
