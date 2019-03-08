@@ -1051,7 +1051,7 @@ public class DataReaderThread {
 				q3varhTotal = new BigDecimal(loadSurveyRecord[indexOfLoadSurveyQ3varhTotal].trim());
 				q4varhTotal = new BigDecimal(loadSurveyRecord[indexOfLoadSurveyQ4varhTotal].trim());
 				netWh = new BigDecimal(loadSurveyRecord[indexOfLoadSurveyNetWh].trim());
-				freqcode = new BigDecimal(loadSurveyRecord[indexOfLoadSurveyFreqcode].trim());
+
 				importVAhTotal = new BigDecimal(loadSurveyRecord[indexOfLoadSurveyImportVAhTotal].trim());
 				exportVAhTotal = new BigDecimal(loadSurveyRecord[indexOfLoadSurveyExportVAhTotal].trim());
 				importWhTotal = new BigDecimal(loadSurveyRecord[indexOfLoadSurveyImportWhTotal].trim());

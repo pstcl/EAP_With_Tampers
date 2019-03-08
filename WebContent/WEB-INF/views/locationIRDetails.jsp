@@ -36,7 +36,7 @@
 <div class="container-fluid">
 
 
-		<span class="lead">Report Data for the month of <fmt:formatDate
+		<span class="lead">IR Report Data for the month of <fmt:formatDate
 				value="${reportMonthYearDate}" pattern="MMM,yyyy" />
 		</span>
 
@@ -51,40 +51,26 @@
 
 
 				<tr>
-				    <th>Serial No</th>
-				    <th>Date</th>
-					<th>Location Id</th>
-					<th>Phase A Voltage</th>
-					<th>Phase B Voltage</th>
-					<th>Phase C Voltage</th>
-					<th>Phase A Current</th>
-					<th>Phase B Current</th>
-					<th>Phase C Current</th>
+				    <th>Property </th>
+				    <th>Value</th>
+				
 				</tr>
 			</thead>
 
-			<c:forEach items="${IRDetails}"
+			<c:forEach items="${irdetails}"
 				var="irDetail" varStatus="indexStatus">
 
 				<tr>
-				    <td>${indexStatus.index+1}</td>
-					<td><fmt:formatDate
-							value="${irDetail.date}"
-							pattern="dd/MM/yyyy HH:mm:ss" /></td>
-					<td>
-					<a
-						href="javascript:window.location='getLocationInstantRegisters-${irDetail.location.locationId }?month=${monthOfReport}&year=${yearOfReport}'">
-
-							${irDetail.location.locationId } </a>
-							</td>		
-					<td>${irDetail.phaseAVoltage }</td>
-					<td>${irDetail.phaseBVoltage }</td>
-					<td>${irDetail.phaseCVoltage }</td>
-					<td>${irDetail.phaseACurrent }</td>
-					<td>${irDetail.phaseBCurrent }</td>
-					<td>${irDetail.phaseCCurrent }</td>
+				
+				<c:forEach items="${irdetail}"
+				var="irDetailo" varStatus="indexStatus1">
+				<td>${irDetailo.key }</td>
+				<td>${irDetailo.value }</td>
+				</c:forEach>
+				
+				   </tr>
 					
-					</tr>
+					
 			</c:forEach>
 		</table>
 

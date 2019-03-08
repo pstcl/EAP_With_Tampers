@@ -31,7 +31,8 @@ public class SLDCUserController {
 	@Autowired
 	private SubstationDataServiceImpl substationDataServiceImpl;
 
-
+    @Autowired
+    private LossReportService lossReportService;
 
 
 
@@ -62,6 +63,23 @@ public class SLDCUserController {
 
 		return "locationTampers";
 	}
+	
+	
+	@PreAuthorize("hasRole('ROLE_SLDC_USER') or hasRole('ROLE_SLDC_ADMIN')")
+	@RequestMapping(value = "/getLocationInstantRegisters-{locationId}", method = RequestMethod.GET)
+	public String getLocationInstantRegisters(@PathVariable String locationId,@RequestParam(value = "month") Integer month,
+			@RequestParam(value = "year") Integer year,ModelMap modelMap) {
+		
+		modelMap.addAttribute("monthOfReport",DateUtil.convertMonthYearToDate(month, year) );
+		
+		modelMap.addAttribute("month",month);
+		modelMap.addAttribute("year",year);
+		modelMap.addAttribute("irdetails", lossReportService.getIRDetails(locationId,month,year));
+
+		return "locationIRDetails";
+	}
+	
+	
 	    //added by leevansha
 		@PreAuthorize("hasRole('ROLE_SLDC_USER') or hasRole('ROLE_SLDC_ADMIN')")
 		@RequestMapping(value = "/processFileInstantRegisters-{id}", method = RequestMethod.GET)
@@ -87,7 +105,7 @@ public class SLDCUserController {
 
 			return "locationTampers";
 	}
-//leevansha end//
+//leevansha end
 	
 	@PreAuthorize("hasRole('ROLE_SLDC_USER') or hasRole('ROLE_SLDC_ADMIN')")
 	@RequestMapping(value = "/getReportTransactions-{locationId}", method = RequestMethod.GET)

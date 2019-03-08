@@ -401,8 +401,10 @@ public class LossReportService {
 	
 	@Autowired
 	IInstantRegistersDao instantRegistersDao;
-	public List<InstantRegisters> getIRDetails(LocationMaster location,int month,int year){
-		return instantRegistersDao.findInstantRegistersByDayAndLocation(location,  month, year);
+	public List<InstantRegisters> getIRDetails(String locationId,int month,int year){
+		List<InstantRegisters> ir = instantRegistersDao.findInstantRegistersByDayAndLocation(locationId, month, year);
+	    System.out.println(ir.size());
+		return ir;
 	}
 
 }
