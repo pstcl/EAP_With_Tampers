@@ -78,6 +78,7 @@ public class LossReportController {
 	@RequestMapping(value = "/getIRDetails", method = RequestMethod.GET)
 	public String getIRDetails(@RequestParam(value = "month") Integer month,
 			@RequestParam(value = "year") Integer year,ModelMap modelMap) {
+		
 		modelMap.addAttribute("IRDetails", lossReportService.getIRDetails(null, month, year));
 		modelMap.addAttribute("reportMonthYearDate",DateUtil.convertMonthYearToDate(month, year) );
 

@@ -154,17 +154,20 @@ public class InstantRegistersDaoImpl implements IInstantRegistersDao{
 
 	@Override
 	@Transactional(value="sldcTxnManager")
-	public List<InstantRegisters> findInstantRegistersByDayAndLocation(LocationMaster location, Integer month,Integer year) {
+	public List<InstantRegisters> findInstantRegistersByDayAndLocation(String locationid, Integer month,Integer year) {
 		
 		Date startDate=DateUtil.startDateTimeForDailySurveyRecs(month, year);
 		Date endDate=DateUtil.endDateTimeForDailySurveyRecs(month, year);
 		Criteria crit = createEntityCriteria();
-		if(location!=null) {
-		crit.add((Restrictions.in("location.locationId", location.getLocationId())));
-		}
 		
+		if(locationid!=null) {
+		crit.add((Restrictions.eq("location.locationId", locationid)));
+		}
+		System.out.println(startDate);
+		System.out.println(endDate);
 		crit.add(Restrictions.ge("date",startDate));
 		crit.add(Restrictions.le("date",endDate));
-		return (List<InstantRegisters>) crit.list();
+		List<InstantRegisters> ir = crit.list();
+		return ir;
 	}
 }
