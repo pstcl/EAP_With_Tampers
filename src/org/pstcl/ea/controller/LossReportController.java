@@ -72,5 +72,20 @@ public class LossReportController {
 		return "lossReportConsolidated";
 	}
 
+	
+	//added
+	@PreAuthorize("hasRole('ROLE_SLDC_USER') or hasRole('ROLE_SLDC_ADMIN')")
+	@RequestMapping(value = "/getIRDetails", method = RequestMethod.GET)
+	public String getIRDetails(@RequestParam(value = "month") Integer month,
+			@RequestParam(value = "year") Integer year,ModelMap modelMap) {
+		modelMap.addAttribute("IRDetails", lossReportService.getIRDetails(null, month, year));
+		modelMap.addAttribute("reportMonthYearDate",DateUtil.convertMonthYearToDate(month, year) );
+
+		modelMap.addAttribute("monthOfReport", month);
+		modelMap.addAttribute("yearOfReport", year);
+
+		return "IRDetails";
+	}
+
 
 }

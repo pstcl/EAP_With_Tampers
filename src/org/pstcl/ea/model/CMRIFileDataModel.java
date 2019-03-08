@@ -4,11 +4,13 @@ import java.util.List;
 
 import org.pstcl.ea.model.entity.DailyTransaction;
 import org.pstcl.ea.model.entity.FileMaster;
+import org.pstcl.ea.model.entity.InstantRegisters;
 import org.pstcl.ea.model.entity.LoadSurveyTransaction;
 import org.pstcl.ea.model.entity.LocationMaster;
 import org.pstcl.ea.model.entity.TamperLogTransaction;
 
 public class CMRIFileDataModel {
+	private List<InstantRegisters> instantRegistersDetails;
 	
 	private LocationMaster locationMaster;
 	
@@ -41,6 +43,12 @@ public class CMRIFileDataModel {
 	}
 	public void setTamperLogs(List<TamperLogTransaction> tamperLogs) {
 		this.tamperLogs = tamperLogs;
+	}
+	public List<InstantRegisters> getInstantRegistersDetails() {
+		return instantRegistersDetails;
+	}
+	public void setInstantRegistersDetails(List<InstantRegisters> instantRegistersDetails) {
+		this.instantRegistersDetails = instantRegistersDetails;
 	}
 	private FileMaster fileMaster;
 	private List<DailyTransaction> dailyTransactions;

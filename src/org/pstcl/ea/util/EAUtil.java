@@ -8,6 +8,15 @@ import org.springframework.format.annotation.DateTimeFormat;
 import com.ibm.icu.math.BigDecimal;
 
 public class EAUtil {
+	
+	
+	//Raw MEter reading
+	public static final int DECIMAL_SCALE_INSTANT_REGISTERS=4;
+	//Raw MEter reading
+	public static final int DECIMAL_PRECESION_INSTANT_REGISTERS=16;
+
+	public static final int DECIMAL_SCALE_INSTANT_REGISTERS1=6;
+	
 	//Raw MEter reading
 	public static final int DECIMAL_SCALE_DAILY_SURVEY_IMPORT_EXPORT=3;
 	//Raw MEter reading
@@ -24,11 +33,12 @@ public class EAUtil {
 	public static final int DECIMAL_SCALE_LOSS_PERCENTAGE=4;
 
 
-	public static String CRMI_TXT_FILE_REPOSITORY="E:/SLDC_ENERGY_ACC/CMRI/CMRI_TXT_FILE_REPOSITORY/";
-	public static String CRMI_ZIP_FILE_REPOSITORY="E:/SLDC_ENERGY_ACC/CMRI/CMRI_ZIP_FILE_REPOSITORY/";
-	public static String TEMP_FILE_OPEN_DIR="E:/SLDC_ENERGY_ACC/CMRI/TEMP/";
-	public static String CRMI_EXE_FILE_REPOSITORY="E:/SLDC_ENERGY_ACC/CMRI/CMRI_WS/";
-
+	public static String CRMI_TXT_FILE_REPOSITORY="C:\\Eclipse\\temporary_old_EAP_code\\src\\CMRI_TXT_FILE_REPOSITORY\\";
+	public static String CRMI_ZIP_FILE_REPOSITORY="C:\\Eclipse\\temporary_old_EAP_code\\src\\CMRI_ZIP_FILE_REPOSITORY\\";
+	public static String TEMP_FILE_OPEN_DIR="C:\\Eclipse\\temporary_old_EAP_code\\src\\TEMP\\";
+	public static String CRMI_EXE_FILE_REPOSITORY="C:\\Eclipse\\temporary_old_EAP_code\\src\\CMRI_WS\\";
+	
+	
 	public static String LOSS_REPORT_CRITERIA_G_T="G_T";	
 	public static String LOSS_REPORT_CRITERIA_I_T_= "I_T";	
 	public static String LOSS_REPORT_CRITERIA_INDEPENDENT_="INDEPENDENT";	

@@ -389,6 +389,32 @@
 						</div>
 </sec:authorize>
 <!-- Column for tamper log -->
+<sec:authorize
+						access="hasAnyRole('ROLE_SLDC_USER','ROLE_SLDC_ADMIN')">
+
+						<div class="form-control col-sm-4">
+
+
+							<a href="#" role="button" class="nav-link btn popovers"
+								data-toggle="popover" title=""
+								data-content="<a href='getIRDetails?month=1&year=2019' title='Feb 2019'>February,2019</a>
+								<br>
+								<a href='getIRDetails?month=0&year=2019' title='Jan 2019'>January,2019</a>
+								<br>
+								<a href='getIRDetails?month=11&year=2018' title='Dec 2018'>December,2018</a>"
+								data-original-title="Select Month"><span>
+									<div class="card" data-toggle="tooltip" data-placement="top"
+										title="View Instant Register Details for the selected month">
+										<i class="fas fa-receipt fa-5x"></i>
+										<div class="card-body">
+											<div class="app-title">
+												Instant Registers Details Report<br>
+											</div>
+										</div>
+									</div>
+							</span></a>
+						</div>
+						</sec:authorize>
 			
 
 

@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.pstcl.ea.dao.IDailyTransactionDao;
 import org.pstcl.ea.dao.IFileMasterDao;
+import org.pstcl.ea.dao.IInstantRegistersDao;
 import org.pstcl.ea.dao.ILoadSurveyTransactionDao;
 import org.pstcl.ea.dao.ILocationMasterDao;
 import org.pstcl.ea.dao.ILossReportDao;
@@ -49,7 +50,9 @@ public abstract class EnergyAccountsService {
 	
 	@Autowired
 	protected ILocationMasterDao locationMasterDao;
-
+	@Autowired
+	protected IInstantRegistersDao instantRegistersDao;
+	
 	public EnergyAccountsService() {
 		super();
 	}
@@ -98,4 +101,6 @@ public abstract class EnergyAccountsService {
 		return locationMasterDao.findAllLocationMasters(filter);
 	}
 
+	//added
+	
 }
