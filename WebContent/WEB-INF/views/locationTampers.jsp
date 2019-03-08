@@ -163,6 +163,7 @@
 							<th>Circle</th>
 							<th>Division</th>
 							<th>Substation</th>
+							<th>Meter Details</th>
 						</tr>
 					</thead>
 
@@ -186,6 +187,13 @@
 							<td>${tamperLogForMeter.location.circleMaster.circleName}</td>
 							<td>${tamperLogForMeter.location.substationMaster.divisionMaster.divisionname}</td>
 							<td>${tamperLogForMeter.location.substationMaster.stationName}</td>
+							<td>Meter
+						Location:${tamperLogForMeter.location.feederMaster.feederName} 
+						${tamperLogForMeter.location.locationId}<br>Meter Details(Sr No:
+						${tamperLogForMeter.location.meterMaster.meterSrNo})(Make:${tamperLogForMeter.location.meterMaster.meterType})
+
+
+					</td>
 							
 					</c:forEach>
 				</table>
