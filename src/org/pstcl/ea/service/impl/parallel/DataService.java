@@ -387,7 +387,7 @@ public class DataService extends EnergyAccountsService{
 				monthOfYear = cal.get(Calendar.MONTH)-1;
 			}
 
-			List<InstantRegisters> instantRegistersDetails =instantRegistersDao.findInstantRegistersByDayAndLocation(fileMaster.getLocation(),monthOfYear,year);
+			List<InstantRegisters> instantRegistersDetails =instantRegistersDao.findInstantRegistersByDayAndLocation(fileMaster.getLocation().getLocationId(),monthOfYear,year);
 
 			cmriDataModel.setInstantRegistersDetails(instantRegistersDetails);
 
