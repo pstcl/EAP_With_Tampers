@@ -6,6 +6,8 @@
 <%@ taglib prefix="sec"
 	uri="http://www.springframework.org/security/tags"%>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
+<%@ taglib uri = "http://java.sun.com/jsp/jstl/functions" prefix = "fn" %>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -19,68 +21,103 @@
 
 
 	<script type="text/javascript">
-		$(document).ready(function() {
-			$('#irdetails').DataTable({
-				dom : 'Bfrtip',
-				"paging" : true,
-				"ordering" : true,
-				buttons : [ 'copyHtml5', 'excelHtml5', 'csvHtml5', 'pdfHtml5' ],
-			 orientation: 'landscape',
-             pageSize: 'A4'
-			});
+		$(document).ready(
+				function() {
+					$('#irdetails').DataTable(
+							{
+								dom : 'Bfrtip',
+								"paging" : true,
+								"ordering" : false,
+								buttons : [ 'copyHtml5', 'excelHtml5',
+										'csvHtml5', 'pdfHtml5' ],
+								orientation : 'landscape',
+								pageSize : 'A4'
+							});
 
-		});
-		
+				});
 	</script>
 
-<div class="container-fluid">
+	<div class="container-fluid">
 
 
 		<span class="lead">IR Report Data for the month of <fmt:formatDate
 				value="${reportMonthYearDate}" pattern="MMM,yyyy" />
 		</span>
 
-<div id="da111ilyTxnTable_wrapper" class="table-responsive ">
+		<div id="da111ilyTxnTable_wrapper" class="table-responsive ">
 
 
 
-		<table id="irdetails"
-			class="table table-striped table-bordered table-hover">
-
-			<thead>
+			<table id="irdetails"
+				class="table table-striped table-bordered table-hover">
 
 
-				<tr>
-				    <th>Property </th>
-				    <th>Value</th>
-				
-				</tr>
-			</thead>
 
-			<c:forEach items="${irdetails}"
-				var="irDetail" varStatus="indexStatus">
+				<c:forEach items="${irdetails}" var="irDetail"
+					varStatus="indexStatus">
 
-				
-				
-			
-<!-- 				<tr> -->
-<%-- 				<c:forEach items="${irDetail} --%>
-<%-- 				var="irDetailo" varStatus="indexStatus1"> --%>
-<%-- 				<td><c:out value="${irDetailo.key}"></c:out></td> --%>
-<%-- 				<td><c:out value="${irDetailo.value}"></c:out></td> --%>
-<%-- 				</c:forEach> --%>
-<!-- 				</tr> -->
-				
-				
-				 
+
+					<thead>
+
+
+						<tr>
+							<th>Circle</th>
+							<td>${irDetail.location.circleMaster.circleName}</td>
+						</tr>
+						<tr>
+							<th>Division</th>
+							<td>${irDetail.location.substationMaster.divisionMaster.divisionname}</td>
+						</tr>
+						<tr>
+							<th>Substation</th>
+							<td>${irDetail.location.substationMaster.stationName}</td>
+
+						</tr>
+						<tr>
+							<th>Location</th>
+							<td>${irDetail.location.locationId}</td>
+
+						</tr>
+						<tr>
+							<th>Meter Sr No</th>
+							<td>${irDetail.location.meterMaster.meterSrNo}</td>
+
+						</tr>
+
+					</thead>
+					<c:set var="object" value="${irDetail}" />
+
+					<c:if test="${not empty object['class'].declaredFields}">
+						<c:forEach var="field" items="${object['class'].declaredFields}">
+							<c:catch>
+								<c:if test="${! fn:containsIgnoreCase(field.name, 'txn')  && (! fn:containsIgnoreCase(field.name, 'loc'))}">
+
+									<tr>
+										<td>${field.name}</td>
+										<td>${object[field.name]}</td>
+									</tr>
+								</c:if>
+							</c:catch>
+						</c:forEach>
+
+					</c:if>
+
+					<%-- 						<c:forEach items="${irdetail}" var="irDetailo" --%>
+					<%-- 							varStatus="indexStatus1"> --%>
+					<%-- 							<td>${irDetailo.key }</td> --%>
+					<%-- 							<td>${irDetailo.value }</td> --%>
+					<%-- 						</c:forEach> --%>
+
+					</tr>
+
+
+				</c:forEach>
+			</table>
 					
-					
-			</c:forEach>
-		</table>
 
 
 
+		</div>
 	</div>
-</div>
 </body>
 </html>

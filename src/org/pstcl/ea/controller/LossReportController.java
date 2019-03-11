@@ -79,13 +79,13 @@ public class LossReportController {
 	public String getIRDetails(@RequestParam(value = "month") Integer month,
 			@RequestParam(value = "year") Integer year,ModelMap modelMap) {
 		
-		modelMap.addAttribute("IRDetails", lossReportService.getIRDetails(null, month, year));
+		modelMap.addAttribute("iRDetails", lossReportService.getIRDetails(null, month, year));
 		modelMap.addAttribute("reportMonthYearDate",DateUtil.convertMonthYearToDate(month, year) );
 
 		modelMap.addAttribute("monthOfReport", month);
 		modelMap.addAttribute("yearOfReport", year);
 
-		return "IRDetails";
+		return "iRDetails";
 	}
 
 

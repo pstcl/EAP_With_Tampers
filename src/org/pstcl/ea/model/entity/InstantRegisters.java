@@ -22,7 +22,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name="INSTANT_REGISTERS", uniqueConstraints = {
-		@UniqueConstraint(columnNames = { "LOC_ID","date" }) })
+		@UniqueConstraint(columnNames = { "LOC_ID","transactionDate" }) })
 public class InstantRegisters {
 
 	@Id
@@ -37,8 +37,16 @@ public class InstantRegisters {
 	private LocationMaster location;
 	
 	@Column(nullable=false)
-	private Date date;
+	private Date transactionDate;
 	
+	public Date getTransactionDate() {
+		return transactionDate;
+	}
+
+	public void setTransactionDate(Date transactionDate) {
+		this.transactionDate = transactionDate;
+	}
+
 	@Column(precision=EAUtil.DECIMAL_PRECESION_INSTANT_REGISTERS,scale=EAUtil.DECIMAL_SCALE_INSTANT_REGISTERS)
 	private BigDecimal phaseAVoltage;
 	
@@ -422,13 +430,7 @@ private BigDecimal demandTouChannel2Rate1;
 		this.location = location;
 	}
 
-	public Date getDate() {
-		return date;
-	}
 
-	public void setDate(Date date) {
-		this.date = date;
-	}
 
 	public BigDecimal getPhaseAVoltage() {
 		return phaseAVoltage;
@@ -1492,7 +1494,7 @@ private int dayOfMonth;
 		String displaySegmentStatus, String filename) {
 
 	this.location = location;
-	this.date = date;
+	this.transactionDate = date;
 	this.phaseAVoltage = phaseAVoltage;
 	this.phaseBVoltage = phaseBVoltage;
 	this.phaseCVoltage = phaseCVoltage;
@@ -1850,7 +1852,7 @@ public String getFilename() {
 	//add parameters to show
 	public void updateValues(InstantRegisters ir) {
 		this.location = ir.location;
-		this.date = ir.date;
+		this.transactionDate = ir.transactionDate;
 		this.phaseAVoltage = ir.phaseAVoltage;
 		this.phaseBVoltage = ir.phaseBVoltage;
 		this.phaseCVoltage = ir.phaseCVoltage;

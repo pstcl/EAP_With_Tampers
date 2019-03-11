@@ -10,12 +10,8 @@ import org.hibernate.Transaction;
 import org.hibernate.criterion.Restrictions;
 import org.hibernate.exception.ConstraintViolationException;
 import org.pstcl.ea.dao.IInstantRegistersDao;
-import org.pstcl.ea.model.entity.DailyTransaction;
 import org.pstcl.ea.model.entity.EAUser;
 import org.pstcl.ea.model.entity.InstantRegisters;
-import org.pstcl.ea.model.entity.LoadSurveyTransaction;
-import org.pstcl.ea.model.entity.LocationMaster;
-import org.pstcl.ea.model.entity.TamperLogTransaction;
 import org.pstcl.ea.util.DateUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -123,7 +119,7 @@ public class InstantRegistersDaoImpl implements IInstantRegistersDao{
 			{
 				Criteria crit = session.createCriteria(InstantRegisters.class);
 				crit.add(Restrictions.eq("location.locationId", instantRegister.getLocation().getLocationId()));
-				crit.add(Restrictions.eq("date",instantRegister.getDate()));
+				crit.add(Restrictions.eq("transactionDate",instantRegister.getTransactionDate()));
 				InstantRegisters entity =(InstantRegisters) crit.uniqueResult();
 				if (null != entity) {
 					entity.updateValues(instantRegister);
@@ -165,8 +161,8 @@ public class InstantRegistersDaoImpl implements IInstantRegistersDao{
 		}
 		System.out.println(startDate);
 		System.out.println(endDate);
-		crit.add(Restrictions.ge("date",startDate));
-		crit.add(Restrictions.le("date",endDate));
+		crit.add(Restrictions.ge("transactionDate",startDate));
+		crit.add(Restrictions.le("transactionDate",endDate));
 		List<InstantRegisters> ir = crit.list();
 		return ir;
 	}

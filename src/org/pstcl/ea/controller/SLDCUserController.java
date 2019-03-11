@@ -133,10 +133,10 @@ public class SLDCUserController {
 
 
 	@PreAuthorize("hasRole('ROLE_SLDC_USER') or hasRole('ROLE_SLDC_ADMIN')")
-	@RequestMapping(value = "/processTamperLog", method = RequestMethod.GET)
+	@RequestMapping(value = "/processInstantRegisters", method = RequestMethod.GET)
 	public String processTamperLog(@RequestParam(value = "month") Integer month,
 			@RequestParam(value = "year") Integer year,ModelMap modelMap) {
-		modelMap.addAttribute("fileModel", dateService.processZipFilesForTamper(month,year));
+		modelMap.addAttribute("fileModel", dateService.processZipFilesForInstantRegisters(month,year));
 		modelMap.addAttribute("reportMonthYearDate",DateUtil.convertMonthYearToDate(month, year) );
 
 		return "processingFilesStatus";
