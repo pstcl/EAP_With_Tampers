@@ -70,15 +70,15 @@
 				<th>Sr. No.</th>
 
 				<th>Location</th>
-					<th>Tamper Count</th>
+				<th>Tamper Count</th>
 				<th>Station Name</th>
 				<th>Division Name</th>
 				<th>Circle Name</th>
 				<th>Boundary Type</th>
 				<th>Device Type</th>
 				<th>Feeder Name</th>
-                 <th>Meter</th>
-			
+				<th>Meter</th>
+
 
 				</tr>
 			</thead>
@@ -93,31 +93,34 @@
 						href="javascript:window.location='getLocationTampers-${tamperDetails.locationMaster.locationId}?month=${monthOfReport}&year=${yearOfReport}'">
 
 							${tamperDetails.locationMaster.locationId} </a></td>
-                     <td>${tamperDetails.count}</td>
-					<td>${tamperDetails.locationMaster.substationMaster.divisionMaster.divisionname}</td>
+					<td>${tamperDetails.count}</td>
 
 					<td>${tamperDetails.locationMaster.substationMaster.stationName}</td>
-					<td>${tamperDetails.locationMaster.circleMaster.circleName} </td>
-					<td>${tamperDetails.locationMaster.boundaryTypeMaster.boundaryType} </td>
+					<td>${tamperDetails.locationMaster.substationMaster.divisionMaster.divisionname}</td>
+
+					<td>${tamperDetails.locationMaster.circleMaster.circleName}</td>
+					<td>${tamperDetails.locationMaster.boundaryTypeMaster.boundaryType}
+					</td>
 					<td>${tamperDetails.locationMaster.deviceTypeMaster.deviceType}</td>
 
 					<td>${tamperDetails.locationMaster.feederMaster.feederName}</td>
-                    <td>Meter
-						Location:${tamperDetails.locationMaster.feederMaster.feederName} 
-						${tamperDetails.locationMaster.locationId} <br>Meter Details(Sr No:
+					<td>Meter
+						Location:${tamperDetails.locationMaster.feederMaster.feederName}
+						${tamperDetails.locationMaster.locationId} <br>Meter
+						Details(Sr No:
 						${tamperDetails.locationMaster.meterMaster.meterSrNo})(Make:${tamperDetails.locationMaster.meterMaster.meterType})
 
 
 					</td>
-					
+
 				</tr>
-				
+
 			</c:forEach>
 			<tr>
-			<td><b><a
+				<td><b><a
 						href="javascript:window.location='getAllLocationTampers?month=${monthOfReport}&year=${yearOfReport}'">
 
-						All Locations</a></b></td>
+							All Locations</a></b></td>
 			</tr>
 		</table>
 

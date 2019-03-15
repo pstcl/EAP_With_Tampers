@@ -19,11 +19,10 @@ public interface MeterLocationMapDao {
 
 	void update(MeterLocationMap txn, EAUser user);
 
-	void save(List<MeterLocationMap> MeterLocationMaps, EAUser loggedInUser);
+
+	List<MeterLocationMap> getLocationByMeterAndDate(MeterMaster meterMaster, Date current);
 
 	MeterLocationMap findMeterLocationMapByDate(String locationId, Date current);
-
-	MeterLocationMap getLocationByMeterAndDate(MeterMaster meterMaster, Date current);
 
 
 	

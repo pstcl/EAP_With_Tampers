@@ -120,14 +120,35 @@ public class LossReportDaoImpl implements ILossReportDao {
 		.setProjection(Projections.projectionList().add(Projections.groupProperty("location"), "location")
 				.add(Projections.sum("exportWHF"), "exportWHFSum")
 				.add(Projections.sum("importWHF"), "importWHFSum")
+				.add(Projections.sum("exportBoundaryPtMWH"), "exportBoundaryPtMWH")
+				.add(Projections.sum("importBoundaryPtMWH"), "importBoundaryPtMWH")
 				.add(Projections.count("exportWHF"), "exportWHFCount")
 				.add(Projections.count("importWHF"), "importWHFCount")
 				)
 		.setResultTransformer(new LossReportEntityTransformer(LossReportEntity.class,daysCount)).list();
+		
+		@SuppressWarnings("unchecked")
+		LossReportEntity sumEntity = (LossReportEntity) criteria
+		.setProjection(Projections.projectionList().add(Projections.sum("exportWHF"), "exportWHFSum")
+				.add(Projections.sum("importWHF"), "importWHFSum")
+				.add(Projections.sum("exportBoundaryPtMWH"), "exportBoundaryPtMWH")
+				.add(Projections.sum("importBoundaryPtMWH"), "importBoundaryPtMWH")
+				.add(Projections.count("exportWHF"), "exportWHFCount")
+				.add(Projections.count("importWHF"), "importWHFCount")
+				)
+		.setResultTransformer(new LossReportEntityTransformer(LossReportEntity.class,daysCount)).uniqueResult();
+		
+		if (null!=results && null!=sumEntity)
+		{
+			results.add(sumEntity);
+		}
+		
+		
 		return results;
 	}
 
 
+	@Deprecated
 	@Override
 	@Transactional(value="sldcTxnManager")
 	public List<LossReportEntity> getLossReportEntries(String reportCriteria,Date startDate,Date endDate) {

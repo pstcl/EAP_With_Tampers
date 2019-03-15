@@ -27,6 +27,11 @@ public class EAUtil {
 	//Meter Reading multiplied by MF divided by 1000000
 	public static final int DECIMAL_PRECESION_BOUNDARY_PT_IMPORT_EXPORT=16;
 
+	
+	
+	public static final int DECIMAL_SCALE_MF=2;
+	public static final int DECIMAL_PRECESION_MF=14;
+	
 	public static final int DECIMAL_ROUNDING_MODE=BigDecimal.ROUND_HALF_UP;
 
 

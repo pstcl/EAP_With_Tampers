@@ -8,6 +8,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 import org.pstcl.ea.dao.IInstantRegistersDao;
 import org.pstcl.ea.dao.ILossReportDao;
@@ -29,40 +30,28 @@ public class LossReportService {
 
 	@Autowired
 	ILossReportDao lossReportDao;
-    @Autowired
-    ITamperLogDao tamperLogDao;
-	
+	@Autowired
+	ITamperLogDao tamperLogDao;
+
 	//tamper loss month year report 
 	public List<TamperDetailsProjectionEntity> getTamperDetailsProjectionReport(int month,int year){
 		Date startDate=DateUtil.startDateTimeForDailySurveyRecs(month, year);
 		Date endDate=DateUtil.endDateTimeForDailySurveyRecs(month, year);
 		return getTamperDetailsProjectionDateRangeReport(startDate, endDate);	
 	}
-	
+
 	//tamper loss date range report
 	public List<TamperDetailsProjectionEntity> getTamperDetailsProjectionDateRangeReport(Date startDate, Date endDate){
 		List<TamperDetailsProjectionEntity> results =  tamperLogDao.getTamperLogTransactionsCountByDateRange(startDate, endDate);
-	    return results;
+		return results;
 	}
-	
-	
-	public List<LossReportEntity> persistLossReport(int month, int year) {
-		Date startDate=DateUtil.startDateTimeForDailySurveyRecs(month, year);
-		Date endDate=DateUtil.endDateTimeForDailySurveyRecs(month, year);
 
 
-		List<LossReportEntity> dailySurveyTableProjections = lossReportDao.getDailyTransactionsProjection(null, startDate,
-				endDate);
-		for (LossReportEntity dailySurveyTableProjection : dailySurveyTableProjections) {
-			saveLossReportEntity(dailySurveyTableProjection);
-		}
-		return dailySurveyTableProjections;
-	}
 
 	public LossReportEntity saveLossReportEntity(LossReportEntity lossReportEntity)
 
 	{
-		calculateImportExport(lossReportEntity);
+		//calculateImportExport(lossReportEntity);
 		return lossReportEntity;
 	}
 
@@ -296,7 +285,7 @@ public class LossReportService {
 		dailyProjectionModel.setPointsCountDataAvailable(lossReportEntities.size()-dailyProjectionModel.getManualEntryLocations().size());
 		Collections.sort(lossReportEntities);
 		LossReportEntity sumEntity=getSumEntity( lossReportEntities);
-		lossReportEntities.add(sumEntity);
+		//lossReportEntities.add(sumEntity);
 		dailyProjectionModel.setSumEntity(sumEntity);
 
 		return dailyProjectionModel;
@@ -304,106 +293,118 @@ public class LossReportService {
 
 	private LossReportEntity getSumEntity(List<LossReportEntity> lossReportEntities)
 	{
-
-		for (LossReportEntity dailySurveyTableProjection : lossReportEntities) {
-			calculateImportExport(dailySurveyTableProjection);
-
-		}
-
-		LossReportEntity sumEntity = new LossReportEntity();
-		sumEntity.setExportBoundaryPtMWH(new BigDecimal(0));
-		sumEntity.setImportBoundaryPtMWH(new BigDecimal(0));
-
-
-//		BigDecimal sumExportWh = lossReportEntities.stream().map(LossReportEntity::getExportWHFSum)
-//				.filter(Objects::nonNull)
-//				.reduce(BigDecimal.ZERO, BigDecimal::add);
-//
-//		BigDecimal sumImportWh = lossReportEntities.stream().map(LossReportEntity::getImportWHFSum)
-//				.filter(Objects::nonNull)
-//				.reduce(BigDecimal.ZERO, BigDecimal::add);
-
-		BigDecimal sumExportMWHAtBoundary = lossReportEntities.stream()
-				.map(LossReportEntity::getExportBoundaryPtMWH)
-				.filter(Objects::nonNull)
-				.reduce(BigDecimal.ZERO, BigDecimal::add);
-
-		BigDecimal sumImportMWHAtBoundary = lossReportEntities.stream().map(LossReportEntity::getImportBoundaryPtMWH)
-				.filter(Objects::nonNull)
-				.reduce(BigDecimal.ZERO, BigDecimal::add);
-
-//		sumEntity.setExportWHFSum(sumExportWh);
-//		sumEntity.setImportWHFSum(sumImportWh);
-
-		sumEntity.setExportBoundaryPtMWH(sumExportMWHAtBoundary);
-		sumEntity.setImportBoundaryPtMWH(sumImportMWHAtBoundary);
-
-		return sumEntity;
-
+		LossReportEntity sumEntity=lossReportEntities.get(lossReportEntities.size()-1);
+		List<LossReportEntity> sumEntityList;
+		if(null==sumEntity.getLocation())
+			return sumEntity;
+		else
+			 sumEntityList = lossReportEntities.stream().filter(obj -> obj.getLocation()==null).collect(Collectors.toList());
+		
+		return sumEntityList.get(0);
 	}
+	//	private LossReportEntity getSumEntity(List<LossReportEntity> lossReportEntities)
+	//	{
+	//
+	//		for (LossReportEntity dailySurveyTableProjection : lossReportEntities) {
+	//			//calculateImportExport(dailySurveyTableProjection);
+	//
+	//		}
+	//
+	//		LossReportEntity sumEntity = new LossReportEntity();
+	//		sumEntity.setExportBoundaryPtMWH(new BigDecimal(0));
+	//		sumEntity.setImportBoundaryPtMWH(new BigDecimal(0));
+	//
+	//
+	//		//		BigDecimal sumExportWh = lossReportEntities.stream().map(LossReportEntity::getExportWHFSum)
+	//		//				.filter(Objects::nonNull)
+	//		//				.reduce(BigDecimal.ZERO, BigDecimal::add);
+	//		//
+	//		//		BigDecimal sumImportWh = lossReportEntities.stream().map(LossReportEntity::getImportWHFSum)
+	//		//				.filter(Objects::nonNull)
+	//		//				.reduce(BigDecimal.ZERO, BigDecimal::add);
+	//
+	//		BigDecimal sumExportMWHAtBoundary = lossReportEntities.stream()
+	//				.map(LossReportEntity::getExportBoundaryPtMWH)
+	//				.filter(Objects::nonNull)
+	//				.reduce(BigDecimal.ZERO, BigDecimal::add);
+	//
+	//		BigDecimal sumImportMWHAtBoundary = lossReportEntities.stream().map(LossReportEntity::getImportBoundaryPtMWH)
+	//				.filter(Objects::nonNull)
+	//				.reduce(BigDecimal.ZERO, BigDecimal::add);
+	//
+	//		//		sumEntity.setExportWHFSum(sumExportWh);
+	//		//		sumEntity.setImportWHFSum(sumImportWh);
+	//
+	//		sumEntity.setExportBoundaryPtMWH(sumExportMWHAtBoundary);
+	//		sumEntity.setImportBoundaryPtMWH(sumImportMWHAtBoundary);
+	//
+	//		return sumEntity;
+	//
+	//	}
 
 
 
-	private LossReportEntity calculateImportExport(LossReportEntity lossReportEntity) {
+	//	private LossReportEntity calculateImportExport(LossReportEntity lossReportEntity) {
+	//
+	//		if (null != lossReportEntity.getExportWHFSum() && null != lossReportEntity.getImportWHFSum()
+	//				&& null != lossReportEntity.getLocation()) {
+	//			if (null != lossReportEntity.getLocation().getNetWHSign()
+	//					&& null != lossReportEntity.getLocation().getExternalMF()) {
+	//
+	//				BigDecimal exportMeterReading = lossReportEntity.getExportWHFSum()
+	//						.multiply(lossReportEntity.getLocation().getExternalMF()).divide(new BigDecimal(1000 * 1000)).setScale(EAUtil.DECIMAL_SCALE_BOUNDARY_PT_IMPORT_EXPORT, EAUtil.DECIMAL_ROUNDING_MODE);
+	//				BigDecimal importMeterReading = lossReportEntity.getImportWHFSum()
+	//						.multiply(lossReportEntity.getLocation().getExternalMF()).divide(new BigDecimal(1000 * 1000)).setScale(EAUtil.DECIMAL_SCALE_BOUNDARY_PT_IMPORT_EXPORT, EAUtil.DECIMAL_ROUNDING_MODE);
+	//				// Export and Import are interchanged for G-T and I-T points in normal case i.e.
+	//				// when Net Wh Sign is -1
+	//				// Export and Import are interchanged for all other in normal case i.e. when Net
+	//				// Wh Sign is 1
+	//				// For G-T & I-T points the getInvertExportImportOnNegativeSign() returns TRUE
+	//				// else it returns false
+	//				// Else import goes to import and export goes to export
+	//				if (((lossReportEntity.getLocation().getNetWHSign().equals(-1)) && (lossReportEntity.getLocation()
+	//						.getBoundaryTypeMaster().getInvertExportImportOnNegativeSign()))
+	//						|| ((lossReportEntity.getLocation().getNetWHSign().equals(1)) && (!lossReportEntity
+	//								.getLocation().getBoundaryTypeMaster().getInvertExportImportOnNegativeSign()))) {
+	//
+	//					lossReportEntity.setExportBoundaryPtMWH(importMeterReading);
+	//					lossReportEntity.setImportBoundaryPtMWH(exportMeterReading);
+	//					lossReportEntity
+	//					.setBoundaryPtImportExportDifferenceMWH(exportMeterReading.subtract(importMeterReading)
+	//							.multiply(new BigDecimal(lossReportEntity.getLocation().getNetWHSign())));
+	//					lossReportEntity
+	//					.setNetMWH((lossReportEntity.getExportWHFSum().subtract(lossReportEntity.getImportWHFSum()))
+	//							.multiply(lossReportEntity.getLocation().getExternalMF())
+	//							.multiply(new BigDecimal(lossReportEntity.getLocation().getNetWHSign()))
+	//							.divide(new BigDecimal(1000 * 1000)).setScale(EAUtil.DECIMAL_SCALE_BOUNDARY_PT_IMPORT_EXPORT, EAUtil.DECIMAL_ROUNDING_MODE));
+	//				} else {
+	//
+	//					lossReportEntity.setExportBoundaryPtMWH(exportMeterReading);
+	//					lossReportEntity.setImportBoundaryPtMWH(importMeterReading);
+	//					lossReportEntity
+	//					.setBoundaryPtImportExportDifferenceMWH(exportMeterReading.subtract(importMeterReading)
+	//							.multiply(new BigDecimal(lossReportEntity.getLocation().getNetWHSign())));
+	//					lossReportEntity
+	//					.setNetMWH((lossReportEntity.getExportWHFSum ().subtract(lossReportEntity.getImportWHFSum()))
+	//							.multiply(lossReportEntity.getLocation().getExternalMF())
+	//							.multiply(new BigDecimal(lossReportEntity.getLocation().getNetWHSign()))
+	//							.divide(new BigDecimal(1000 * 1000)).setScale(EAUtil.DECIMAL_SCALE_BOUNDARY_PT_IMPORT_EXPORT, EAUtil.DECIMAL_ROUNDING_MODE));
+	//				}
+	//
+	//			}
+	//
+	//		}
+	//		return lossReportEntity;
+	//	}
+	//	
 
-		if (null != lossReportEntity.getExportWHFSum() && null != lossReportEntity.getImportWHFSum()
-				&& null != lossReportEntity.getLocation()) {
-			if (null != lossReportEntity.getLocation().getNetWHSign()
-					&& null != lossReportEntity.getLocation().getExternalMF()) {
 
-				BigDecimal exportMeterReading = lossReportEntity.getExportWHFSum()
-						.multiply(lossReportEntity.getLocation().getExternalMF()).divide(new BigDecimal(1000 * 1000)).setScale(EAUtil.DECIMAL_SCALE_BOUNDARY_PT_IMPORT_EXPORT, EAUtil.DECIMAL_ROUNDING_MODE);
-				BigDecimal importMeterReading = lossReportEntity.getImportWHFSum()
-						.multiply(lossReportEntity.getLocation().getExternalMF()).divide(new BigDecimal(1000 * 1000)).setScale(EAUtil.DECIMAL_SCALE_BOUNDARY_PT_IMPORT_EXPORT, EAUtil.DECIMAL_ROUNDING_MODE);
-				// Export and Import are interchanged for G-T and I-T points in normal case i.e.
-				// when Net Wh Sign is -1
-				// Export and Import are interchanged for all other in normal case i.e. when Net
-				// Wh Sign is 1
-				// For G-T & I-T points the getInvertExportImportOnNegativeSign() returns TRUE
-				// else it returns false
-				// Else import goes to import and export goes to export
-				if (((lossReportEntity.getLocation().getNetWHSign().equals(-1)) && (lossReportEntity.getLocation()
-						.getBoundaryTypeMaster().getInvertExportImportOnNegativeSign()))
-						|| ((lossReportEntity.getLocation().getNetWHSign().equals(1)) && (!lossReportEntity
-								.getLocation().getBoundaryTypeMaster().getInvertExportImportOnNegativeSign()))) {
-
-					lossReportEntity.setExportBoundaryPtMWH(importMeterReading);
-					lossReportEntity.setImportBoundaryPtMWH(exportMeterReading);
-					lossReportEntity
-					.setBoundaryPtImportExportDifferenceMWH(exportMeterReading.subtract(importMeterReading)
-							.multiply(new BigDecimal(lossReportEntity.getLocation().getNetWHSign())));
-					lossReportEntity
-					.setNetMWH((lossReportEntity.getExportWHFSum().subtract(lossReportEntity.getImportWHFSum()))
-							.multiply(lossReportEntity.getLocation().getExternalMF())
-							.multiply(new BigDecimal(lossReportEntity.getLocation().getNetWHSign()))
-							.divide(new BigDecimal(1000 * 1000)).setScale(EAUtil.DECIMAL_SCALE_BOUNDARY_PT_IMPORT_EXPORT, EAUtil.DECIMAL_ROUNDING_MODE));
-				} else {
-
-					lossReportEntity.setExportBoundaryPtMWH(exportMeterReading);
-					lossReportEntity.setImportBoundaryPtMWH(importMeterReading);
-					lossReportEntity
-					.setBoundaryPtImportExportDifferenceMWH(exportMeterReading.subtract(importMeterReading)
-							.multiply(new BigDecimal(lossReportEntity.getLocation().getNetWHSign())));
-					lossReportEntity
-					.setNetMWH((lossReportEntity.getExportWHFSum ().subtract(lossReportEntity.getImportWHFSum()))
-							.multiply(lossReportEntity.getLocation().getExternalMF())
-							.multiply(new BigDecimal(lossReportEntity.getLocation().getNetWHSign()))
-							.divide(new BigDecimal(1000 * 1000)).setScale(EAUtil.DECIMAL_SCALE_BOUNDARY_PT_IMPORT_EXPORT, EAUtil.DECIMAL_ROUNDING_MODE));
-				}
-
-			}
-
-		}
-		return lossReportEntity;
-	}
-	
-	
-	
 	@Autowired
 	IInstantRegistersDao instantRegistersDao;
-	public List<InstantRegisters> getIRDetails(String locationId,int month,int year){
-		List<InstantRegisters> ir = instantRegistersDao.findInstantRegistersByDayAndLocation(locationId, month, year);
-	    System.out.println(ir.size());
+
+
+	public InstantRegisters getIRDetails(String locationId,int month,int year){
+		InstantRegisters ir = instantRegistersDao.findInstantRegistersByDayAndLocation(locationId, month, year);
 		return ir;
 	}
 

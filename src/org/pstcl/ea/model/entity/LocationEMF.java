@@ -8,12 +8,18 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
+import org.pstcl.ea.util.EAUtil;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 @Table(name="location_mf_map")
-@NamedQuery(name="LocationMFMap.findAll", query="SELECT m FROM LocationMFMap m")
+@NamedQuery(name="LocationEMF.findAll", query="SELECT m FROM LocationEMF m")
 public class LocationEMF {
 	
 	
@@ -24,12 +30,17 @@ public class LocationEMF {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	int id;
 	
-	
+	@JsonIgnore
+	@ManyToOne 
+	@JoinColumn(name = "LOC_ID")
 	private LocationMaster locationMaster;
 	
-	@Column(precision=14,scale=2)
+	@Column(precision=EAUtil.DECIMAL_PRECESION_MF,scale=EAUtil.DECIMAL_SCALE_MF)
 	private BigDecimal externalMF;
 	
+
+	private Integer netWHSign;
+
 
 	private Date startDate;
 	private Date endDate;
@@ -68,6 +79,12 @@ public class LocationEMF {
 
 	public void setStartDate(Date startDate) {
 		this.startDate = startDate;
+	}
+	public Integer getNetWHSign() {
+		return netWHSign;
+	}
+	public void setNetWHSign(Integer netWHSign) {
+		this.netWHSign = netWHSign;
 	}
 	
 }

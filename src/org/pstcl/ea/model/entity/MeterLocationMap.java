@@ -7,6 +7,8 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
@@ -57,6 +59,16 @@ public class MeterLocationMap {
 	
 	private Date startDate;
 	private Date endDate;
+	
+	@JsonIgnore
+	@ManyToOne 
+	@JoinColumn(name = "LOC_ID")
 	private LocationMaster locationMaster;
+
+	//private LocationMaster locationMaster;
+
+	@JsonIgnore
+	@ManyToOne 
+	@JoinColumn(name = "METER_ID")
 	private MeterMaster meterMaster;
 }
