@@ -23,6 +23,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Repository("locationEMFRepository")
 public class LocationEMFDaoImpl implements ILocationEMFDao {
+	//emf
 
 	@Transactional(value="sldcTxnManager")
 	protected Session getSession(){

@@ -23,7 +23,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 
 public class MeterLocationMapDaoImp implements MeterLocationMapDao {
-
+//map
 	@Transactional(value="sldcTxnManager")
 	protected Session getSession(){
 
