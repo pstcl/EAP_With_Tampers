@@ -9,7 +9,7 @@ import org.pstcl.ea.model.entity.MeterMaster;
 
 public interface MeterLocationMapDao {
 
-	
+	//ss
 
 	MeterLocationMap findById(int id);
 

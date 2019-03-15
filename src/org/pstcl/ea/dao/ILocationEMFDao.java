@@ -8,6 +8,8 @@ import org.pstcl.ea.model.entity.LocationEMF;
 
 
 public interface ILocationEMFDao {
+	
+	//ss
 
 	LocationEMF findById(int id);
 
