@@ -192,8 +192,8 @@
 						<td>${lossReportEntity.location.meterMaster.meterSrNo}</td>
 
 						<td>${lossReportEntity.location.meterMaster.meterCategory}</td>
-						<td>${lossReportEntity.location.externalMF}</td>
-						<td>${lossReportEntity.location.netWHSign}</td>
+						<td>EMF </td>
+						<td>EMF</td>
 
 
 						<th style="text-align: right">${lossReportEntity.importWHFSum}</th>

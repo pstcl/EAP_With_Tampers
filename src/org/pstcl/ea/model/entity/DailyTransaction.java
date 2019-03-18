@@ -8,6 +8,7 @@ import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -38,73 +39,189 @@ public class DailyTransaction {
 //		   ...
 //		}
 	
+	@Column(precision = EAUtil.DECIMAL_PRECESION_BOUNDARY_PT_IMPORT_EXPORT, scale = EAUtil.DECIMAL_SCALE_BOUNDARY_PT_IMPORT_EXPORT)
+	private BigDecimal boundaryPtImportExportDifferenceMWH;
+
 	@Column
 	@CreationTimestamp
 	private Date createDateTime;
 
 	@Column private Double cumulativeNetWh;
+	
+	
 
 	@Column Integer dayOfMonth;
-
+	@Column(precision = EAUtil.DECIMAL_PRECESION_BOUNDARY_PT_IMPORT_EXPORT, scale = EAUtil.DECIMAL_SCALE_BOUNDARY_PT_IMPORT_EXPORT)
+	private BigDecimal exportBoundaryPtMWH;
 	@Column(precision=EAUtil.DECIMAL_PRECESION_DAILY_SURVEY_IMPORT_EXPORT,scale=EAUtil.DECIMAL_SCALE_DAILY_SURVEY_IMPORT_EXPORT)
 	private BigDecimal exportWHF;
+	
+	@Column(precision=EAUtil.DECIMAL_PRECESION_MF,scale=EAUtil.DECIMAL_SCALE_MF)
+	private BigDecimal externalMF;
+
+	@JsonIgnore
+	@ManyToOne (fetch=FetchType.LAZY)
+	@JoinColumn(name = "MF_MAP_ID")
+	private LocationEMF externalMFMap;
+
 	@Column private String fileName;
+
+	@Column private Integer netWHSign;
+
+	
+
+
+
+	@Column(precision = EAUtil.DECIMAL_PRECESION_BOUNDARY_PT_IMPORT_EXPORT, scale = EAUtil.DECIMAL_SCALE_BOUNDARY_PT_IMPORT_EXPORT)
+	private BigDecimal importBoundaryPtMWH;
+	
 	@Column(precision=EAUtil.DECIMAL_PRECESION_DAILY_SURVEY_IMPORT_EXPORT,scale=EAUtil.DECIMAL_SCALE_DAILY_SURVEY_IMPORT_EXPORT)
 	private BigDecimal importWHF;
+	
 	@JsonIgnore
 	@ManyToOne 
 	@JoinColumn(name = "LOC_ID")
 	private LocationMaster location;
 
+	@JsonIgnore
+	@ManyToOne 
+	@JoinColumn(name = "METER_ID")
+	private MeterMaster meter;
+	
+
+
+	@JsonIgnore
+	@ManyToOne (fetch=FetchType.LAZY)
+	@JoinColumn(name = "METER_LOC_MAP_ID")
+	private MeterLocationMap meterLocationMap;
+
+
 
 	@Column Integer monthOfYear;
 
+
+
+	@Column(precision = EAUtil.DECIMAL_PRECESION_BOUNDARY_PT_IMPORT_EXPORT, scale = EAUtil.DECIMAL_SCALE_BOUNDARY_PT_IMPORT_EXPORT)
+	private BigDecimal netMWH;
+
+
+
 	@Column private Integer recordNo;
-	
+
+
+
 	@Column private String remarks;
-	
-	
+
+
+
 	@DateTimeFormat(pattern = "dd/MM/yyyy")
 	@Column private Date transactionDate;
 
 
 
-
 	@Column
 	private Integer transactionStatus;
+
+
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	int txnId;
+
+
+
 	@Column
 	@UpdateTimestamp
 	private Date updateDateTime;
+
+
+
 	@Column Integer year;
+
+
+
+	public BigDecimal getBoundaryPtImportExportDifferenceMWH() {
+		return boundaryPtImportExportDifferenceMWH;
+	}
+
+
+
 	public Double getCumulativeNetWh() {
 		return cumulativeNetWh;
 	}
-	
-	
-	
-	//ADDED AFTER CMRI CHANGES
-	
+
+
+
 	public Integer getDayOfMonth() {
 		return dayOfMonth;
-	}	
+	}
+
+
+
+	public BigDecimal getExportBoundaryPtMWH() {
+		return exportBoundaryPtMWH;
+	}
+
+
+
 	public BigDecimal getExportWHF() {
 		return exportWHF;
-	}	
+	}
+
+
+
+	public BigDecimal getExternalMF() {
+		return externalMF;
+	}
+
+
+	public LocationEMF getExternalMFMap() {
+		return externalMFMap;
+	}
+	
 	public String getFileName() {
 		return fileName;
 	}
-	
+
+
+	public BigDecimal getImportBoundaryPtMWH() {
+		return importBoundaryPtMWH;
+	}
+
 	public BigDecimal getImportWHF() {
 		return importWHF;
 	}
+	
 	public LocationMaster getLocation() {
 		return location;
 	}
+	
+	
+	public MeterMaster getMeter() {
+		return meter;
+	}
+
+
+
+
+	public MeterLocationMap getMeterLocationMap() {
+		return meterLocationMap;
+	}
 	public Integer getMonthOfYear() {
 		return monthOfYear;
+	}
+	public BigDecimal getNetMWH() {
+		return netMWH;
+	}
+	
+	public Integer getNetWHSign() {
+		return netWHSign;
+	}
+
+
+
+	public void setNetWHSign(Integer netWHSign) {
+		this.netWHSign = netWHSign;
 	}
 	public Integer getRecordNo() {
 		return recordNo;
@@ -112,8 +229,38 @@ public class DailyTransaction {
 	public String getRemarks() {
 		return remarks;
 	}
+	
+	
+	
+	//ADDED AFTER CMRI CHANGES
+	
 	public Date getTransactionDate() {
 		return transactionDate;
+	}	
+	public Integer getTransactionStatus() {
+		return transactionStatus;
+	}	
+	public int getTxnId() {
+		return txnId;
+	}
+	
+	public Integer getYear() {
+		return year;
+	}
+	public void setBoundaryPtImportExportDifferenceMWH(BigDecimal boundaryPtImportExportDifferenceMWH) {
+		this.boundaryPtImportExportDifferenceMWH = boundaryPtImportExportDifferenceMWH;
+	}
+	public void setCumulativeNetWh(Double cumulativeNetWh) {
+		this.cumulativeNetWh = cumulativeNetWh;
+	}
+	public void setDayOfMonth(Integer dayOfMonth) {
+		this.dayOfMonth = dayOfMonth;
+	}
+	public void setExportBoundaryPtMWH(BigDecimal exportBoundaryPtMWH) {
+		this.exportBoundaryPtMWH = exportBoundaryPtMWH;
+	}
+	public void setExportWHF(BigDecimal exportWHF) {
+		this.exportWHF = exportWHF;
 	}
 	
 	//ADDED AFTER CMRI CHANGES
@@ -138,49 +285,49 @@ public class DailyTransaction {
 	
 	
 
-	public Integer getTransactionStatus() {
-		return transactionStatus;
+	public void setExternalMF(BigDecimal externalMF) {
+		this.externalMF = externalMF;
 	}
 
 	
 
-	public int getTxnId() {
-		return txnId;
+	public void setExternalMFMap(LocationEMF externalMFMap) {
+		this.externalMFMap = externalMFMap;
 	}
 
-	public Integer getYear() {
-		return year;
-	}
-
-	
-	
-	public void setCumulativeNetWh(Double cumulativeNetWh) {
-		this.cumulativeNetWh = cumulativeNetWh;
-	}
-	public void setDayOfMonth(Integer dayOfMonth) {
-		this.dayOfMonth = dayOfMonth;
-	}
-
-
-
-
-
-
-	public void setExportWHF(BigDecimal exportWHF) {
-		this.exportWHF = exportWHF;
-	}
 	public void setFileName(String fileName) {
 		this.fileName = fileName;
+	}
+
+	
+	
+	public void setImportBoundaryPtMWH(BigDecimal importBoundaryPtMWH) {
+		this.importBoundaryPtMWH = importBoundaryPtMWH;
 	}
 	public void setImportWHF(BigDecimal importWHF) {
 		this.importWHF = importWHF;
 	}
+
+
+
+
+
+
 	public void setLocation(LocationMaster location) {
 		this.location = location;
 	}
-	
+	public void setMeter(MeterMaster meter) {
+		this.meter = meter;
+	}
+	public void setMeterLocationMap(MeterLocationMap meterLocationMap) {
+		this.meterLocationMap = meterLocationMap;
+	}
 	public void setMonthOfYear(Integer monthOfYear) {
 		this.monthOfYear = monthOfYear;
+	}
+	
+	public void setNetMWH(BigDecimal netMWH) {
+		this.netMWH = netMWH;
 	}
 	public void setRecordNo(Integer recordNo) {
 		this.recordNo = recordNo;

@@ -21,8 +21,8 @@ public class LocationMaster implements Serializable {
 	
 	
 	
-	@Column(precision=14,scale=2)
-	private BigDecimal externalMF;
+	//@Column(precision=14,scale=2)
+	//private BigDecimal externalMF;
 	private String externalPTRation;
 	private String externalCTRation;
 	
@@ -72,7 +72,7 @@ public class LocationMaster implements Serializable {
 	private String lossReportCriteria;
 	private Integer lossReportInclusion;
 
-	private Integer netWHSign;
+	//private Integer netWHSign;
 	private Integer lossReportOrder;
 
 
@@ -286,14 +286,14 @@ public class LocationMaster implements Serializable {
 		this.voltageLevel = voltageLevel;
 	}
 
-	@Column
-	public Integer getNetWHSign() {
-		return netWHSign;
-	}
-
-	public void setNetWHSign(Integer netWHSign) {
-		this.netWHSign = netWHSign;
-	}
+//	@Column
+//	public Integer getNetWHSign() {
+//		return netWHSign;
+//	}
+//
+//	public void setNetWHSign(Integer netWHSign) {
+//		this.netWHSign = netWHSign;
+//	}
 
 	@Column
 	public Integer getLossReportOrder() {
@@ -305,12 +305,12 @@ public class LocationMaster implements Serializable {
 	}
 
 	
-	public BigDecimal getExternalMF() {
-		return externalMF;
-	}
-
-	public void setExternalMF(BigDecimal externalMF) {
-		this.externalMF = externalMF;
-	}
+//	public BigDecimal getExternalMF() {
+//		return externalMF;
+//	}
+//
+//	public void setExternalMF(BigDecimal externalMF) {
+//		this.externalMF = externalMF;
+//	}
 
 }

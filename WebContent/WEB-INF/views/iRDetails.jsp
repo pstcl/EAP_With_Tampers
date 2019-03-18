@@ -56,6 +56,11 @@
 						<th>Serial No</th>
 						<th>Date</th>
 						<th>Location Id</th>
+
+						<th>Station Name</th>
+						<th>Division Name</th>
+						<th>Circle Name</th>
+
 						<th>Phase A Voltage</th>
 						<th>Phase B Voltage</th>
 						<th>Phase C Voltage</th>
@@ -76,6 +81,14 @@
 							href="javascript:window.location='getLocationInstantRegisters-${irDetail.location.locationId }?month=${monthOfReport}&year=${yearOfReport}'">
 
 								${irDetail.location.locationId } </a></td>
+
+						<td>${irDetail.location.meterMaster.meterSrNo}</td>
+
+
+						<td>${irDetail.location.substationMaster.stationName}</td>
+						<td>${irDetail.location.substationMaster.divisionMaster.divisionname}</td>
+
+						<td>${irDetail.location.circleMaster.circleName}</td>
 						<td>${irDetail.phaseAVoltage }</td>
 						<td>${irDetail.phaseBVoltage }</td>
 						<td>${irDetail.phaseCVoltage }</td>

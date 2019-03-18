@@ -150,7 +150,7 @@ public class InstantRegistersDaoImpl implements IInstantRegistersDao{
 
 	@Override
 	@Transactional(value="sldcTxnManager")
-	public List<InstantRegisters> findInstantRegistersByDayAndLocation(String locationid, Integer month,Integer year) {
+	public InstantRegisters findInstantRegistersByDayAndLocation(String locationid, Integer month,Integer year) {
 		
 		Date startDate=DateUtil.startDateTimeForDailySurveyRecs(month, year);
 		Date endDate=DateUtil.endDateTimeForDailySurveyRecs(month, year);
@@ -163,7 +163,7 @@ public class InstantRegistersDaoImpl implements IInstantRegistersDao{
 		System.out.println(endDate);
 		crit.add(Restrictions.ge("transactionDate",startDate));
 		crit.add(Restrictions.le("transactionDate",endDate));
-		List<InstantRegisters> ir = crit.list();
+		InstantRegisters ir = (InstantRegisters) crit.uniqueResult();
 		return ir;
 	}
 }

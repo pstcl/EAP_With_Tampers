@@ -1,7 +1,7 @@
 package org.pstcl.ea.controller;
 
 import org.pstcl.ea.model.FileModel;
-import org.pstcl.ea.service.impl.LossReportService;
+import org.pstcl.ea.service.impl.IlossReportService;
 import org.pstcl.ea.service.impl.SubstationDataServiceImpl;
 import org.pstcl.ea.service.impl.UploadingService;
 import org.pstcl.ea.service.impl.parallel.DataService;
@@ -32,7 +32,7 @@ public class SLDCUserController {
 	private SubstationDataServiceImpl substationDataServiceImpl;
 
     @Autowired
-    private LossReportService lossReportService;
+    private IlossReportService lossReportService;
 
 
 

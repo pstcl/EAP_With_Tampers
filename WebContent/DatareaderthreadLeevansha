@@ -1,0 +1,27 @@
+							Date endDateEmf=null;
+							Date endDateLoc=null;
+							Date current=null;
+							MeterLocationMap mtrLocMap = null;
+							LocationEMF locEmf = null;
+							LocationMaster location=null;
+							BigDecimal emf = null;
+
+							current = dailyTransaction.getTransactionDate();
+							if(endDateLoc!=null || endDateLoc == current)
+							{
+								mtrLocMap = mtrLocDao.getLocationByMeterAndDate(fileDetails.getMeterMaster(), current);
+								endDateLoc=mtrLocMap.getEndDate();
+								location=mtrLocMap.getLocationMaster();
+							}
+							dailyTransaction.setLocation(location);
+							dailyTransaction.setMeterLocationMap(mtrLocMap);
+
+							if(endDateEmf==null || endDateEmf==current) {
+								locEmf = locEmfDao.findLocationEmfByDate(location.getLocationId(), current);
+								endDateEmf=locEmf.getEndDate();
+								emf=locEmf.getExternalMF();
+							}
+							dailyTransaction.setExternalMFMap(locEmf);
+							dailyTransaction.setExternalMF(emf);
+							dailyTransaction.setNetWHSign(locEmf.getNetWHSign());
+							dailyTransaction = calculateImportExport(dailyTransaction);

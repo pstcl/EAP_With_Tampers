@@ -25,8 +25,8 @@ import org.pstcl.ea.util.EAUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-@Service("lossReportService")
-public class LossReportService implements IlossReportService {
+//@Service("lossReportService")
+public class LossReportService2 implements IlossReportService {
 
 	@Autowired
 	ILossReportDao lossReportDao;
@@ -159,11 +159,11 @@ public class LossReportService implements IlossReportService {
 		LossReportEntity sumEntityGT= map.get(EAUtil.LOSS_REPORT_CRITERIA_G_T).getSumEntity();
 		LossReportEntity sumEntityIT= map.get(EAUtil.LOSS_REPORT_CRITERIA_I_T_).getSumEntity();
 
-		sumImportITGT=sumImportITGT.add(sumEntityGT.getImportBoundaryPtMWH()!=null?  sumEntityGT.getImportBoundaryPtMWH():new BigDecimal(0));
-		sumImportITGT=sumImportITGT.add(sumEntityIT.getImportBoundaryPtMWH()!=null?  sumEntityIT.getImportBoundaryPtMWH():new BigDecimal(0));
+		sumImportITGT=sumImportITGT.add(sumEntityGT.getImportBoundaryPtMWH());
+		sumImportITGT=sumImportITGT.add(sumEntityIT.getImportBoundaryPtMWH());
 
-		sumExportITGT=sumExportITGT.add(sumEntityGT.getExportBoundaryPtMWH()!=null?  sumEntityGT.getExportBoundaryPtMWH():new BigDecimal(0));
-		sumExportITGT=sumExportITGT.add(sumEntityIT.getExportBoundaryPtMWH()!=null?  sumEntityIT.getExportBoundaryPtMWH():new BigDecimal(0));
+		sumExportITGT=sumExportITGT.add(sumEntityGT.getExportBoundaryPtMWH());
+		sumExportITGT=sumExportITGT.add(sumEntityIT.getExportBoundaryPtMWH());
 
 
 		entity.setExportBoundaryPtMWH(sumExportITGT);
@@ -211,19 +211,21 @@ public class LossReportService implements IlossReportService {
 		LossReportEntity sumEntityTDInpen= modelEntityTDInpen.getSumEntity();
 
 
-		sumImportTD=sumImportTD.add(sumEntityTD132_11.getImportBoundaryPtMWH()!=null?sumEntityTD132_11.getImportBoundaryPtMWH():new BigDecimal(0));
-		sumImportTD=sumImportTD.add(sumEntityTD132_33.getImportBoundaryPtMWH()!=null?   sumEntityTD132_33.getImportBoundaryPtMWH():new BigDecimal(0) );
-		sumImportTD=sumImportTD.add(sumEntityTD132_66.getImportBoundaryPtMWH()   !=null?sumEntityTD132_66.getImportBoundaryPtMWH():new BigDecimal(0) );
-		sumImportTD=sumImportTD.add(sumEntityTD220_66.getImportBoundaryPtMWH()!=null?   sumEntityTD220_66.getImportBoundaryPtMWH():new BigDecimal(0) );
-		sumImportTD=sumImportTD.add(sumEntityTDInpen.getImportBoundaryPtMWH() !=null?   sumEntityTDInpen.getImportBoundaryPtMWH() : new BigDecimal(0));
+		sumImportTD=sumImportTD.add(sumEntityTD132_11.getImportBoundaryPtMWH());
+		sumImportTD=sumImportTD.add(sumEntityTD132_33.getImportBoundaryPtMWH());
+		sumImportTD=sumImportTD.add(sumEntityTD132_66.getImportBoundaryPtMWH());
+		sumImportTD=sumImportTD.add(sumEntityTD220_66.getImportBoundaryPtMWH());
+		sumImportTD=sumImportTD.add(sumEntityTDInpen.getImportBoundaryPtMWH());
 
 
 
-		sumExportTD=sumExportTD.add(sumEntityTD132_11.getExportBoundaryPtMWH()!=null?sumEntityTD132_11.getExportBoundaryPtMWH():new BigDecimal(0));
-		sumExportTD=sumExportTD.add(sumEntityTD132_33.getExportBoundaryPtMWH()!=null?   sumEntityTD132_33.getExportBoundaryPtMWH():new BigDecimal(0) );
-		sumExportTD=sumExportTD.add(sumEntityTD132_66.getExportBoundaryPtMWH()   !=null?sumEntityTD132_66.getExportBoundaryPtMWH():new BigDecimal(0) );
-		sumExportTD=sumExportTD.add(sumEntityTD220_66.getExportBoundaryPtMWH()!=null?   sumEntityTD220_66.getExportBoundaryPtMWH():new BigDecimal(0) );
-		sumExportTD=sumExportTD.add(sumEntityTDInpen.getExportBoundaryPtMWH() !=null?   sumEntityTDInpen.getExportBoundaryPtMWH() : new BigDecimal(0));
+
+		sumExportTD=sumExportTD.add(sumEntityTD132_11.getExportBoundaryPtMWH());
+		sumExportTD=sumExportTD.add(sumEntityTD132_33.getExportBoundaryPtMWH());
+		sumExportTD=sumExportTD.add(sumEntityTD132_66.getExportBoundaryPtMWH());
+		sumExportTD=sumExportTD.add(sumEntityTD220_66.getExportBoundaryPtMWH());
+		sumExportTD=sumExportTD.add(sumEntityTDInpen.getExportBoundaryPtMWH());
+
 
 
 
@@ -312,108 +314,12 @@ public class LossReportService implements IlossReportService {
 		Collections.sort(lossReportEntities);
 		LossReportEntity sumEntity=lossReportDao.getDailyTransactionsProjectionSumEntity(reportType, startDate, endDate);
 		//lossReportEntities.add(sumEntity);
-			lossReportEntities.add(sumEntity);
 		dailyProjectionModel.setSumEntity(sumEntity);
 
 		return dailyProjectionModel;
 	}
 
-		//	private LossReportEntity getSumEntity(List<LossReportEntity> lossReportEntities)
-	//	{
-	//
-	//		for (LossReportEntity dailySurveyTableProjection : lossReportEntities) {
-	//			//calculateImportExport(dailySurveyTableProjection);
-	//
-	//		}
-	//
-	//		LossReportEntity sumEntity = new LossReportEntity();
-	//		sumEntity.setExportBoundaryPtMWH(new BigDecimal(0));
-	//		sumEntity.setImportBoundaryPtMWH(new BigDecimal(0));
-	//
-	//
-	//		//		BigDecimal sumExportWh = lossReportEntities.stream().map(LossReportEntity::getExportWHFSum)
-	//		//				.filter(Objects::nonNull)
-	//		//				.reduce(BigDecimal.ZERO, BigDecimal::add);
-	//		//
-	//		//		BigDecimal sumImportWh = lossReportEntities.stream().map(LossReportEntity::getImportWHFSum)
-	//		//				.filter(Objects::nonNull)
-	//		//				.reduce(BigDecimal.ZERO, BigDecimal::add);
-	//
-	//		BigDecimal sumExportMWHAtBoundary = lossReportEntities.stream()
-	//				.map(LossReportEntity::getExportBoundaryPtMWH)
-	//				.filter(Objects::nonNull)
-	//				.reduce(BigDecimal.ZERO, BigDecimal::add);
-	//
-	//		BigDecimal sumImportMWHAtBoundary = lossReportEntities.stream().map(LossReportEntity::getImportBoundaryPtMWH)
-	//				.filter(Objects::nonNull)
-	//				.reduce(BigDecimal.ZERO, BigDecimal::add);
-	//
-	//		//		sumEntity.setExportWHFSum(sumExportWh);
-	//		//		sumEntity.setImportWHFSum(sumImportWh);
-	//
-	//		sumEntity.setExportBoundaryPtMWH(sumExportMWHAtBoundary);
-	//		sumEntity.setImportBoundaryPtMWH(sumImportMWHAtBoundary);
-	//
-	//		return sumEntity;
-	//
-	//	}
-
-
-
-	//	private LossReportEntity calculateImportExport(LossReportEntity lossReportEntity) {
-	//
-	//		if (null != lossReportEntity.getExportWHFSum() && null != lossReportEntity.getImportWHFSum()
-	//				&& null != lossReportEntity.getLocation()) {
-	//			if (null != lossReportEntity.getLocation().getNetWHSign()
-	//					&& null != lossReportEntity.getLocation().getExternalMF()) {
-	//
-	//				BigDecimal exportMeterReading = lossReportEntity.getExportWHFSum()
-	//						.multiply(lossReportEntity.getLocation().getExternalMF()).divide(new BigDecimal(1000 * 1000)).setScale(EAUtil.DECIMAL_SCALE_BOUNDARY_PT_IMPORT_EXPORT, EAUtil.DECIMAL_ROUNDING_MODE);
-	//				BigDecimal importMeterReading = lossReportEntity.getImportWHFSum()
-	//						.multiply(lossReportEntity.getLocation().getExternalMF()).divide(new BigDecimal(1000 * 1000)).setScale(EAUtil.DECIMAL_SCALE_BOUNDARY_PT_IMPORT_EXPORT, EAUtil.DECIMAL_ROUNDING_MODE);
-	//				// Export and Import are interchanged for G-T and I-T points in normal case i.e.
-	//				// when Net Wh Sign is -1
-	//				// Export and Import are interchanged for all other in normal case i.e. when Net
-	//				// Wh Sign is 1
-	//				// For G-T & I-T points the getInvertExportImportOnNegativeSign() returns TRUE
-	//				// else it returns false
-	//				// Else import goes to import and export goes to export
-	//				if (((lossReportEntity.getLocation().getNetWHSign().equals(-1)) && (lossReportEntity.getLocation()
-	//						.getBoundaryTypeMaster().getInvertExportImportOnNegativeSign()))
-	//						|| ((lossReportEntity.getLocation().getNetWHSign().equals(1)) && (!lossReportEntity
-	//								.getLocation().getBoundaryTypeMaster().getInvertExportImportOnNegativeSign()))) {
-	//
-	//					lossReportEntity.setExportBoundaryPtMWH(importMeterReading);
-	//					lossReportEntity.setImportBoundaryPtMWH(exportMeterReading);
-	//					lossReportEntity
-	//					.setBoundaryPtImportExportDifferenceMWH(exportMeterReading.subtract(importMeterReading)
-	//							.multiply(new BigDecimal(lossReportEntity.getLocation().getNetWHSign())));
-	//					lossReportEntity
-	//					.setNetMWH((lossReportEntity.getExportWHFSum().subtract(lossReportEntity.getImportWHFSum()))
-	//							.multiply(lossReportEntity.getLocation().getExternalMF())
-	//							.multiply(new BigDecimal(lossReportEntity.getLocation().getNetWHSign()))
-	//							.divide(new BigDecimal(1000 * 1000)).setScale(EAUtil.DECIMAL_SCALE_BOUNDARY_PT_IMPORT_EXPORT, EAUtil.DECIMAL_ROUNDING_MODE));
-	//				} else {
-	//
-	//					lossReportEntity.setExportBoundaryPtMWH(exportMeterReading);
-	//					lossReportEntity.setImportBoundaryPtMWH(importMeterReading);
-	//					lossReportEntity
-	//					.setBoundaryPtImportExportDifferenceMWH(exportMeterReading.subtract(importMeterReading)
-	//							.multiply(new BigDecimal(lossReportEntity.getLocation().getNetWHSign())));
-	//					lossReportEntity
-	//					.setNetMWH((lossReportEntity.getExportWHFSum ().subtract(lossReportEntity.getImportWHFSum()))
-	//							.multiply(lossReportEntity.getLocation().getExternalMF())
-	//							.multiply(new BigDecimal(lossReportEntity.getLocation().getNetWHSign()))
-	//							.divide(new BigDecimal(1000 * 1000)).setScale(EAUtil.DECIMAL_SCALE_BOUNDARY_PT_IMPORT_EXPORT, EAUtil.DECIMAL_ROUNDING_MODE));
-	//				}
-	//
-	//			}
-	//
-	//		}
-	//		return lossReportEntity;
-	//	}
-	//	
-
+	
 
 	@Autowired
 	IInstantRegistersDao instantRegistersDao;

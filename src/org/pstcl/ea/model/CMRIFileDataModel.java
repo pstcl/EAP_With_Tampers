@@ -10,7 +10,7 @@ import org.pstcl.ea.model.entity.LocationMaster;
 import org.pstcl.ea.model.entity.TamperLogTransaction;
 
 public class CMRIFileDataModel {
-	private List<InstantRegisters> instantRegistersDetails;
+	private InstantRegisters instantRegistersDetails;
 	
 	private LocationMaster locationMaster;
 	
@@ -44,10 +44,10 @@ public class CMRIFileDataModel {
 	public void setTamperLogs(List<TamperLogTransaction> tamperLogs) {
 		this.tamperLogs = tamperLogs;
 	}
-	public List<InstantRegisters> getInstantRegistersDetails() {
+	public InstantRegisters getInstantRegistersDetails() {
 		return instantRegistersDetails;
 	}
-	public void setInstantRegistersDetails(List<InstantRegisters> instantRegistersDetails) {
+	public void setInstantRegistersDetails(InstantRegisters instantRegistersDetails) {
 		this.instantRegistersDetails = instantRegistersDetails;
 	}
 	private FileMaster fileMaster;

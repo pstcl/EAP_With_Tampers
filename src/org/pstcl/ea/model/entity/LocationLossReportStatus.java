@@ -12,8 +12,8 @@ import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="location_mf_map")
-@NamedQuery(name="LocationMFMap.findAll", query="SELECT m FROM LocationMFMap m")
+@Table(name="LOSS_REPORT_LOCATIONS")
+@NamedQuery(name="LocationLossReportStatus.findAll", query="SELECT m FROM LocationLossReportStatus m")
 public class LocationLossReportStatus {
 	
 	
