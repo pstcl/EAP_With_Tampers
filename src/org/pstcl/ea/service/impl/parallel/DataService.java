@@ -20,7 +20,7 @@ import org.pstcl.ea.model.entity.LossReportEntity;
 import org.pstcl.ea.model.entity.MeterMaster;
 import org.pstcl.ea.model.entity.TamperLogTransaction;
 import org.pstcl.ea.service.impl.EnergyAccountsService;
-import org.pstcl.ea.service.impl.LossReportService;
+import org.pstcl.ea.service.impl.IlossReportService;
 import org.pstcl.ea.util.DateUtil;
 import org.pstcl.ea.util.EAUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -306,7 +306,7 @@ public class DataService extends EnergyAccountsService{
 
 
 	@Autowired
-	LossReportService lossReportService;
+	IlossReportService lossReportService;
 
 	public LocationSurveyDataModel getReportTransactions(String locationId, int month, int year) {
 

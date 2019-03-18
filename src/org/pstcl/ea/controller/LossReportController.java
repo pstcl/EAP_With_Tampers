@@ -1,6 +1,6 @@
 package org.pstcl.ea.controller;
 
-import org.pstcl.ea.service.impl.LossReportService;
+import org.pstcl.ea.service.impl.IlossReportService;
 import org.pstcl.ea.util.DateUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -16,7 +16,7 @@ public class LossReportController {
 	
 
 	@Autowired
-	private LossReportService lossReportService;
+	private IlossReportService lossReportService;
 	
 	@PreAuthorize("hasRole('ROLE_SLDC_USER') or hasRole('ROLE_SLDC_ADMIN')")
 	@RequestMapping(value = "/getReport", method = RequestMethod.GET)

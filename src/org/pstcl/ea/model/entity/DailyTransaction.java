@@ -47,6 +47,8 @@ public class DailyTransaction {
 	private Date createDateTime;
 
 	@Column private Double cumulativeNetWh;
+	
+	
 
 	@Column Integer dayOfMonth;
 	@Column(precision = EAUtil.DECIMAL_PRECESION_BOUNDARY_PT_IMPORT_EXPORT, scale = EAUtil.DECIMAL_SCALE_BOUNDARY_PT_IMPORT_EXPORT)

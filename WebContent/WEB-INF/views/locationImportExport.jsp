@@ -119,6 +119,11 @@
 							<th>Date Time of Reading</th>
 							<th>Import (Watt-hour)</th>
 							<th>Export(Watt-hour)</th>
+							<th>Import (MWH)</th>
+							<th>Export(MWH)</th>
+							<th>Difference</th>
+							<th>Net Sign</th>
+							<th>External MF</th>
 							<th>Remarks</th>
 						</tr>
 					</thead>
@@ -135,56 +140,62 @@
 									</c:if></td>
 							<td>${dailyTransactionForMeter.importWHF}</td>
 							<td>${dailyTransactionForMeter.exportWHF}</td>
+							<td>${dailyTransactionForMeter.exportBoundaryPtMWH }</td>
+							<td>${dailyTransactionForMeter.importBoundaryPtMWH}</td>
+							<td>${dailyTransactionForMeter.boundaryPtImportExportDifferenceMWH}</td>
+
+							<td>${dailyTransactionForMeter.netWHSign }</td>
+							<td>${dailyTransactionForMeter.externalMF}</td>
 							<td>${dailyTransactionForMeter.remarks}</td>
 					</c:forEach>
 				</table>
 			</div>
 		</div>
-<!-- 		<div class="col"> -->
-<!-- 			<div id="tamperTxnTable_wrapper" class="table-responsive "> -->
+		<!-- 		<div class="col"> -->
+		<!-- 			<div id="tamperTxnTable_wrapper" class="table-responsive "> -->
 
 
-<!-- 				table for temper log start  -->
-<!-- 				<table id="tamperTxnTable" -->
-<!-- 					class="table table-striped table-bordered table-hover"> -->
+		<!-- 				table for temper log start  -->
+		<!-- 				<table id="tamperTxnTable" -->
+		<!-- 					class="table table-striped table-bordered table-hover"> -->
 
-<!-- 					<thead> -->
+		<!-- 					<thead> -->
 
 
-<!-- 						<tr> -->
-<!-- 							<th>Date Time</th> -->
-<!-- 							<th>Import (Watt-hour)</th> -->
-<!-- 							<th>Export(Watt-hour)</th> -->
-<!-- 							<th>Tamper Count</th> -->
-<!-- 							<th>Tamper Duration</th> -->
-<!-- 							<th>Tamper Type</th> -->
-<!-- 							<th>Record No</th> -->
-<!-- 							<th>Record Status</th> -->
-<!-- 						</tr> -->
-<!-- 					</thead> -->
+		<!-- 						<tr> -->
+		<!-- 							<th>Date Time</th> -->
+		<!-- 							<th>Import (Watt-hour)</th> -->
+		<!-- 							<th>Export(Watt-hour)</th> -->
+		<!-- 							<th>Tamper Count</th> -->
+		<!-- 							<th>Tamper Duration</th> -->
+		<!-- 							<th>Tamper Type</th> -->
+		<!-- 							<th>Record No</th> -->
+		<!-- 							<th>Record Status</th> -->
+		<!-- 						</tr> -->
+		<!-- 					</thead> -->
 
-<%-- 					<c:forEach items="${locationSurveyDataModel.tamperLogTransactions}" --%>
-<%-- 						var="tamperLogForMeter" varStatus="indexStatus"> --%>
+		<%-- 					<c:forEach items="${locationSurveyDataModel.tamperLogTransactions}" --%>
+		<%-- 						var="tamperLogForMeter" varStatus="indexStatus"> --%>
 
-<!-- 						<tr> -->
-<%-- 							<td><fmt:formatDate --%>
-<%-- 									value="${tamperLogForMeter.transactionDate}" --%>
-<%-- 									pattern="dd/MM/yyyy HH:mm:ss" /> <c:if --%>
-<%-- 									test="${ tamperLogForMeter.transactionDate == null}"> --%>
-<!-- 									TOTAL -->
-<%-- 									</c:if></td> --%>
-<%-- 							<td>${tamperLogForMeter.impWh}</td> --%>
-<%-- 							<td>${tamperLogForMeter.expWh}</td> --%>
-<%-- 							<td>${tamperLogForMeter.tamperCount}</td> --%>
-<%-- 							<td>${tamperLogForMeter.tamperDuration}</td> --%>
-<%-- 							<td>${tamperLogForMeter.tamperType}</td> --%>
-<%-- 							<td>${tamperLogForMeter.recordNo}</td> --%>
-<%-- 							<td>${tamperLogForMeter.recordStatus}</td> --%>
-<%-- 					</c:forEach> --%>
-<!-- 				</table> -->
-<!-- 			</div> -->
-			<!--table for temper log end  -->
-<!-- 		</div> -->
+		<!-- 						<tr> -->
+		<%-- 							<td><fmt:formatDate --%>
+		<%-- 									value="${tamperLogForMeter.transactionDate}" --%>
+		<%-- 									pattern="dd/MM/yyyy HH:mm:ss" /> <c:if --%>
+		<%-- 									test="${ tamperLogForMeter.transactionDate == null}"> --%>
+		<!-- 									TOTAL -->
+		<%-- 									</c:if></td> --%>
+		<%-- 							<td>${tamperLogForMeter.impWh}</td> --%>
+		<%-- 							<td>${tamperLogForMeter.expWh}</td> --%>
+		<%-- 							<td>${tamperLogForMeter.tamperCount}</td> --%>
+		<%-- 							<td>${tamperLogForMeter.tamperDuration}</td> --%>
+		<%-- 							<td>${tamperLogForMeter.tamperType}</td> --%>
+		<%-- 							<td>${tamperLogForMeter.recordNo}</td> --%>
+		<%-- 							<td>${tamperLogForMeter.recordStatus}</td> --%>
+		<%-- 					</c:forEach> --%>
+		<!-- 				</table> -->
+		<!-- 			</div> -->
+		<!--table for temper log end  -->
+		<!-- 		</div> -->
 
 	</div>
 

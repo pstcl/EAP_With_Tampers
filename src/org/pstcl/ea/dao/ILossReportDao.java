@@ -13,7 +13,7 @@ public interface ILossReportDao {
 	
 	List<LossReportEntity> getDailyTransactionsProjection(String reportCriteria, Date startDate, Date endDate);
 
-	List<LossReportEntity> getLossReportEntries(String reportCriteria, Date startDate, Date endDate);
+	//List<LossReportEntity> getLossReportEntries(String reportCriteria, Date startDate, Date endDate);
 
 	List<LocationMaster> manualDailyEntryLocations(String reportCriteria, Date startDate, Date endDate);
 
@@ -23,6 +23,8 @@ public interface ILossReportDao {
 	
 	List<LocationMaster> findPendingLossReportLocations(Date startDate,Date endDate);
 	List<LocationMaster> findPendingLocations(EAFilter entity, Integer month, Integer year);
+
+	LossReportEntity getDailyTransactionsProjectionSumEntity(String reportType, Date startDate, Date endDate);
 
 
 }

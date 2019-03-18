@@ -97,13 +97,7 @@ public class LossReportDaoImpl implements ILossReportDao {
 	public List<LossReportEntity> getDailyTransactionsProjection(String reportCriteria,Date startDate,Date endDate) {
 		
 		Long daysCount=DateUtil.daysBetweenDates(startDate,endDate);
-		Criteria critLocationList = getSession().createCriteria(LocationMaster.class);
-		if(null!=reportCriteria)
-		{
-			critLocationList.add(Restrictions.eq("lossReportCriteria", reportCriteria));
-		}
-		critLocationList.setProjection(Projections.property("locationId"));
-		List <String> locationIdList=critLocationList.list();
+		List<String> locationIdList = getLocationListByCriteria(reportCriteria);
 		Session session = getSession();
 		Criteria criteria = session.createCriteria(DailyTransaction.class);
 		if(locationIdList!=null){
@@ -127,6 +121,27 @@ public class LossReportDaoImpl implements ILossReportDao {
 				)
 		.setResultTransformer(new LossReportEntityTransformer(LossReportEntity.class,daysCount)).list();
 		
+		return results;
+	}
+
+	@Override
+	@Transactional(value="sldcTxnManager")
+	public LossReportEntity getDailyTransactionsProjectionSumEntity(String reportCriteria,Date startDate,Date endDate) {
+		
+		Long daysCount=DateUtil.daysBetweenDates(startDate,endDate);
+		List<String> locationIdList = getLocationListByCriteria(reportCriteria);
+		Session session = getSession();
+		Criteria criteria = session.createCriteria(DailyTransaction.class);
+		if(locationIdList!=null){
+			if(locationIdList.size()>0)
+			{
+				criteria.add((Restrictions.in("location.locationId", locationIdList)));
+			}
+		}
+
+		criteria.add(Restrictions.ge("transactionDate",startDate));
+		criteria.add(Restrictions.le("transactionDate",endDate));
+		
 		@SuppressWarnings("unchecked")
 		LossReportEntity sumEntity = (LossReportEntity) criteria
 		.setProjection(Projections.projectionList().add(Projections.sum("exportWHF"), "exportWHFSum")
@@ -138,20 +153,11 @@ public class LossReportDaoImpl implements ILossReportDao {
 				)
 		.setResultTransformer(new LossReportEntityTransformer(LossReportEntity.class,daysCount)).uniqueResult();
 		
-		if (null!=results && null!=sumEntity)
-		{
-			results.add(sumEntity);
-		}
-		
-		
-		return results;
+		return sumEntity;
 	}
 
 
-	@Deprecated
-	@Override
-	@Transactional(value="sldcTxnManager")
-	public List<LossReportEntity> getLossReportEntries(String reportCriteria,Date startDate,Date endDate) {
+	private List<String> getLocationListByCriteria(String reportCriteria) {
 		Criteria critLocationList = getSession().createCriteria(LocationMaster.class);
 		if(null!=reportCriteria)
 		{
@@ -159,36 +165,51 @@ public class LossReportDaoImpl implements ILossReportDao {
 		}
 		critLocationList.setProjection(Projections.property("locationId"));
 		List <String> locationIdList=critLocationList.list();
-		Session session = getSession();
-		Criteria criteria = session.createCriteria(DailyTransaction.class);
-		if(locationIdList!=null){
-			if(locationIdList.size()>0)
-			{
-				criteria.add((Restrictions.in("location.locationId", locationIdList)));
-			}
-		}
-		criteria.add(Restrictions.ge("transactionDate",startDate));
-		criteria.add(Restrictions.le("transactionDate",endDate));
-		@SuppressWarnings("unchecked")
-		List<LossReportEntity> results = criteria
-		.setProjection(Projections.projectionList().add(Projections.groupProperty("location"), "location")
-				.add(Projections.sum("exportWHF"), "exportWHFSum")
-				.add(Projections.sum("importWHF"), "importWHFSum")
-				.add(Projections.count("exportWHF"), "exportWHFCount")
-				.add(Projections.count("importWHF"), "importWHFCount"))
-
-		.setResultTransformer(Transformers.aliasToBean(LossReportEntity.class)).list();
-
-
-		//		@SuppressWarnings("unchecked")
-		//		List<LossReportEntity> totalAll = criteria
-		//		.setProjection(Projections.projectionList()
-		//				.add(Projections.sum("exportWHF"), "exportWHFSum")
-		//				.add(Projections.sum("importWHF"), "importWHFSum"))
-		//		.setResultTransformer(Transformers.aliasToBean(LossReportEntity.class)).list();
-		//		results.addAll(totalAll);
-		return results;
+		return locationIdList;
 	}
+
+//
+//	@Deprecated
+//	@Override
+//	@Transactional(value="sldcTxnManager")
+//	public List<LossReportEntity> getLossReportEntries(String reportCriteria,Date startDate,Date endDate) {
+//		Criteria critLocationList = getSession().createCriteria(LocationMaster.class);
+//		if(null!=reportCriteria)
+//		{
+//			critLocationList.add(Restrictions.eq("lossReportCriteria", reportCriteria));
+//		}
+//		critLocationList.setProjection(Projections.property("locationId"));
+//		List <String> locationIdList=critLocationList.list();
+//		Session session = getSession();
+//		Criteria criteria = session.createCriteria(DailyTransaction.class);
+//		if(locationIdList!=null){
+//			if(locationIdList.size()>0)
+//			{
+//				criteria.add((Restrictions.in("location.locationId", locationIdList)));
+//			}
+//		}
+//		criteria.add(Restrictions.ge("transactionDate",startDate));
+//		criteria.add(Restrictions.le("transactionDate",endDate));
+//		@SuppressWarnings("unchecked")
+//		List<LossReportEntity> results = criteria
+//		.setProjection(Projections.projectionList().add(Projections.groupProperty("location"), "location")
+//				.add(Projections.sum("exportWHF"), "exportWHFSum")
+//				.add(Projections.sum("importWHF"), "importWHFSum")
+//				.add(Projections.count("exportWHF"), "exportWHFCount")
+//				.add(Projections.count("importWHF"), "importWHFCount"))
+//
+//		.setResultTransformer(Transformers.aliasToBean(LossReportEntity.class)).list();
+//
+//
+//		//		@SuppressWarnings("unchecked")
+//		//		List<LossReportEntity> totalAll = criteria
+//		//		.setProjection(Projections.projectionList()
+//		//				.add(Projections.sum("exportWHF"), "exportWHFSum")
+//		//				.add(Projections.sum("importWHF"), "importWHFSum"))
+//		//		.setResultTransformer(Transformers.aliasToBean(LossReportEntity.class)).list();
+//		//		results.addAll(totalAll);
+//		return results;
+//	}
 	
 	
 	@Override

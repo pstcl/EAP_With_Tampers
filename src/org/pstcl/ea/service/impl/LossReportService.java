@@ -26,7 +26,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service("lossReportService")
-public class LossReportService {
+public class LossReportService implements IlossReportService {
 
 	@Autowired
 	ILossReportDao lossReportDao;
@@ -34,6 +34,10 @@ public class LossReportService {
 	ITamperLogDao tamperLogDao;
 
 	//tamper loss month year report 
+	/* (non-Javadoc)
+	 * @see org.pstcl.ea.service.impl.IlossReport#getTamperDetailsProjectionReport(int, int)
+	 */
+	@Override
 	public List<TamperDetailsProjectionEntity> getTamperDetailsProjectionReport(int month,int year){
 		Date startDate=DateUtil.startDateTimeForDailySurveyRecs(month, year);
 		Date endDate=DateUtil.endDateTimeForDailySurveyRecs(month, year);
@@ -41,6 +45,10 @@ public class LossReportService {
 	}
 
 	//tamper loss date range report
+	/* (non-Javadoc)
+	 * @see org.pstcl.ea.service.impl.IlossReport#getTamperDetailsProjectionDateRangeReport(java.util.Date, java.util.Date)
+	 */
+	@Override
 	public List<TamperDetailsProjectionEntity> getTamperDetailsProjectionDateRangeReport(Date startDate, Date endDate){
 		List<TamperDetailsProjectionEntity> results =  tamperLogDao.getTamperLogTransactionsCountByDateRange(startDate, endDate);
 		return results;
@@ -48,6 +56,10 @@ public class LossReportService {
 
 
 
+	/* (non-Javadoc)
+	 * @see org.pstcl.ea.service.impl.IlossReport#saveLossReportEntity(org.pstcl.ea.model.entity.LossReportEntity)
+	 */
+	@Override
 	public LossReportEntity saveLossReportEntity(LossReportEntity lossReportEntity)
 
 	{
@@ -55,6 +67,10 @@ public class LossReportService {
 		return lossReportEntity;
 	}
 
+	/* (non-Javadoc)
+	 * @see org.pstcl.ea.service.impl.IlossReport#getConsolidatedMonthlyLossReport(int, int)
+	 */
+	@Override
 	public ConsolidatedLossReportModel getConsolidatedMonthlyLossReport (int month, int year) {
 
 		Date startDate=DateUtil.startDateTimeForDailySurveyRecs(month, year);
@@ -62,6 +78,10 @@ public class LossReportService {
 		return getConsolidatedDateRangeLossReport(startDate, endDate);
 
 	}
+	/* (non-Javadoc)
+	 * @see org.pstcl.ea.service.impl.IlossReport#getConsolidatedDateRangeLossReport(java.util.Date, java.util.Date)
+	 */
+	@Override
 	public ConsolidatedLossReportModel getConsolidatedDateRangeLossReport(Date startDate, Date endDate) {
 
 		ConsolidatedLossReportModel consolidatedLossReportModel=new ConsolidatedLossReportModel();
@@ -139,11 +159,11 @@ public class LossReportService {
 		LossReportEntity sumEntityGT= map.get(EAUtil.LOSS_REPORT_CRITERIA_G_T).getSumEntity();
 		LossReportEntity sumEntityIT= map.get(EAUtil.LOSS_REPORT_CRITERIA_I_T_).getSumEntity();
 
-		sumImportITGT=sumImportITGT.add(sumEntityGT.getImportBoundaryPtMWH());
-		sumImportITGT=sumImportITGT.add(sumEntityIT.getImportBoundaryPtMWH());
+		sumImportITGT=sumImportITGT.add(sumEntityGT.getImportBoundaryPtMWH()!=null?  sumEntityGT.getImportBoundaryPtMWH():new BigDecimal(0));
+		sumImportITGT=sumImportITGT.add(sumEntityIT.getImportBoundaryPtMWH()!=null?  sumEntityIT.getImportBoundaryPtMWH():new BigDecimal(0));
 
-		sumExportITGT=sumExportITGT.add(sumEntityGT.getExportBoundaryPtMWH());
-		sumExportITGT=sumExportITGT.add(sumEntityIT.getExportBoundaryPtMWH());
+		sumExportITGT=sumExportITGT.add(sumEntityGT.getExportBoundaryPtMWH()!=null?  sumEntityGT.getExportBoundaryPtMWH():new BigDecimal(0));
+		sumExportITGT=sumExportITGT.add(sumEntityIT.getExportBoundaryPtMWH()!=null?  sumEntityIT.getExportBoundaryPtMWH():new BigDecimal(0));
 
 
 		entity.setExportBoundaryPtMWH(sumExportITGT);
@@ -191,21 +211,19 @@ public class LossReportService {
 		LossReportEntity sumEntityTDInpen= modelEntityTDInpen.getSumEntity();
 
 
-		sumImportTD=sumImportTD.add(sumEntityTD132_11.getImportBoundaryPtMWH());
-		sumImportTD=sumImportTD.add(sumEntityTD132_33.getImportBoundaryPtMWH());
-		sumImportTD=sumImportTD.add(sumEntityTD132_66.getImportBoundaryPtMWH());
-		sumImportTD=sumImportTD.add(sumEntityTD220_66.getImportBoundaryPtMWH());
-		sumImportTD=sumImportTD.add(sumEntityTDInpen.getImportBoundaryPtMWH());
+		sumImportTD=sumImportTD.add(sumEntityTD132_11.getImportBoundaryPtMWH()!=null?sumEntityTD132_11.getImportBoundaryPtMWH():new BigDecimal(0));
+		sumImportTD=sumImportTD.add(sumEntityTD132_33.getImportBoundaryPtMWH()!=null?   sumEntityTD132_33.getImportBoundaryPtMWH():new BigDecimal(0) );
+		sumImportTD=sumImportTD.add(sumEntityTD132_66.getImportBoundaryPtMWH()   !=null?sumEntityTD132_66.getImportBoundaryPtMWH():new BigDecimal(0) );
+		sumImportTD=sumImportTD.add(sumEntityTD220_66.getImportBoundaryPtMWH()!=null?   sumEntityTD220_66.getImportBoundaryPtMWH():new BigDecimal(0) );
+		sumImportTD=sumImportTD.add(sumEntityTDInpen.getImportBoundaryPtMWH() !=null?   sumEntityTDInpen.getImportBoundaryPtMWH() : new BigDecimal(0));
 
 
 
-
-		sumExportTD=sumExportTD.add(sumEntityTD132_11.getExportBoundaryPtMWH());
-		sumExportTD=sumExportTD.add(sumEntityTD132_33.getExportBoundaryPtMWH());
-		sumExportTD=sumExportTD.add(sumEntityTD132_66.getExportBoundaryPtMWH());
-		sumExportTD=sumExportTD.add(sumEntityTD220_66.getExportBoundaryPtMWH());
-		sumExportTD=sumExportTD.add(sumEntityTDInpen.getExportBoundaryPtMWH());
-
+		sumExportTD=sumExportTD.add(sumEntityTD132_11.getExportBoundaryPtMWH()!=null?sumEntityTD132_11.getExportBoundaryPtMWH():new BigDecimal(0));
+		sumExportTD=sumExportTD.add(sumEntityTD132_33.getExportBoundaryPtMWH()!=null?   sumEntityTD132_33.getExportBoundaryPtMWH():new BigDecimal(0) );
+		sumExportTD=sumExportTD.add(sumEntityTD132_66.getExportBoundaryPtMWH()   !=null?sumEntityTD132_66.getExportBoundaryPtMWH():new BigDecimal(0) );
+		sumExportTD=sumExportTD.add(sumEntityTD220_66.getExportBoundaryPtMWH()!=null?   sumEntityTD220_66.getExportBoundaryPtMWH():new BigDecimal(0) );
+		sumExportTD=sumExportTD.add(sumEntityTDInpen.getExportBoundaryPtMWH() !=null?   sumEntityTDInpen.getExportBoundaryPtMWH() : new BigDecimal(0));
 
 
 
@@ -242,11 +260,19 @@ public class LossReportService {
 
 
 
+	/* (non-Javadoc)
+	 * @see org.pstcl.ea.service.impl.IlossReport#getReport(java.lang.String, int, int)
+	 */
+	@Override
 	public LossReportModel getReport(String reportType, int month, int year) {
 		Date startDate=DateUtil.startDateTimeForDailySurveyRecs(month, year);
 		Date endDate=DateUtil.endDateTimeForDailySurveyRecs(month, year);
 		return getDateRangeReport(reportType, startDate, endDate);
 	}
+	/* (non-Javadoc)
+	 * @see org.pstcl.ea.service.impl.IlossReport#getDateRangeReport(java.lang.String, java.util.Date, java.util.Date)
+	 */
+	@Override
 	public LossReportModel getDateRangeReport(String reportType, Date startDate, Date endDate) {
 
 		LossReportModel dailyProjectionModel = new LossReportModel();
@@ -284,25 +310,15 @@ public class LossReportService {
 		dailyProjectionModel.setLossReportEntities(lossReportEntities);
 		dailyProjectionModel.setPointsCountDataAvailable(lossReportEntities.size()-dailyProjectionModel.getManualEntryLocations().size());
 		Collections.sort(lossReportEntities);
-		LossReportEntity sumEntity=getSumEntity( lossReportEntities);
+		LossReportEntity sumEntity=lossReportDao.getDailyTransactionsProjectionSumEntity(reportType, startDate, endDate);
 		//lossReportEntities.add(sumEntity);
+			lossReportEntities.add(sumEntity);
 		dailyProjectionModel.setSumEntity(sumEntity);
 
 		return dailyProjectionModel;
 	}
 
-	private LossReportEntity getSumEntity(List<LossReportEntity> lossReportEntities)
-	{
-		LossReportEntity sumEntity=lossReportEntities.get(lossReportEntities.size()-1);
-		List<LossReportEntity> sumEntityList;
-		if(null==sumEntity.getLocation())
-			return sumEntity;
-		else
-			 sumEntityList = lossReportEntities.stream().filter(obj -> obj.getLocation()==null).collect(Collectors.toList());
-		
-		return sumEntityList.get(0);
-	}
-	//	private LossReportEntity getSumEntity(List<LossReportEntity> lossReportEntities)
+		//	private LossReportEntity getSumEntity(List<LossReportEntity> lossReportEntities)
 	//	{
 	//
 	//		for (LossReportEntity dailySurveyTableProjection : lossReportEntities) {
@@ -403,6 +419,10 @@ public class LossReportService {
 	IInstantRegistersDao instantRegistersDao;
 
 
+	/* (non-Javadoc)
+	 * @see org.pstcl.ea.service.impl.IlossReport#getIRDetails(java.lang.String, int, int)
+	 */
+	@Override
 	public InstantRegisters getIRDetails(String locationId,int month,int year){
 		InstantRegisters ir = instantRegistersDao.findInstantRegistersByDayAndLocation(locationId, month, year);
 		return ir;
