@@ -14,9 +14,12 @@ import org.pstcl.ea.model.EAModel;
 import org.pstcl.ea.model.entity.CircleMaster;
 import org.pstcl.ea.model.entity.DivisionMaster;
 import org.pstcl.ea.model.entity.SubstationMaster;
+import org.pstcl.model.FilterModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
+
+import com.fasterxml.classmate.Filter;
 
 @Repository("substationUtilityDao")
 @org.springframework.transaction.annotation.Transactional(value="sldcTxnManager")
@@ -36,6 +39,67 @@ public class SubstationUtiltiyDaoImpl implements SubstationUtilityDao {
 	@Autowired 
 	@Qualifier("sldcSessionFactory")
 	private SessionFactory sessionFactory;
+	
+	@Override
+	public List<CircleMaster> listCircles(FilterModel filter) {
+		Criteria crit = getSession().createCriteria(CircleMaster.class);
+		if(null!=filter)
+		{
+			if(null!=filter.getSelectedCircle())
+			{
+				crit.add(Restrictions.eq("crCode", filter.getSelectedCircle().getCrCode()));
+			}
+		}
+		crit.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
+		return (List<CircleMaster>)crit.list();
+	}
+	
+
+
+	@Override
+	public List<DivisionMaster> listDivisions(FilterModel filter) {
+		Criteria crit = getSession().createCriteria(DivisionMaster.class);
+		if(null!=filter)
+		{
+			if(null!=filter.getSelectedDivision())
+			{
+				crit.add(Restrictions.eq("divCode", filter.getSelectedDivision().getDivCode()));
+			}
+			if(null!=filter.getSelectedCircle())
+			{
+				crit.add(Restrictions.eq("circleMaster.crCode", filter.getSelectedCircle().getCrCode()));
+			}
+		}
+		crit.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
+		return (List<DivisionMaster>)crit.list();
+	}
+
+
+
+	@Override
+	public List<SubstationMaster> listSubstations(FilterModel entity) {
+		Criteria crit = getSession().createCriteria(SubstationMaster.class);
+
+		if(null!=entity)
+		{
+			if(null!=entity.getSelectedCircle())
+			{
+				crit.add(Restrictions.eq("circleMaster.crCode", entity.getSelectedCircle().getCrCode()));
+			}
+			if(null!=entity.getSelectedDivision())
+			{
+				crit.add(Restrictions.eq("divisionMaster.divCode", entity.getSelectedDivision().getDivCode()));
+			}
+			if(null!=entity.getSelectedSubstation())
+			{
+				crit.add(Restrictions.eq("ssCode", entity.getSelectedSubstation().getSsCode()));
+			}
+		}
+		
+		crit.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
+		crit.addOrder(Order.asc("circleMaster"));
+		return (List<SubstationMaster>)crit.list();
+	}
 
 	@Override
 	public List<CircleMaster> listCircles(EAModel filter) {
