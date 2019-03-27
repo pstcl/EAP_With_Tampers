@@ -38,14 +38,21 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 	}
 
 	protected void configure(HttpSecurity http) throws Exception {
-		
+
 		http.authorizeRequests().antMatchers("/login**","/static/**").permitAll().anyRequest().authenticated().and().formLogin().loginPage("/login")
 		.loginProcessingUrl("/login").usernameParameter("usernameEap").passwordParameter("password").and()
 		.rememberMe().rememberMeParameter("remember-me").tokenRepository(tokenRepository)
 		.tokenValiditySeconds(86400).and().csrf().and().exceptionHandling().accessDeniedPage("/Access_Denied");
 		http.headers().frameOptions().sameOrigin();
 		http.headers().cacheControl().disable();
-		
+
+		//ENABLE CSRF BY ADDING CSRF TOKEN TO ALL POST REQUESTS AS HEADER
+		//ADDED to get jQuery post requests through without csrf header	
+
+		http.csrf().disable();
+		http.headers().frameOptions().sameOrigin();
+		http.headers().cacheControl().disable();
+
 	}
 
 	@Bean
