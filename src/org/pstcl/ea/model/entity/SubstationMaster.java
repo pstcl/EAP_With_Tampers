@@ -21,6 +21,7 @@ public class SubstationMaster implements Serializable {
 	private String stationName;
 	@JsonIgnore
 	private Set<LocationMaster> locationMasters;
+
 	private CircleMaster circleMaster;
 	private DivisionMaster divisionMaster;
 	private Integer voltageLevel;
@@ -117,5 +118,7 @@ public class SubstationMaster implements Serializable {
 	public void setVoltageLevel(Integer voltageLevel) {
 		this.voltageLevel = voltageLevel;
 	}
+
+
 
 }

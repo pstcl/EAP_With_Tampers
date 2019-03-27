@@ -26,7 +26,18 @@ public class InstantRegistersDaoImpl implements IInstantRegistersDao{
 	@Transactional(value="sldcTxnManager")
 	protected Session getSession(){
 
-		return sessionFactory.getCurrentSession();
+		boolean falseSession = true;
+		Session s = null;
+		while(falseSession) {
+			try {
+		s = sessionFactory.getCurrentSession();
+		falseSession=false;
+			}
+			catch(Exception e) {
+				e.printStackTrace();
+			}
+		}
+		return s;
 	}
 
 	@Autowired 
@@ -65,7 +76,7 @@ public class InstantRegistersDaoImpl implements IInstantRegistersDao{
 	public void save(InstantRegisters txn,EAUser user) {
 		Session session=sessionFactory.openSession();
 		Transaction transaction=session.beginTransaction();
-		getSession().persist(txn);
+		session.persist(txn);
 		transaction.commit();
 		session.close();
 	}
@@ -74,7 +85,7 @@ public class InstantRegistersDaoImpl implements IInstantRegistersDao{
 	public void update(InstantRegisters txn,EAUser user) {
 		Session session=sessionFactory.openSession();
 		Transaction transaction=session.beginTransaction();
-		getSession().update(txn);
+		session.update(txn);
 		transaction.commit();
 		session.close();
 	}

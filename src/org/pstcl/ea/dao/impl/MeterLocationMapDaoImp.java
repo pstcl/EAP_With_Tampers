@@ -27,7 +27,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 
 @Repository("meterLocationMapRepository")
-@org.springframework.transaction.annotation.Transactional(value="sldcTxnManager")
+@Transactional(value="sldcTxnManager")
 public class MeterLocationMapDaoImp implements MeterLocationMapDao {
 	//map
 	@Transactional(value="sldcTxnManager")
@@ -68,6 +68,20 @@ public class MeterLocationMapDaoImp implements MeterLocationMapDao {
 		MeterLocationMap txn = (MeterLocationMap)crit.uniqueResult();
 		getSession().delete(txn);
 	}
+	
+	@Override
+	@Transactional(value="sldcTxnManager")
+	public MeterLocationMap findById(String id) {
+		Criteria crit = createEntityCriteria();
+
+		if(id!=null) {
+			crit.add((Restrictions.eq("id", id)));
+		}
+
+		return (MeterLocationMap) crit.uniqueResult();
+
+	}
+
 
 
 	@Override
@@ -96,7 +110,7 @@ public class MeterLocationMapDaoImp implements MeterLocationMapDao {
 		Criteria crit = createEntityCriteria();
 
 		if(locationId!=null) {
-			crit.add((Restrictions.eq("location.locationId", locationId)));
+			crit.add((Restrictions.eq("locationMaster.locationId", locationId)));
 		}
 
 		crit.add(Restrictions.le("startDate",current));
@@ -122,4 +136,16 @@ public class MeterLocationMapDaoImp implements MeterLocationMapDao {
 	}
 
 
+	@Override
+	public
+	List<MeterLocationMap> findMeterLocationMapByLoc(String locationId){
+		Criteria crit = createEntityCriteria();
+
+		if(locationId!=null) {
+			crit.add((Restrictions.eq("locationMaster.locationId", locationId)));
+		}
+
+		
+		return (List<MeterLocationMap>) crit.list();
+	}
 }

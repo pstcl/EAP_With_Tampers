@@ -1,5 +1,6 @@
 package org.pstcl.ea.dao;
 
+import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 
@@ -23,6 +24,12 @@ public interface MeterLocationMapDao {
 	List<MeterLocationMap> getLocationByMeterAndDate(MeterMaster meterMaster, Date current);
 
 	MeterLocationMap findMeterLocationMapByDate(String locationId, Date current);
+
+
+
+	List<MeterLocationMap> findMeterLocationMapByLoc(String locationId);
+
+	MeterLocationMap findById(String id);
 
 
 	
