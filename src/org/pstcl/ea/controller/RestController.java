@@ -109,7 +109,9 @@ public class RestController {
 		Date endDate = changeMeterSnippet.getEndDate();
 		Date startDate = changeMeterSnippet.getStartDate();
 		String error="";
-		if(endDate==null && changeMeterSnippet.getLocation()==null && startDate==null)
+		if(changeMeterSnippet.getOldMeterLocationMap().getEndDate()!=null)
+			error="End Date of old Location Already exists";
+		else if(endDate==null || changeMeterSnippet.getLocation()==null || startDate==null)
 			error="One of Value is Null";
 		else if((startDate.before(endDate)))
 				error="Start Date of Meter At New Location is Before End Date at Old Location";
@@ -125,7 +127,7 @@ public class RestController {
 		
 		
 		model.addAttribute("error", error);
-		model.addAttribute("changeMeterSnippet",changeMeterSnippet);
+		model.addAttribute("changeMeterSnippet",new ChangeMeterSnippet());
 		return new ModelAndView("testAjax", model) ;
 	}
 
