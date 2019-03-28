@@ -12,6 +12,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
  * The persistent class for the location_master database table.
  * 
  */
+
 @Entity
 @Table(name="location_master")
 @NamedQuery(name="LocationMaster.findAll", query="SELECT l FROM LocationMaster l")

@@ -8,6 +8,8 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.criterion.Criterion;
+import org.hibernate.criterion.Projection;
+import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import org.hibernate.exception.ConstraintViolationException;
 import org.pstcl.ea.dao.MeterLocationMapDao;
@@ -82,7 +84,19 @@ public class MeterLocationMapDaoImp implements MeterLocationMapDao {
 
 	}
 
-
+	@Override
+	@Transactional(value="sldcTxnManager")
+	public
+	boolean find(MeterLocationMap newMtrLocMap) {
+		Criteria crit = createEntityCriteria();
+		crit.add(Restrictions.eq("startDate", newMtrLocMap.getStartDate()));
+		crit.add((Restrictions.eq("locationMaster.locationId",newMtrLocMap.getLocationMaster().getLocationId())));
+		crit.add(Restrictions.eq("meterMaster.meterSrNo", newMtrLocMap.getMeterMaster().getMeterSrNo()));
+		List<MeterLocationMap> a = (List<MeterLocationMap>) crit.list();
+		if(a!=null && a.size()>0)
+			return true;
+		return false;
+	}
 
 	@Override
 	public void save(MeterLocationMap txn,EAUser user) {
@@ -146,6 +160,13 @@ public class MeterLocationMapDaoImp implements MeterLocationMapDao {
 		}
 
 		
+		return (List<MeterLocationMap>) crit.list();
+	}
+	
+	@Override
+	public List<MeterLocationMap> findLocations(MeterMaster meterMaster){
+		Criteria crit = createEntityCriteria();
+		crit.add(Restrictions.eq("meterMaster.meterSrNo", meterMaster.getMeterSrNo()));
 		return (List<MeterLocationMap>) crit.list();
 	}
 }

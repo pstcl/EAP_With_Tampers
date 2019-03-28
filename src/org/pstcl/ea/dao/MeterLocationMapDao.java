@@ -31,6 +31,14 @@ public interface MeterLocationMapDao {
 
 	MeterLocationMap findById(String id);
 
+	boolean find(MeterLocationMap newMtrLocMap);
+
+	List<MeterLocationMap> findLocations(MeterMaster meterMaster);
+
+	
+
+	
+
 
 	
 }

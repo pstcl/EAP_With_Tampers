@@ -5,6 +5,7 @@ import java.util.List;
 import org.pstcl.ea.model.EAModel;
 import org.pstcl.ea.model.entity.CircleMaster;
 import org.pstcl.ea.model.entity.DivisionMaster;
+import org.pstcl.ea.model.entity.LocationMaster;
 import org.pstcl.ea.model.entity.SubstationMaster;
 
 public class FilterModel  {
@@ -12,11 +13,25 @@ public class FilterModel  {
 	private CircleMaster selectedCircle;
 	private DivisionMaster selectedDivision;
 	private SubstationMaster selectedSubstation;
+	private LocationMaster selectedLocation;
 	
-	
+	public LocationMaster getSelectedLocation() {
+		return selectedLocation;
+	}
+	public void setSelectedLocation(LocationMaster selectedLocation) {
+		this.selectedLocation = selectedLocation;
+	}
+	public List<LocationMaster> getLocationList() {
+		return locationList;
+	}
+	public void setLocationList(List<LocationMaster> locationList) {
+		this.locationList = locationList;
+	}
 	private List< CircleMaster >  circleList;
 	private List< DivisionMaster >  divisionList;
 	private List< SubstationMaster >  substationList;
+	private List <LocationMaster> locationList;
+	
 	public CircleMaster getSelectedCircle() {
 		return selectedCircle;
 	}

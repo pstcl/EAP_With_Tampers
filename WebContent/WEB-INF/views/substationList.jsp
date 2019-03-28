@@ -144,8 +144,11 @@
 												data-target="#demo${indexStatus.index+1 }"
 												onclick="getMeterData('${location.id}','${substation.substationMaster.ssCode}','demo${indexStatusSubstationList.index}_${indexStatus.index+1 }')">Meter
 												Details</button></td>
+												<c:choose>
+						<c:when test="${location.endDate == null}">
 										<td><a href="changeMeterDetails?meterlocationId=${location.id}">Change Details</a>	</td>	
-
+</c:when>
+</c:choose>
 									</tr>
 									<tr>
 										<td><div id="demo${indexStatusSubstationList.index}_${indexStatus.index+1 }"

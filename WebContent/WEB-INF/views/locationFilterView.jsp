@@ -1,4 +1,4 @@
-
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 
 
 
@@ -7,10 +7,12 @@
 			$('#circleDD').find('option').remove().end();
 			$('#divisionDD').find('option').remove().end();
 			$('#substationDD').find('option').remove().end();
+			$('#locationDD').find('option').remove().end();
 			$.post("/EAP/getLocationsModel", {
 				circleSelected : null,
 				divisionSelected : null,
-				substationSelected : null
+				substationSelected : null,
+				locationSelected:null,
 			}, populate).done(function() {
 				//alert( "Employee Added" );
 			}).fail(function(data, status, er) {
@@ -25,6 +27,7 @@
 			addEmptyCircle();
 			addEmptyDivision();
 			addEmptySubstation();
+			addEmptyLocation()
 		}
 		function addEmptyCircle()
 		{
@@ -50,6 +53,13 @@
 								"Select Sub-Station"));
 		}
 		
+		function addEmptyLocation()
+		{
+		$('#locationDD').append(
+				$("<option></option>").attr("value", "")
+						.text("Select Location"));
+		
+		}
 		function populate(data, status) {
 			
 			addEmpty();
@@ -75,16 +85,25 @@
 										obj.stationName));
 			});
 
+			$.each(data.locationList, function(idx, obj) {
+				//alert(obj.stationName);
+				$('#locationDD').append(
+						$("<option></option>")
+								.attr("value", obj.locationId).text(
+										obj.locationId));
+			});
 		}
 
 		function submitCircle() {
 			
 			$('#divisionDD').find('option').remove().end();
 			$('#substationDD').find('option').remove().end();
+			$('#locationDD').find('option').remove().end();
 			$.post("getLocationsModel", {
 				circleSelected : $("#circleDD").val(),
 				divisionSelected : null,
-				substationSelected : null
+				substationSelected : null,
+				locationSelected:null
 			}, circleSelected).done(function() {
 				//alert( "Employee Added" );
 			}).fail(function(data, status, er) {
@@ -97,6 +116,7 @@
 			
 			addEmptyDivision();
 			addEmptySubstation();
+			addEmptyLocation();
 			$.each(data.divisionList, function(idx, obj) {
 				//alert(obj.divisionname);
 				$('#divisionDD').append(
@@ -110,6 +130,13 @@
 								.attr("value", obj.ssCode).text(
 										obj.stationName));
 			});
+			$.each(data.locationList, function(idx, obj) {
+				//alert(obj.stationName);
+				$('#locationDD').append(
+						$("<option></option>")
+								.attr("value", obj.locationId).text(
+										obj.locationId));
+			});
 
 		}
 		
@@ -117,10 +144,12 @@
 			
 			
 			$('#substationDD').find('option').remove().end();
+			$('#locationDD').find('option').remove().end();
 			$.post("getLocationsModel", {
 				circleSelected : $("#circleDD").val(),
 				divisionSelected : $("#divisionDD").val(),
-				substationSelected : null
+				substationSelected : null,
+				locationSelected:null
 			}, divSelected).done(function() {
 				//alert( "Employee Added" );
 			}).fail(function(data, status, er) {
@@ -132,6 +161,7 @@
 
 			
 			addEmptySubstation();
+			addEmptyLocation();
 			$.each(data.substationList, function(idx, obj) {
 				//alert(obj.stationName);
 				$('#substationDD').append(
@@ -139,16 +169,24 @@
 								.attr("value", obj.ssCode).text(
 										obj.stationName));
 			});
+			$.each(data.locationList, function(idx, obj) {
+				//alert(obj.stationName);
+				$('#locationDD').append(
+						$("<option></option>")
+								.attr("value", obj.locationId).text(
+										obj.locationId));
+			});
 
 		}
 		
 		function submitSS() {
 			
-			
+			$('#locationDD').find('option').remove().end();
 			$.post("getLocationsModel", {
 				circleSelected : $("#circleDD").val(),
 				divisionSelected : $("#divisionDD").val(),
-				substationSelected : $("#substationDD").val()
+				substationSelected : $("#substationDD").val(),
+				locationSelected:null
 			}, ssSelected).done(function() {
 				//alert( "Employee Added" );
 			}).fail(function(data, status, er) {
@@ -158,7 +196,14 @@
 		}
 		function ssSelected(data, status) {
 
-			
+			addEmptyLocation();
+			$.each(data.locationList, function(idx, obj) {
+				//alert(obj.stationName);
+				$('#locationDD').append(
+						$("<option></option>")
+								.attr("value", obj.locationId).text(
+										obj.locationId));
+			});
 
 		}
 		
@@ -170,9 +215,9 @@
 		});
 	</script>
 
+<div class="row">
 
-
-<div class="form-control col-md-4">
+<div class="form-control col-md-5">
 
 
 
@@ -184,8 +229,8 @@
 
 
 </div>
-
-<div class="form-control col-md-4">
+<div class="col-md-1"></div>
+<div class="form-control col-md-5">
 
 	Division <select id="divisionDD" class="form-control input-sm"
 		onchange="submitDivision()">
@@ -193,7 +238,10 @@
 
 </div>
 
-<div class="form-control col-md-4">
+
+</div>
+<div class="row">
+<div class="form-control col-md-5">
 
 	Substation <select id="substationDD" class="form-control input-sm"
 		onchange="submitSS()">
@@ -201,5 +249,12 @@
 
 
 </div>
-
-
+<div class="col-md-1"></div>
+			<div class="form-control col-md-5">
+				Location Id
+				<form:select path="location" class="form-control input-sm"
+					id="locationDD">
+				
+				</form:select>
+			</div>
+		</div>

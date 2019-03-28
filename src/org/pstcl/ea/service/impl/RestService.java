@@ -12,6 +12,7 @@ import org.pstcl.ea.model.entity.CircleMaster;
 import org.pstcl.ea.model.entity.DivisionMaster;
 import org.pstcl.ea.model.entity.LocationMaster;
 import org.pstcl.ea.model.entity.MeterLocationMap;
+import org.pstcl.ea.model.entity.MeterMaster;
 import org.pstcl.ea.model.entity.SubstationMaster;
 import org.pstcl.model.FilterModel;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,30 +35,42 @@ public class RestService {
 	
 	}
 
-	public SubstationMaster getSubstationMeterDetails(int ssCode) {
-		// TODO Auto-generated method stub
-		return locationDao.findSubstationByID(ssCode);
-	}
-
-	public void saveDetails(ChangeMeterSnippet changeMeterSnippet) {
-		// TODO Auto-generated method stub
-		MeterLocationMap oldMtrLocMap = changeMeterSnippet.getOldMeterLocationMap();
-		oldMtrLocMap.setEndDate(changeMeterSnippet.getEndDate());
-		//mtrLocMapDao.update(oldMtrLocMap, null);
-		
-		MeterLocationMap newMtrLocMap = new MeterLocationMap();
-		newMtrLocMap.setLocationMaster(locationMasterDao.findById(changeMeterSnippet.getLocation().getLocationId()));
-		newMtrLocMap.setMeterMaster(changeMeterSnippet.getMeterMaster());
-		newMtrLocMap.setStartDate(changeMeterSnippet.getStartDate());
-		//mtrLocMapDao.save(newMtrLocMap, null);
-		
-		return;
-	}
 	@Autowired
 	protected IMeterMasterDao meterDao;
 
 
 	@Autowired SubstationUtilityDao  locationDao;
+	
+	public SubstationMaster getSubstationMeterDetails(int ssCode) {
+		// TODO Auto-generated method stub
+		return locationDao.findSubstationByID(ssCode);
+	}
+
+	public boolean saveDetails(ChangeMeterSnippet changeMeterSnippet) {
+		// TODO Auto-generated method stub
+		
+		MeterLocationMap oldMtrLocMap = changeMeterSnippet.getOldMeterLocationMap();
+	try {
+		oldMtrLocMap.setEndDate(changeMeterSnippet.getEndDate());
+		mtrLocMapDao.update(oldMtrLocMap, null);
+		System.out.println(oldMtrLocMap.getMeterMaster().getMeterSrNo());
+		System.out.println(oldMtrLocMap.getLocationMaster().getLocationId());
+		MeterLocationMap newMtrLocMap = new MeterLocationMap();
+		newMtrLocMap.setLocationMaster(changeMeterSnippet.getLocation());
+		
+		newMtrLocMap.setMeterMaster(changeMeterSnippet.getMeterMaster());
+		newMtrLocMap.setStartDate(changeMeterSnippet.getStartDate());
+		if(mtrLocMapDao.find(newMtrLocMap)==false)
+		mtrLocMapDao.save(newMtrLocMap, null);
+		
+		return true;
+	}
+	catch(Exception e) {
+		e.printStackTrace();
+	}
+	return false;
+	}
+
 
 	public LocationMaster getMeterDeatils(String locationid) {
 		return locationMasterDao.findById(locationid);
@@ -91,7 +104,11 @@ public class RestService {
 		return this.locationDao.listSubstations(locationModel);
 	}
 
-	public FilterModel getLocationModel(Integer circle, Integer divCode, Integer substationCode) {
+	public List<LocationMaster> getLocationList(FilterModel locationModel) {
+		return this.locationDao.listLocations(locationModel);
+	}
+
+	public FilterModel getLocationModel(Integer circle, Integer divCode, Integer substationCode,String Locationid) {
 		FilterModel locationModel=new FilterModel();
 		if(circle!=null)
 		{
@@ -105,10 +122,23 @@ public class RestService {
 		{
 			locationModel.setSelectedSubstation(findSubstationById(substationCode));
 		}
+		if(Locationid!=null) {
+			locationModel.setSelectedLocation(findLocationBYId(Locationid));
+		}
 		locationModel.setCircleList(getCircleList(locationModel));
 		locationModel.setDivisionList(getDivisionList(locationModel));
 		locationModel.setSubstationList(getSubstationList(locationModel));
+		locationModel.setLocationList(getLocationList(locationModel));
 		return locationModel;
+	}
+
+	public LocationMaster findLocationBYId(String locationid) {
+		return this.locationDao.findLocationByID(locationid);
+	}
+
+	public List<MeterLocationMap> findLocations(MeterMaster meterMaster) {
+		// TODO Auto-generated method stub
+		return mtrLocMapDao.findLocations(meterMaster);
 	}
 
 

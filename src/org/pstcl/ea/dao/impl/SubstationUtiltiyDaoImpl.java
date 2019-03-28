@@ -13,6 +13,7 @@ import org.pstcl.ea.dao.SubstationUtilityDao;
 import org.pstcl.ea.model.EAModel;
 import org.pstcl.ea.model.entity.CircleMaster;
 import org.pstcl.ea.model.entity.DivisionMaster;
+import org.pstcl.ea.model.entity.LocationMaster;
 import org.pstcl.ea.model.entity.SubstationMaster;
 import org.pstcl.model.FilterModel;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -102,6 +103,36 @@ public class SubstationUtiltiyDaoImpl implements SubstationUtilityDao {
 	}
 
 	@Override
+	public List<LocationMaster> listLocations(FilterModel entity) {
+		Criteria crit = getSession().createCriteria(LocationMaster.class);
+
+		if(null!=entity)
+		{
+			if(null!=entity.getSelectedCircle())
+			{
+				crit.add(Restrictions.eq("circleMaster.crCode", entity.getSelectedCircle().getCrCode()));
+			}
+			if(null!=entity.getSelectedDivision())
+			{
+				crit.add(Restrictions.eq("divisionMaster.divCode", entity.getSelectedDivision().getDivCode()));
+			}
+			if(null!=entity.getSelectedSubstation())
+			{
+				crit.add(Restrictions.eq("substationMaster.ssCode", entity.getSelectedSubstation().getSsCode()));
+			}
+			if(null!=entity.getSelectedLocation())
+			{
+				crit.add(Restrictions.eq("locationId", entity.getSelectedLocation().getLocationId()));
+			}
+		}
+		
+		
+		crit.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
+		crit.addOrder(Order.asc("circleMaster"));
+		return (List<LocationMaster>)crit.list();
+	}
+	
+	@Override
 	public List<CircleMaster> listCircles(EAModel filter) {
 		Criteria crit = getSession().createCriteria(CircleMaster.class);
 		if(null!=filter)
@@ -179,6 +210,10 @@ public class SubstationUtiltiyDaoImpl implements SubstationUtilityDao {
 		return (SubstationMaster) getSession().get(SubstationMaster.class, code);
 	}
 
+	@Override
+	public LocationMaster findLocationByID(String code) {
+		return (LocationMaster) getSession().get(LocationMaster.class, code);
+	} 
 
 
 }

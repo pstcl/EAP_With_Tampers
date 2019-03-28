@@ -9,6 +9,9 @@ import org.pstcl.ea.birt.spring.core.BirtEngineFactory;
 import org.pstcl.ea.birt.spring.core.BirtView;
 import org.pstcl.ea.converters.CircleConverter;
 import org.pstcl.ea.converters.DivisionConverter;
+import org.pstcl.ea.converters.LocationConverter;
+import org.pstcl.ea.converters.MeterConverter;
+import org.pstcl.ea.converters.MeterLocationConverter;
 import org.pstcl.ea.converters.SubstationConverter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
@@ -42,6 +45,12 @@ public class AppConfig extends WebMvcConfigurerAdapter {
 	DivisionConverter divisionConverter;
 	@Autowired
 	SubstationConverter substationConverter;
+	@Autowired
+	LocationConverter locationConverter;
+	@Autowired
+	MeterConverter meterConverter;
+	@Autowired
+	MeterLocationConverter mtrLocConverter;
 
 
 	public void configureViewResolvers(final ViewResolverRegistry registry) {
@@ -62,6 +71,9 @@ public class AppConfig extends WebMvcConfigurerAdapter {
 		registry.addConverter(circleConverter);
 		registry.addConverter(divisionConverter);
 		registry.addConverter(substationConverter);
+		registry.addConverter(locationConverter);
+		registry.addConverter(mtrLocConverter);
+		registry.addConverter(meterConverter);
 	}
 
 	@Bean
