@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Set;
 
 import org.pstcl.ea.dao.SubstationUtilityDao;
+import org.pstcl.ea.model.ChangeLocationEmf;
 import org.pstcl.ea.model.ChangeMeterSnippet;
 import org.pstcl.ea.model.EAFilter;
 import org.pstcl.ea.model.entity.CircleMaster;
@@ -108,10 +109,13 @@ public class RestController {
 		System.out.println(changeMeterSnippet.getMeterMaster());
 		Date endDate = changeMeterSnippet.getEndDate();
 		Date startDate = changeMeterSnippet.getStartDate();
+		Date current=new Date();
 		String error="";
 		
 		 if(endDate==null || changeMeterSnippet.getLocation()==null || startDate==null)
 			error="One of Value is Null";
+		 else if(endDate.after(current) || startDate.after(current))
+			 error="One of set Date is greater than current Date";
 		 else if(changeMeterSnippet.getOldMeterLocationMap().getEndDate()!=null)
 				error="End Date of old Location Already exists";
 		else if((startDate.before(endDate)))
@@ -148,5 +152,55 @@ public class RestController {
 
 
 
+
+
+@RequestMapping(value="/changeLocationEmf",method=RequestMethod.GET)
+public ModelAndView changeLocationEmf(@RequestParam(value="locationId") String locationId,ModelMap model) {
+	ChangeLocationEmf chgLocEmf = new ChangeLocationEmf();
+	chgLocEmf.setLocationMaster(restService.findLocationBYId(locationId));
+	chgLocEmf.setOldLocationEmf(restService.getLocationRecentEmfByLocid(locationId));
+	System.out.print(chgLocEmf.getOldLocationEmf());
+	model.addAttribute("changeLocationEmf",chgLocEmf);
+	return new ModelAndView("locationEmfForm",model);
 }
 
+
+@RequestMapping(value="/changeLocationEmf",method=RequestMethod.POST)
+public ModelAndView saveChangeLocationEmfDetails(ChangeLocationEmf changeLocationEmf,BindingResult bindingResult, ModelMap model) {
+	System.out.println(changeLocationEmf.getExternalMF());
+	System.out.println(changeLocationEmf.getSetNewEmf());
+	System.out.println(changeLocationEmf.getEndDate());
+	System.out.println(changeLocationEmf.getLocationMaster());
+	String returnModel="successEmf";
+	String error = null;
+	if(changeLocationEmf.getSetNewEmf()==null)
+	{
+		error="Choose U want or not to set Location emf again";
+		returnModel="locationEmfForm";
+	}
+	else if(changeLocationEmf.getOldLocationEmf()!=null && (changeLocationEmf.getEndDate()==null || changeLocationEmf.getEndDate().after(new Date()) || changeLocationEmf.getEndDate().before(changeLocationEmf.getOldLocationEmf().getStartDate()))) {
+		
+			error="End Date Of Existing External MF is either null  or greater than current date or start date of previous emf";
+		    returnModel="locationEmfForm";
+		
+	}else if(changeLocationEmf.getSetNewEmf().equals("yes") && (changeLocationEmf.getExternalMF()==null || changeLocationEmf.getStartDate()==null || changeLocationEmf.getNetWHSign()==null || changeLocationEmf.getStartDate().after(new Date()) || (changeLocationEmf.getStartDate()!=null && changeLocationEmf.getEndDate().after(changeLocationEmf.getStartDate())))) {
+		
+		error="One of value is not set";
+	    returnModel="locationEmfForm";
+	}else if(!restService.saveDetailsOfLocationEmf(changeLocationEmf)){
+		error="Problem while Saving Details";
+	    returnModel="locationEmfForm";
+	}else {
+		model.addAttribute("list", restService.getLocationEmfListByLocid(changeLocationEmf.getLocationMaster().getLocationId()));
+	}
+			if(error!=null) {
+				ChangeLocationEmf chg = new ChangeLocationEmf() ;
+				if(changeLocationEmf.getOldLocationEmf()!=null)
+				chg.setOldLocationEmf(changeLocationEmf.getOldLocationEmf());
+				chg.setLocationMaster(changeLocationEmf.getLocationMaster());
+				model.addAttribute("changeLocationEmf",chg);
+			}
+     model.addAttribute("error", error);
+	return new ModelAndView(returnModel,model);
+}
+}

@@ -1,15 +1,19 @@
 
 package org.pstcl.ea.service.impl;
 
+import java.math.BigDecimal;
 import java.util.List;
 
+import org.pstcl.ea.dao.ILocationEMFDao;
 import org.pstcl.ea.dao.ILocationMasterDao;
 import org.pstcl.ea.dao.IMeterMasterDao;
 import org.pstcl.ea.dao.MeterLocationMapDao;
 import org.pstcl.ea.dao.SubstationUtilityDao;
+import org.pstcl.ea.model.ChangeLocationEmf;
 import org.pstcl.ea.model.ChangeMeterSnippet;
 import org.pstcl.ea.model.entity.CircleMaster;
 import org.pstcl.ea.model.entity.DivisionMaster;
+import org.pstcl.ea.model.entity.LocationEMF;
 import org.pstcl.ea.model.entity.LocationMaster;
 import org.pstcl.ea.model.entity.MeterLocationMap;
 import org.pstcl.ea.model.entity.MeterMaster;
@@ -21,7 +25,8 @@ import org.springframework.stereotype.Service;
 @Service("restService")
 public class RestService {
 	
-	
+	@Autowired
+	ILocationEMFDao locEmfDao;
 	
 	@Autowired
 	MeterLocationMapDao mtrLocMapDao;
@@ -137,8 +142,41 @@ public class RestService {
 	}
 
 	public List<MeterLocationMap> findLocations(MeterMaster meterMaster) {
-		// TODO Auto-generated method stub
 		return mtrLocMapDao.findLocations(meterMaster);
+	}
+
+	public LocationEMF getLocationRecentEmfByLocid(String locationId) {
+		return locEmfDao.findLocationRecentEmf(locationId);
+	}
+
+	public boolean saveDetailsOfLocationEmf(ChangeLocationEmf changeLocationEmf) {
+		try {
+		if(changeLocationEmf.getOldLocationEmf()!=null) {
+			LocationEMF updateEmf= changeLocationEmf.getOldLocationEmf();
+			updateEmf.setEndDate(changeLocationEmf.getEndDate());
+			locEmfDao.update(updateEmf, null);
+		}
+		if(changeLocationEmf.getSetNewEmf().equals("yes")) {
+			LocationEMF newEmf = new LocationEMF();
+			newEmf.setLocationMaster(changeLocationEmf.getLocationMaster());
+			newEmf.setStartDate(changeLocationEmf.getStartDate());
+			newEmf.setExternalMF(new BigDecimal(changeLocationEmf.getExternalMF()));
+			if(locEmfDao.find(newEmf)==false)
+		    locEmfDao.save(newEmf, null);	
+		    System.out.println(newEmf);
+		}
+		
+		}catch(Exception e) {	
+			e.printStackTrace();
+		return false;
+		}
+		
+		return true;
+	}
+
+	public List<LocationEMF> getLocationEmfListByLocid(String locationId) {
+		// TODO Auto-generated method stub
+		return locEmfDao.findLocationEmfByDate(locationId, null);
 	}
 
 

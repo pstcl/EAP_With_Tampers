@@ -10,7 +10,30 @@
 
 </head>
 
-<body>
+<body onload="myFunction()" style="margin: 0;">
+	<%@include file="authheader.jsp"%>
+	<div class="sticky-top">
+		<nav aria-label="breadcrumb" class="sticky-top">
+			<ol class="breadcrumb">
+				<li class="breadcrumb-item"><a
+					href="javascript:window.location='home'">Home</a></li>
+
+				<li class="breadcrumb-item active" aria-current="page">Sub
+					Station Master</li>
+			</ol>
+		</nav>
+	</div>
+	<script type="text/javascript">
+		$(document).ready(function() {
+
+			$('.modal-content').resizable({
+				//alsoResize: ".modal-dialog",
+				minHeight : 300,
+				minWidth : 600
+			});
+			$('.modal-dialog').draggable();
+		});
+	</script>
 
 
 	<script type="text/javascript">
@@ -26,7 +49,7 @@
 	}
 </script>
 
-	<%@include file="authheader.jsp"%>
+	
 	<%@include file="dataTablesHeader.jsp"%>
 	
 	

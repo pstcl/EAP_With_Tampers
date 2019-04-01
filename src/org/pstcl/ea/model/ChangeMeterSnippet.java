@@ -8,6 +8,8 @@ import org.pstcl.ea.model.entity.LocationMaster;
 import org.pstcl.ea.model.entity.MeterLocationMap;
 import org.pstcl.ea.model.entity.MeterMaster;
 import org.pstcl.ea.model.entity.SubstationMaster;
+import org.springframework.format.annotation.DateTimeFormat;
+
 
 public class ChangeMeterSnippet {
 
@@ -20,7 +22,9 @@ public class ChangeMeterSnippet {
 	//new values
 
 	private LocationMaster location;
+	@DateTimeFormat(pattern = "dd/MM/yyyy")
 	private Date startDate;
+	@DateTimeFormat(pattern = "dd/MM/yyyy")
 	private Date endDate;
 	
 	

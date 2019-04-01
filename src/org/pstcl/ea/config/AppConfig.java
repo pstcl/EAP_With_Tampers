@@ -10,6 +10,7 @@ import org.pstcl.ea.birt.spring.core.BirtView;
 import org.pstcl.ea.converters.CircleConverter;
 import org.pstcl.ea.converters.DivisionConverter;
 import org.pstcl.ea.converters.LocationConverter;
+import org.pstcl.ea.converters.LocationEmfConverter;
 import org.pstcl.ea.converters.MeterConverter;
 import org.pstcl.ea.converters.MeterLocationConverter;
 import org.pstcl.ea.converters.SubstationConverter;
@@ -51,8 +52,10 @@ public class AppConfig extends WebMvcConfigurerAdapter {
 	MeterConverter meterConverter;
 	@Autowired
 	MeterLocationConverter mtrLocConverter;
+    @Autowired
+    LocationEmfConverter locationEmfConverter;
 
-
+	
 	public void configureViewResolvers(final ViewResolverRegistry registry) {
 		final InternalResourceViewResolver viewResolver = new InternalResourceViewResolver();
 		viewResolver.setViewClass((Class) JstlView.class);
@@ -74,6 +77,7 @@ public class AppConfig extends WebMvcConfigurerAdapter {
 		registry.addConverter(locationConverter);
 		registry.addConverter(mtrLocConverter);
 		registry.addConverter(meterConverter);
+		registry.addConverter(locationEmfConverter);
 	}
 
 	@Bean

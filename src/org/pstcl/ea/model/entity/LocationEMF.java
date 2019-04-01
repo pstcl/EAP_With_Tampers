@@ -14,6 +14,7 @@ import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
 import org.pstcl.ea.util.EAUtil;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -42,7 +43,9 @@ public class LocationEMF {
 	private Integer netWHSign;
 
 
+	@DateTimeFormat(pattern = "dd/MM/yyyy")
 	private Date startDate;
+	@DateTimeFormat(pattern = "dd/MM/yyyy")
 	private Date endDate;
 	
 	

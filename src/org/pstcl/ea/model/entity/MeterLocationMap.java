@@ -11,6 +11,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
@@ -54,8 +56,9 @@ public class MeterLocationMap {
 	public void setMeterMaster(MeterMaster meterMaster) {
 		this.meterMaster = meterMaster;
 	}
-	
+	@DateTimeFormat(pattern = "dd/MM/yyyy")
 	private Date startDate;
+	@DateTimeFormat(pattern = "dd/MM/yyyy")
 	private Date endDate;
 	
 	@JsonIgnore

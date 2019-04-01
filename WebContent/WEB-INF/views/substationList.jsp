@@ -87,9 +87,9 @@
 
 			<table class="table table-striped table-bordered table-hover">
 				<col width="20">
-				<col width="80">
-				<col width="80">
-				<col width="80">
+				<col width="60">
+				<col width="60">
+				<col width="60">
 				<col width="800">
 
 				<tr>
@@ -139,7 +139,7 @@
                                          <fmt:formatDate value="${location.startDate}" pattern="yyyy-MM-dd HH:mm:ss" /></td>
                                           <td>
                                          <fmt:formatDate value="${location.endDate}" pattern="yyyy-MM-dd HH:mm:ss" /></td>
-                                         
+                                         <td><a href="changeLocationEmf?locationId=${location.locationMaster.locationId}">Change Location Emf</a></td>
 										<td><button data-toggle="collapse"
 												data-target="#demo${indexStatus.index+1 }"
 												onclick="getMeterData('${location.id}','${substation.substationMaster.ssCode}','demo${indexStatusSubstationList.index}_${indexStatus.index+1 }')">Meter

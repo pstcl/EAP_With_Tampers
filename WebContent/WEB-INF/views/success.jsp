@@ -12,9 +12,36 @@
 <meta charset="ISO-8859-1">
 <title>Insert title here</title>
 </head>
-<body>
-
+<body onload="myFunction()" style="margin: 0;">
 	<%@include file="authheader.jsp"%>
+	<div class="sticky-top">
+		<nav aria-label="breadcrumb" class="sticky-top">
+			<ol class="breadcrumb">
+				<li class="breadcrumb-item"><a
+					href="javascript:window.location='home'">Home</a></li>
+
+				
+				<li class="breadcrumb-item "><a
+					href="javascript:window.location='substationMaster'"
+					>Sub Station Master</a></li>
+
+				<li class="breadcrumb-item active" aria-current="page">Successfully Changed mapping</li>
+			</ol>
+		</nav>
+	</div>
+	<script type="text/javascript">
+		$(document).ready(function() {
+
+			$('.modal-content').resizable({
+				//alsoResize: ".modal-dialog",
+				minHeight : 300,
+				minWidth : 600
+			});
+			$('.modal-dialog').draggable();
+		});
+	</script>
+
+
 	<%@include file="dataTablesHeader.jsp"%>
 
 
