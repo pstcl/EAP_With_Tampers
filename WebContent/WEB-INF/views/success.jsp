@@ -45,7 +45,7 @@ $(document).ready(function() {
 				<c:forEach items="${Locationlist}" var="location"
 					varStatus="indexStatusSubstationList">
 					<tr>
-						<td>${location.meterMaster.meterSrNo}</td>
+						<td>${location.locationMaster.locationId}</td>
 						<td><fmt:formatDate value="${location.startDate}"
 								pattern="yyyy-MM-dd HH:mm:ss" /></td>
 						<td><fmt:formatDate value="${location.endDate}"
