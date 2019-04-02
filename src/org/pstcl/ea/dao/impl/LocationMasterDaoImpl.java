@@ -24,6 +24,7 @@ import org.pstcl.ea.util.DateUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 
 
@@ -34,6 +35,7 @@ public class LocationMasterDaoImpl extends AbstractDaoSLDC<String, LocationMaste
 	static final Logger logger = LoggerFactory.getLogger(LocationMasterDaoImpl.class);
 
 	@Override
+	@Transactional(value="sldcTxnManager")
 	public LocationMaster findById(String id) {
 		LocationMaster meter = getByKey(id);
 		return meter;
@@ -42,6 +44,7 @@ public class LocationMasterDaoImpl extends AbstractDaoSLDC<String, LocationMaste
 
 
 	@Override
+	@Transactional(value="sldcTxnManager")
 	public List<LocationMaster> findAllLocationMasters() {
 		Criteria crit = createEntityCriteria();
 		//crit.addOrder(Order.desc("Dia_MM_G6"));
@@ -52,6 +55,7 @@ public class LocationMasterDaoImpl extends AbstractDaoSLDC<String, LocationMaste
 
 
 	@Override
+	@Transactional(value="sldcTxnManager")
 	public void deleteById(String id) {
 		Criteria crit = createEntityCriteria();
 		crit.add(Restrictions.eq("id", id));
@@ -60,6 +64,7 @@ public class LocationMasterDaoImpl extends AbstractDaoSLDC<String, LocationMaste
 	}
 
 	@Override
+	@Transactional(value="sldcTxnManager")
 	public void save(LocationMaster meter,EAUser user) {
 		persist(meter);
 	}
@@ -92,8 +97,20 @@ public class LocationMasterDaoImpl extends AbstractDaoSLDC<String, LocationMaste
 	}
 
 	
+@Override
+public List<String> findDistinctUtiltiyName(){
+	Criteria criteria =  createEntityCriteria();
+	criteria.setProjection(Projections.distinct(Projections.property("utiltiyName")));
+	return (List<String>) criteria.list();
+}
 
 
+@Override
+public List<String> findDistinctVoltageLevel(){
+	Criteria criteria =  createEntityCriteria();
+	criteria.setProjection(Projections.distinct(Projections.property("voltageLevel")));
+	return (List<String>) criteria.list();
+}
 	
 
 

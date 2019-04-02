@@ -7,14 +7,17 @@ import javax.persistence.EntityManagerFactory;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 import org.pstcl.ea.dao.SubstationUtilityDao;
 import org.pstcl.ea.model.EAModel;
 import org.pstcl.ea.model.entity.CircleMaster;
 import org.pstcl.ea.model.entity.DivisionMaster;
+import org.pstcl.ea.model.entity.EAUser;
 import org.pstcl.ea.model.entity.LocationMaster;
 import org.pstcl.ea.model.entity.SubstationMaster;
+import org.pstcl.ea.model.entity.TamperLogTransaction;
 import org.pstcl.model.FilterModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -208,6 +211,15 @@ public class SubstationUtiltiyDaoImpl implements SubstationUtilityDao {
 	@Override
 	public SubstationMaster findSubstationByID(Integer code) {
 		return (SubstationMaster) getSession().get(SubstationMaster.class, code);
+	}
+	
+	@Override
+	public void update(SubstationMaster txn) {
+		Session session=sessionFactory.openSession();
+		Transaction transaction=session.beginTransaction();
+		session.update(txn);
+		transaction.commit();
+		session.close();
 	}
 
 	@Override

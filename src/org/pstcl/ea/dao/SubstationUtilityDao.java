@@ -25,6 +25,7 @@ public interface SubstationUtilityDao {
 	DivisionMaster findDivisionByID(Integer code);
 	SubstationMaster findSubstationByID(Integer code);
 	LocationMaster findLocationByID(String code);
+	void update(SubstationMaster txn);
 	
 	
 

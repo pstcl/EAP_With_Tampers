@@ -4,10 +4,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
+import org.pstcl.ea.dao.IMeterMasterDao;
 import org.pstcl.ea.dao.MeterLocationMapDao;
 import org.pstcl.ea.model.SubstationMeter;
 import org.pstcl.ea.model.entity.LocationMaster;
 import org.pstcl.ea.model.entity.MeterLocationMap;
+import org.pstcl.ea.model.entity.MeterMaster;
 import org.pstcl.ea.model.entity.SubstationMaster;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,7 +22,10 @@ public class LocationMeterMappingService {
 
 	@Autowired
 	MeterLocationMapDao mtrLocMapDao;
-
+	
+	@Autowired
+	IMeterMasterDao meterMasterDao;
+	
 	public List<SubstationMeter> findSubstationEnergyMeters() {
 		List <SubstationMaster> submasters = substationDataService.getSubstationList(null);
 		List <SubstationMeter> substationMeterList = new ArrayList<SubstationMeter>();
@@ -52,5 +57,10 @@ public class LocationMeterMappingService {
 		}
 
 		return substationMeterList;
+	}
+
+	public List<MeterMaster> findNotMappedMeters() {
+		// TODO Auto-generated method stub
+		return meterMasterDao.findMeterWithNoMapping();
 	}
 }

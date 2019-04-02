@@ -3,7 +3,11 @@ package org.pstcl.ea.service.impl;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Set;
 
+import org.pstcl.ea.dao.IBoundaryTypeMasterDao;
+import org.pstcl.ea.dao.IDeviceTypeMasterDao;
+import org.pstcl.ea.dao.IFeederMasterDao;
 import org.pstcl.ea.dao.ILocationEMFDao;
 import org.pstcl.ea.dao.ILocationMasterDao;
 import org.pstcl.ea.dao.IMeterMasterDao;
@@ -11,6 +15,7 @@ import org.pstcl.ea.dao.MeterLocationMapDao;
 import org.pstcl.ea.dao.SubstationUtilityDao;
 import org.pstcl.ea.model.ChangeLocationEmf;
 import org.pstcl.ea.model.ChangeMeterSnippet;
+import org.pstcl.ea.model.LocationMasterList;
 import org.pstcl.ea.model.entity.CircleMaster;
 import org.pstcl.ea.model.entity.DivisionMaster;
 import org.pstcl.ea.model.entity.LocationEMF;
@@ -24,28 +29,36 @@ import org.springframework.stereotype.Service;
 
 @Service("restService")
 public class RestService {
+
+	@Autowired
+	IDeviceTypeMasterDao deviceTypeMasterDao;
 	
 	@Autowired
 	ILocationEMFDao locEmfDao;
-	
+
 	@Autowired
 	MeterLocationMapDao mtrLocMapDao;
-
 
 	@Autowired
 	ILocationMasterDao locationMasterDao;
 	
-	public MeterLocationMap getMeterDetails(int id) {
-       return mtrLocMapDao.findById(id);
+	@Autowired
+	IFeederMasterDao feederMasterDao;
 	
+	@Autowired
+	IBoundaryTypeMasterDao boundaryTypeMasterDao;
+
+	public MeterLocationMap getMeterDetails(int id) {
+		return mtrLocMapDao.findById(id);
+
 	}
 
 	@Autowired
 	protected IMeterMasterDao meterDao;
 
+	@Autowired
+	SubstationUtilityDao locationDao;
 
-	@Autowired SubstationUtilityDao  locationDao;
-	
 	public SubstationMaster getSubstationMeterDetails(int ssCode) {
 		// TODO Auto-generated method stub
 		return locationDao.findSubstationByID(ssCode);
@@ -53,35 +66,37 @@ public class RestService {
 
 	public boolean saveDetails(ChangeMeterSnippet changeMeterSnippet) {
 		// TODO Auto-generated method stub
-		
+
 		MeterLocationMap oldMtrLocMap = changeMeterSnippet.getOldMeterLocationMap();
-	try {
-		oldMtrLocMap.setEndDate(changeMeterSnippet.getEndDate());
-		mtrLocMapDao.update(oldMtrLocMap, null);
-		System.out.println(oldMtrLocMap.getMeterMaster().getMeterSrNo());
-		System.out.println(oldMtrLocMap.getLocationMaster().getLocationId());
-		MeterLocationMap newMtrLocMap = new MeterLocationMap();
-		newMtrLocMap.setLocationMaster(changeMeterSnippet.getLocation());
+		try {
+			if(oldMtrLocMap!=null) {
+			oldMtrLocMap.setEndDate(changeMeterSnippet.getEndDate());
+			mtrLocMapDao.update(oldMtrLocMap, null);
+			System.out.println(oldMtrLocMap.getMeterMaster().getMeterSrNo());
+			System.out.println(oldMtrLocMap.getLocationMaster().getLocationId());
+			}
+
 		
-		newMtrLocMap.setMeterMaster(changeMeterSnippet.getMeterMaster());
-		newMtrLocMap.setStartDate(changeMeterSnippet.getStartDate());
-		if(mtrLocMapDao.find(newMtrLocMap)==false)
-		mtrLocMapDao.save(newMtrLocMap, null);
+		if(changeMeterSnippet.getSetNewMeter().equals("yes")) {
+			MeterLocationMap newMtrLocMap = new MeterLocationMap();
+			newMtrLocMap.setLocationMaster(changeMeterSnippet.getLocation());
+
+			newMtrLocMap.setMeterMaster(changeMeterSnippet.getMeterMaster());
+			newMtrLocMap.setStartDate(changeMeterSnippet.getStartDate());
+			if (mtrLocMapDao.find(newMtrLocMap) == false)
+				mtrLocMapDao.save(newMtrLocMap, null);
+		}
 		
 		return true;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return false;
 	}
-	catch(Exception e) {
-		e.printStackTrace();
-	}
-	return false;
-	}
-
 
 	public LocationMaster getMeterDeatils(String locationid) {
 		return locationMasterDao.findById(locationid);
 	}
-
-
 
 	public CircleMaster findCircleById(Integer code) {
 		return this.locationDao.findCircleByID(code);
@@ -94,7 +109,6 @@ public class RestService {
 	public SubstationMaster findSubstationById(Integer code) {
 		return this.locationDao.findSubstationByID(code);
 	}
-
 
 	public List<CircleMaster> getCircleList(FilterModel locationModel) {
 
@@ -113,21 +127,18 @@ public class RestService {
 		return this.locationDao.listLocations(locationModel);
 	}
 
-	public FilterModel getLocationModel(Integer circle, Integer divCode, Integer substationCode,String Locationid) {
-		FilterModel locationModel=new FilterModel();
-		if(circle!=null)
-		{
+	public FilterModel getLocationModel(Integer circle, Integer divCode, Integer substationCode, String Locationid) {
+		FilterModel locationModel = new FilterModel();
+		if (circle != null) {
 			locationModel.setSelectedCircle(findCircleById(circle));
 		}
-		if(divCode!=null)
-		{
+		if (divCode != null) {
 			locationModel.setSelectedDivision(findDivisionById(divCode));
 		}
-		if(substationCode!=null)
-		{
+		if (substationCode != null) {
 			locationModel.setSelectedSubstation(findSubstationById(substationCode));
 		}
-		if(Locationid!=null) {
+		if (Locationid != null) {
 			locationModel.setSelectedLocation(findLocationBYId(Locationid));
 		}
 		locationModel.setCircleList(getCircleList(locationModel));
@@ -151,26 +162,26 @@ public class RestService {
 
 	public boolean saveDetailsOfLocationEmf(ChangeLocationEmf changeLocationEmf) {
 		try {
-		if(changeLocationEmf.getOldLocationEmf()!=null) {
-			LocationEMF updateEmf= changeLocationEmf.getOldLocationEmf();
-			updateEmf.setEndDate(changeLocationEmf.getEndDate());
-			locEmfDao.update(updateEmf, null);
-		}
-		if(changeLocationEmf.getSetNewEmf().equals("yes")) {
-			LocationEMF newEmf = new LocationEMF();
-			newEmf.setLocationMaster(changeLocationEmf.getLocationMaster());
-			newEmf.setStartDate(changeLocationEmf.getStartDate());
-			newEmf.setExternalMF(new BigDecimal(changeLocationEmf.getExternalMF()));
-			if(locEmfDao.find(newEmf)==false)
-		    locEmfDao.save(newEmf, null);	
-		    System.out.println(newEmf);
-		}
-		
-		}catch(Exception e) {	
+			if (changeLocationEmf.getOldLocationEmf() != null) {
+				LocationEMF updateEmf = changeLocationEmf.getOldLocationEmf();
+				updateEmf.setEndDate(changeLocationEmf.getEndDate());
+				locEmfDao.update(updateEmf, null);
+			}
+			if (changeLocationEmf.getSetNewEmf().equals("yes")) {
+				LocationEMF newEmf = new LocationEMF();
+				newEmf.setLocationMaster(changeLocationEmf.getLocationMaster());
+				newEmf.setStartDate(changeLocationEmf.getStartDate());
+				newEmf.setExternalMF(new BigDecimal(changeLocationEmf.getExternalMF()));
+				if (locEmfDao.find(newEmf) == false)
+					locEmfDao.save(newEmf, null);
+				System.out.println(newEmf);
+			}
+
+		} catch (Exception e) {
 			e.printStackTrace();
-		return false;
+			return false;
 		}
-		
+
 		return true;
 	}
 
@@ -179,5 +190,50 @@ public class RestService {
 		return locEmfDao.findLocationEmfByDate(locationId, null);
 	}
 
+	public void saveMeterDetails(MeterMaster meter) {
+		//ask conditions of same meter
+		if(meterDao.findByMeterSrNo(meter.getMeterSrNo())==null)
+		meterDao.save(meter, null);
+		return;
+	}
+
+	public void setOnlyMeter(ChangeMeterSnippet chgMtr, String meterId) {
+		chgMtr.setMeterMaster(meterDao.findByMeterSrNo(meterId));
+		
+	}
+
+	public LocationMasterList getLocationMasterListModel() {
+		// TODO Auto-generated method stub
+		LocationMasterList list = new LocationMasterList();
+		list.setUtiltiyName(locationMasterDao.findDistinctUtiltiyName());
+		list.setVoltageLevel(locationMasterDao.findDistinctVoltageLevel());
+		list.setBoundaryTypeMaster(boundaryTypeMasterDao.findAllUsers());
+		list.setFeederMaster(feederMasterDao.findAllFeeders());
+		list.setDeviceTypeMaster(deviceTypeMasterDao.findAllDeviceTypes());
+		return list;
+	}
+	
+	public void saveLocationMasterDetails(LocationMaster locationMaster) {
+		//ask conditions of same meter
+		if(locationMasterDao.findById(locationMaster.getLocationId())==null) {
+		locationMasterDao.save(locationMaster, null);
+		SubstationMaster substationMaster = locationMaster.getSubstationMaster();
+		Set <LocationMaster> list = substationMaster.getLocationMasters();
+		list.add(locationMaster);
+		substationMaster.setLocationMasters(list);
+		locationDao.update(substationMaster);
+		}
+		return;
+		
+	}
+
+	public LocationMasterList MeterListModel() {
+		// TODO Auto-generated method stub
+		LocationMasterList list = new LocationMasterList();
+        list.setMeterCategory(meterDao.findDistinctMeterCategory());
+        list.setMeterMake(meterDao.findDistinctMeterMake());
+        list.setMeterType(meterDao.findDistinctMeterType());
+		return list;
+	}
 
 }

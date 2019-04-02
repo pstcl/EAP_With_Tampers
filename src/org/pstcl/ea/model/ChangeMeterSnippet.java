@@ -26,8 +26,8 @@ public class ChangeMeterSnippet {
 	private Date startDate;
 	@DateTimeFormat(pattern = "dd/MM/yyyy")
 	private Date endDate;
-	
-	
+	private String error;
+	private String setNewMeter;
 	
 	
 	
@@ -38,10 +38,30 @@ public class ChangeMeterSnippet {
 
 	
 	
+
 	
 	
 	
-	
+	public String getSetNewMeter() {
+		return setNewMeter;
+	}
+
+
+
+
+
+
+
+	public void setSetNewMeter(String setNewMeter) {
+		this.setNewMeter = setNewMeter;
+	}
+
+
+
+
+
+
+
 	public Date getStartDate() {
 		return startDate;
 	}
@@ -79,5 +99,33 @@ public class ChangeMeterSnippet {
 	public void setLocation(LocationMaster location) {
 		this.location = location;
 	}
+
+
+
+
+
+
+
+	public String getError() {
+		return error;
+	}
+
+
+
+
+
+
+
+	public void setError(String error) {
+		this.error = error;
+	}
+
+
+
+
+
+
+
+	
 
 }

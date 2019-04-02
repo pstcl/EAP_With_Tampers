@@ -158,6 +158,38 @@
 								</c:forEach>
 							</table>
 				</c:forEach>
+				<tr>
+					<td></td>
+					<td>Meters With No Mapping</td>
+					<td></td>
+					<td></td>
+					<td>
+					<table class="table table-striped table-bordered table-hover">	
+					<thead>
+					<tr>
+					<th>Meter Sr No</th>
+					<th>Meter Type</th>
+					<th>Add Mapping</th>
+					</tr>
+					</thead>
+					<tbody>
+				<c:forEach items="${notMappedMeters}" var="meter"
+					varStatus="indexStatusSubstationList">
+					
+						
+					<tr>
+					
+					<td>${meter.meterSrNo}</td>
+					<td>${meter.meterType}</td>
+					<td><a href="changeNewMeterDetails?meterId=${meter.meterSrNo}">Change Details</a></td>	
+					</tr>
+					
+				</c:forEach>
+				</tbody>
+				</table>
+				</td>
+					</tr>
+	
 			</table>
 			<div class="modal fade" id="myModal">
 				<div class="modal-dialog modal-lg">

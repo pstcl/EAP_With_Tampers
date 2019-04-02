@@ -66,6 +66,14 @@
 			});
 		</script>
 
+
+<script type="text/javascript">
+function showDiv(divId, element)
+{
+    document.getElementById(divId).style.display = element.value == "yes" ? 'block' : 'none';
+}
+</script>
+
 	<form:form method="POST"
 		modelAttribute="changeMeterSnippet" id="changeDetails">
 <div class="row">
@@ -81,6 +89,9 @@
 			</div>
 		</div>
 		<form:hidden path="meterMaster" value="${changeMeterSnippet.meterMaster.meterSrNo}"></form:hidden>
+		
+		<c:choose>
+			<c:when test="${changeMeterSnippet.oldMeterLocationMap != null}">
 		<form:hidden path="oldMeterLocationMap" value="${changeMeterSnippet.oldMeterLocationMap.id}"></form:hidden>
 		<div class="row">
 			<div class="form-control ">
@@ -91,8 +102,18 @@
 		</div>
 
 
+</c:when>
+</c:choose>
 
-
+<div class="row">
+		<div class="form-control">
+		<form:select path="setNewMeter" id="setNewMeter" onchange="showDiv('hidden_div', this)">
+		<option value="no">No</option>
+		<option value="yes">Yes</option>
+		</form:select>
+		</div>
+		</div>
+		<div id="hidden_div" style="display: none;">
 
 
 		<%@include file="locationFilterView.jsp"%>
@@ -107,7 +128,7 @@
 					class="form-control input-sm" />
 			</div>
 		</div>
-
+</div>
 
 		<div class="form-group">
 			<div class="col-lg-offset-2 col-lg-10">

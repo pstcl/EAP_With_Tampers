@@ -14,4 +14,7 @@ public interface ILocationMasterDao {
 	List<LocationMaster> findAllLocationMasters(EAFilter filterModel);
 	void save(LocationMaster meter, EAUser user);
 	LocationMaster findById(String id);
+	
+	List<String> findDistinctUtiltiyName();
+	List<String> findDistinctVoltageLevel();
 }

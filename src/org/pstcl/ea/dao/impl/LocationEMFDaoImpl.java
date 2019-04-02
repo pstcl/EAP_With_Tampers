@@ -71,7 +71,7 @@ public class LocationEMFDaoImpl implements ILocationEMFDao {
 	public void save(LocationEMF txn,EAUser user) {
 		Session session=sessionFactory.openSession();
 		Transaction transaction=session.beginTransaction();
-		getSession().persist(txn);
+		session.persist(txn);
 		transaction.commit();
 		session.close();
 	}
@@ -80,7 +80,7 @@ public class LocationEMFDaoImpl implements ILocationEMFDao {
 	public void update(LocationEMF txn,EAUser user) {
 		Session session=sessionFactory.openSession();
 		Transaction transaction=session.beginTransaction();
-		getSession().update(txn);
+		session.update(txn);
 		transaction.commit();
 		session.close();
 	}

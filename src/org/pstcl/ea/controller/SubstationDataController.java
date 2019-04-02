@@ -66,6 +66,7 @@ public class SubstationDataController {
 		model.addAttribute("currentUser", substationDataService.getLoggedInUser());
 		//added for editing meter details leevansha	
 		model.addAttribute("substationList", locationMeterMappingService.findSubstationEnergyMeters());
+		model.addAttribute("notMappedMeters",locationMeterMappingService.findNotMappedMeters());
 		return "substationList";
 	}
 

@@ -132,6 +132,7 @@
 			});
 			$.each(data.locationList, function(idx, obj) {
 				//alert(obj.stationName);
+				console.log(obj.locationId);
 				$('#locationDD').append(
 						$("<option></option>")
 								.attr("value", obj.locationId).text(
