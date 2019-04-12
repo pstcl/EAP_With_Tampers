@@ -71,7 +71,7 @@ public class LocationEMFDaoImpl implements ILocationEMFDao {
 	public void save(LocationEMF txn,EAUser user) {
 		Session session=sessionFactory.openSession();
 		Transaction transaction=session.beginTransaction();
-		getSession().persist(txn);
+		session.persist(txn);
 		transaction.commit();
 		session.close();
 	}
@@ -80,7 +80,7 @@ public class LocationEMFDaoImpl implements ILocationEMFDao {
 	public void update(LocationEMF txn,EAUser user) {
 		Session session=sessionFactory.openSession();
 		Transaction transaction=session.beginTransaction();
-		getSession().update(txn);
+		session.update(txn);
 		transaction.commit();
 		session.close();
 	}
@@ -94,6 +94,7 @@ public class LocationEMFDaoImpl implements ILocationEMFDao {
 			{
 				if (null != locationEMF) {
 					session.save(locationEMF);
+					
 				}
 
 			}
@@ -167,9 +168,11 @@ public class LocationEMFDaoImpl implements ILocationEMFDao {
 		if(locationId!=null) {
 			crit.add((Restrictions.eq("locationMaster.locationId", locationId)));
 		}
+		if(startDateOftheMonth!=null) {
 		Criterion rest4= Restrictions.ge("endDate",startDateOftheMonth);
 		Criterion rest5= Restrictions.isNull("endDate");
 		crit.add(Restrictions.or( rest4,rest5));
+		}
 		return (List<LocationEMF>) crit.list();
 
 	}
@@ -195,6 +198,28 @@ public class LocationEMFDaoImpl implements ILocationEMFDao {
 		crit.add(Restrictions.or( rest4,rest5));
 		return (List<LocationEMF>) crit.list();
 
+	}
+	@Override
+	public LocationEMF findLocationRecentEmf(String locationId) {
+		Criteria crit = createEntityCriteria();
+		crit.add((Restrictions.eq("locationMaster.locationId", locationId)));
+		crit.add(Restrictions.isNull("endDate"));
+		return (LocationEMF) crit.uniqueResult();
+	}
+	
+
+	@Override
+	@Transactional(value="sldcTxnManager")
+	public boolean find(LocationEMF newEmf) {
+		Criteria crit = createEntityCriteria();
+		crit.add((Restrictions.eq("locationMaster.locationId", newEmf.getLocationMaster().getLocationId())));
+		crit.add((Restrictions.eq("startDate", newEmf.getStartDate())));
+		crit.add((Restrictions.eq("externalMF", newEmf.getExternalMF())));
+		List <LocationEMF> list = (List<LocationEMF>) crit.list();
+		if(list!=null && list.size()>0)
+			return true;
+		return false;
+		
 	}
 }
 

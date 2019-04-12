@@ -3,23 +3,42 @@ package org.pstcl.ea.dao.impl;
 import java.util.List;
 
 import org.hibernate.Criteria;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import org.pstcl.ea.dao.IMeterMasterDao;
 import org.pstcl.ea.model.EAFilter;
 import org.pstcl.ea.model.entity.EAUser;
+import org.pstcl.ea.model.entity.LocationEMF;
 import org.pstcl.ea.model.entity.LocationMaster;
+import org.pstcl.ea.model.entity.MeterLocationMap;
 import org.pstcl.ea.model.entity.MeterMaster;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 
 
 @Repository("meterMasterDao")
 @org.springframework.transaction.annotation.Transactional(value="sldcTxnManager")
 public class MeterMasterDaoImpl extends AbstractDaoSLDC<String, MeterMaster> implements IMeterMasterDao {
+
+	@Transactional(value="sldcTxnManager")
+	protected Session getSession(){
+
+		return sessionFactory.getCurrentSession();
+	}
+
+	@Autowired 
+	@Qualifier("sldcSessionFactory")
+	private SessionFactory sessionFactory;
+
 
 	static final Logger logger = LoggerFactory.getLogger(MeterMasterDaoImpl.class);
 
@@ -52,12 +71,18 @@ public class MeterMasterDaoImpl extends AbstractDaoSLDC<String, MeterMaster> imp
 	@Override
 	public void save(MeterMaster meter,EAUser user) {
 		//persist(meter);
+		Session session=sessionFactory.openSession();
+		Transaction transaction=session.beginTransaction();
+		session.persist(meter);
+		transaction.commit();
+		session.close();
 	}
 
 	@Override
 	public void persist(MeterMaster meter) {
 		//persist(meter);
 		//To avoid accidental update In meters
+	
 	}
 
 
@@ -65,6 +90,11 @@ public class MeterMasterDaoImpl extends AbstractDaoSLDC<String, MeterMaster> imp
 	public void update(MeterMaster meter) {
 		//persist(meter);
 		//To avoid accidental update In meters
+		Session session=sessionFactory.openSession();
+		Transaction transaction=session.beginTransaction();
+		session.update(meter);
+		transaction.commit();
+		session.close();
 	}
 
 
@@ -122,6 +152,35 @@ public class MeterMasterDaoImpl extends AbstractDaoSLDC<String, MeterMaster> imp
 	}
 
 
+@Override
+public List<MeterMaster> findMeterWithNoMapping(){
+	Criteria critLocationList = getSession().createCriteria(MeterLocationMap.class);
+	critLocationList.add(Restrictions.isNull("endDate"));
+	critLocationList.setProjection(Projections.projectionList().add(Projections.distinct(Projections.property("meterMaster.meterSrNo"))) );
+    List <String> meterSrNo = critLocationList.list();
+	Criteria crit = createEntityCriteria();
+	crit.add(Restrictions.not(Restrictions.in("meterSrNo", meterSrNo)));
+	return (List<MeterMaster>) crit.list();
+}
 
+@Override
+public List<String> findDistinctMeterMake(){
+	Criteria criteria =  createEntityCriteria();
+	criteria.setProjection(Projections.distinct(Projections.property("meterMake")));
+	return (List<String>) criteria.list();
+}
 
+@Override
+public List<String> findDistinctMeterType(){
+	Criteria criteria =  createEntityCriteria();
+	criteria.setProjection(Projections.distinct(Projections.property("meterType")));
+	return (List<String>) criteria.list();
+}
+
+@Override
+public List<String> findDistinctMeterCategory(){
+	Criteria criteria =  createEntityCriteria();
+	criteria.setProjection(Projections.distinct(Projections.property("meterCategory")));
+	return (List<String>) criteria.list();
+}
 }

@@ -11,14 +11,12 @@
 <script type="text/javascript">
 	function viewDetails(modalid) {
 		$(modelid).modal('toggle');
-
 	}
 </script>
 <%@include file="header.jsp"%>
 
 <script type="text/javascript">
 		$(document).ready(function() {
-
 			$('.modal-content').resizable({
 				//alsoResize: ".modal-dialog",
 				minHeight : 300,

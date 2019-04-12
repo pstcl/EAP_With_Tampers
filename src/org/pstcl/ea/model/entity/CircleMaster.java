@@ -50,7 +50,7 @@ public class CircleMaster implements Serializable {
 
 
 	//bi-directional many-to-one association to DivisionMaster
-	@OneToMany(mappedBy="circleMaster")
+	@OneToMany(mappedBy="circleMaster",fetch = FetchType.EAGER)
 	public Set<DivisionMaster> getDivisionMasters() {
 		return this.divisionMasters;
 	}

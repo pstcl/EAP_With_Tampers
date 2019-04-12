@@ -65,7 +65,7 @@ public class DataReaderThread {
 
 		// Define Variables
 		LocationMaster location = null;
-		Date date = null;
+		Date transactionDate = null;
 		BigDecimal phaseAVoltage = null, phaseBVoltage = null, phaseCVoltage = null, phaseACurrent = null;
 		BigDecimal phaseBCurrent = null;
 		BigDecimal phaseCCurrent = null;
@@ -190,8 +190,9 @@ public class DataReaderThread {
 					|| instantRegisterLineJustFetched.contains("LOAD_SURVEY")
 					|| instantRegisterLineJustFetched.contains("TAMPER_LOG")
 					|| instantRegisterLineJustFetched.contains("METER_INFO")) {
-
-				InstantRegisters register = new InstantRegisters(cmriFileDataModel.getFileMaster().getLocation(), date, phaseAVoltage, phaseBVoltage, phaseCVoltage,
+if(transactionDate==null)
+	transactionDate = new Date();
+				InstantRegisters register = new InstantRegisters(cmriFileDataModel.getFileMaster().getLocation(), transactionDate, phaseAVoltage, phaseBVoltage, phaseCVoltage,
 						phaseACurrent, phaseBCurrent, phaseCCurrent, phaseAVoltAngle, phaseBVoltAngle, phaseCVoltAngle,
 						phaseACurrentAngle, phaseBCurrentAngle, phaseCCurrentAngle, threePhasePF, frequency, activePowerA,
 						activePowerB, activePowerC, activePowerTotal,
@@ -239,8 +240,8 @@ public class DataReaderThread {
 
 				SimpleDateFormat parser = new SimpleDateFormat("dd/MM/yy HH:mm:ss");
 				if (linep[0].equalsIgnoreCase("Date/Time")) {
-					date = parser.parse(linep[2]);
-					fileDetails.setTransactionDate(date);
+					transactionDate = parser.parse(linep[2]);
+					fileDetails.setTransactionDate(transactionDate);
 
 				} 
 				else if (linep[0].equalsIgnoreCase("Phase A Voltage")) {
@@ -1513,7 +1514,7 @@ public class DataReaderThread {
 			loadSurveyTransactionDao.save(cmriFileDataModel.getLoadSurveyTransactions(), getLoggedInUser());
 			saveFileDetails(cmriFileDataModel.getFileMaster());
 			tamperLogDao.save(cmriFileDataModel.getTamperLogs(), getLoggedInUser());
-
+			instantRegistersDao.save(cmriFileDataModel.getInstantRegistersDetails(), getLoggedInUser());
 		} else {
 			saveFileDetails(cmriFileDataModel.getFileMaster());
 			// fileMasterDao.update(cmriFileDataModel.getFileMaster(), getLoggedInUser());

@@ -12,5 +12,6 @@ public interface IBoundaryTypeMasterDao {
 	List<BoundaryTypeMaster> listDivisions(BoundaryTypeMaster user);
 	List<BoundaryTypeMaster> findUserHistory(EAFilter model);
 	void save(BoundaryTypeMaster eaUser);
+	BoundaryTypeMaster findBoundaryById(Integer id);
 	
 }

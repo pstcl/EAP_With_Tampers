@@ -35,5 +35,17 @@ public interface ILocationEMFDao {
 
 
 
+	LocationEMF findLocationRecentEmf(String locationId);
+
+
+
+	boolean find(LocationEMF newEmf);
+
+
+
+	
+
+
+
 
 }

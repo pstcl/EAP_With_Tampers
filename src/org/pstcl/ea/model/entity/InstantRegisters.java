@@ -37,7 +37,7 @@ public class InstantRegisters {
 	private LocationMaster location;
 	
 	@Column(nullable=false)
-	private Date transactionDate;
+	private Date transactionDate=new Date();
 	
 	public Date getTransactionDate() {
 		return transactionDate;
@@ -1435,7 +1435,7 @@ private int dayOfMonth;
   // LocationMaster, Date, BigDecimal, BigDecimal, BigDecimal, BigDecimal, BigDecimal, BigDecimal, BigDecimal, BigDecimal, BigDecimal, BigDecimal, BigDecimal, BigDecimal, BigDecimal, BigDecimal, BigDecimal, BigDecimal, BigDecimal, BigDecimal, BigDecimal, BigDecimal, BigDecimal, BigDecimal, BigDecimal, BigDecimal, BigDecimal, BigDecimal, BigDecimal, BigDecimal, BigDecimal, BigDecimal, BigDecimal, BigDecimal, BigDecimal, BigDecimal, BigDecimal, BigDecimal, BigDecimal, BigDecimal, BigDecimal, BigDecimal, BigDecimal, BigDecimal, BigDecimal, BigDecimal, BigDecimal, BigDecimal, BigDecimal, BigDecimal, BigDecimal, BigDecimal, BigDecimal, BigDecimal, BigDecimal, BigDecimal, BigDecimal, BigDecimal, BigDecimal, BigDecimal, BigDecimal, BigDecimal, BigDecimal, BigDecimal, BigDecimal, BigDecimal, BigDecimal, BigDecimal, BigDecimal, BigDecimal, BigDecimal, BigDecimal, BigDecimal, BigDecimal, BigDecimal, BigDecimal, BigDecimal, BigDecimal, BigDecimal, BigDecimal, BigDecimal, BigDecimal, BigDecimal, BigDecimal, BigDecimal, BigDecimal, BigDecimal, BigDecimal, BigDecimal, BigDecimal, BigDecimal, BigDecimal, BigDecimal, BigDecimal, BigDecimal, BigDecimal, BigDecimal, BigDecimal, BigDecimal, BigDecimal, BigDecimal, BigDecimal, BigDecimal, BigDecimal, BigDecimal, BigDecimal, BigDecimal, BigDecimal, Date, Date, Date, Date, Date, Date, Date, Date, Date, Date, Date, Date, Date, Date, long, BigDecimal, BigDecimal, BigDecimal, BigDecimal, long, long, Integer, String, String, String, String, String
 	    
    
-    public InstantRegisters(LocationMaster location, Date date, BigDecimal phaseAVoltage, BigDecimal phaseBVoltage,
+    public InstantRegisters(LocationMaster location, Date transactionDate, BigDecimal phaseAVoltage, BigDecimal phaseBVoltage,
 		BigDecimal phaseCVoltage, BigDecimal phaseACurrent, BigDecimal phaseBCurrent, BigDecimal phaseCCurrent,
 		BigDecimal phaseAVoltAngle, BigDecimal phaseBVoltAngle, BigDecimal phaseCVoltAngle,
 		BigDecimal phaseACurrentAngle, BigDecimal phaseBCurrentAngle, BigDecimal phaseCCurrentAngle,
@@ -1494,7 +1494,7 @@ private int dayOfMonth;
 		String displaySegmentStatus, String filename) {
 
 	this.location = location;
-	this.transactionDate = date;
+	this.transactionDate = transactionDate;
 	this.phaseAVoltage = phaseAVoltage;
 	this.phaseBVoltage = phaseBVoltage;
 	this.phaseCVoltage = phaseCVoltage;
@@ -1629,7 +1629,7 @@ private int dayOfMonth;
 	this.displaySegmentStatus = displaySegmentStatus;
 	this.filename = filename;
 	Calendar cal = Calendar.getInstance();
-	cal.setTime(date);
+	cal.setTime(transactionDate);
 	this.setYear(cal.get(Calendar.YEAR));
 	this.setMonthOfYear(cal.get(Calendar.MONTH));
 	this.setDayOfMonth(cal.get(Calendar.DAY_OF_MONTH));

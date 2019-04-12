@@ -3,15 +3,15 @@ package org.pstcl.ea.model.entity;
 import java.util.Date;
 
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
+
+import org.springframework.format.annotation.DateTimeFormat;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -56,8 +56,9 @@ public class MeterLocationMap {
 	public void setMeterMaster(MeterMaster meterMaster) {
 		this.meterMaster = meterMaster;
 	}
-	
+	@DateTimeFormat(pattern = "dd/MM/yyyy")
 	private Date startDate;
+	@DateTimeFormat(pattern = "dd/MM/yyyy")
 	private Date endDate;
 	
 	@JsonIgnore

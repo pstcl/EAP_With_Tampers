@@ -2,7 +2,6 @@ package org.pstcl.ea.model;
 
 import java.util.Date;
 import java.util.List;
-
 import org.pstcl.ea.model.entity.FileMaster;
 import org.pstcl.ea.model.entity.LocationMaster;
 

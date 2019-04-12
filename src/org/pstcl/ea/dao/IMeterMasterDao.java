@@ -15,4 +15,8 @@ public interface IMeterMasterDao {
 	List<MeterMaster> findAllMeterMasters(EAFilter filterModel);
 	void save(MeterMaster meter, EAUser user);
 	MeterMaster findMeterForMonth(String locationid, int month, int year);
+	List<MeterMaster> findMeterWithNoMapping();
+	List<String> findDistinctMeterMake();
+	List<String> findDistinctMeterType();
+	List<String> findDistinctMeterCategory();
 }

@@ -23,6 +23,11 @@ public class BoundaryMasterDaoImpl extends AbstractDaoSLDC<String, BoundaryTypeM
 		return user;
 	}
 	
+	@Override
+	public BoundaryTypeMaster findBoundaryById(Integer id) {
+		return getSession().get(BoundaryTypeMaster.class,id);
+	}
+
 
 
 	@Override

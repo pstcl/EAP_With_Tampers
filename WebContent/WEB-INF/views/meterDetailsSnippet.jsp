@@ -3,52 +3,52 @@
 
 	<tr>
 		<th>Location Id</th>
-		<td>${location.locationId}</td>
+		<td>${location.locationMaster.locationId}</td>
 	</tr>
 	<tr>
 		<th>utiltiyName</th>
 
-		<td>${location.utiltiyName}</td>
+		<td>${location.locationMaster.utiltiyName}</td>
 	</tr>
 
 	<tr>
 		<th>Division Name</th>
-		<td>${location.substationMaster.divisionMaster.divisionname}</td>
+		<td>${substation.divisionMaster.divisionname}</td>
 	</tr>
 
 	<tr>
 		<th>Station Name</th>
 
-		<td>${location.substationMaster.stationName}</td>
+		<td>${substation.stationName}</td>
 	</tr>
 
 
 	<tr>
 		<th>Device Type</th>
-		<td>${location.deviceTypeMaster.deviceType}</td>
+		<td>${location.locationMaster.deviceTypeMaster.deviceType}</td>
 	</tr>
 
 	<tr>
 		<th>Feeder Name</th>
 
-		<td>${location.feederMaster.feederName}</td>
+		<td>${location.locationMaster.feederMaster.feederName}</td>
 	</tr>
 
 	<tr>
 		<th>Boundary Type</th>
 
-		<td>${location.boundaryTypeMaster.boundaryType}</td>
+		<td>${location.locationMaster.boundaryTypeMaster.boundaryType}</td>
 	</tr>
 
 	<tr>
 		<th>Voltage Level</th>
 
-		<td>${location.voltageLevel}</td>
+		<td>${substation.voltageLevel}</td>
 	</tr>
 
 	<tr>
 		<th>Status</th>
-		<td>${location.location_status}</td>
+		<td>${location.locationMaster.location_status}</td>
 	</tr>
 
 	<tr>
@@ -75,18 +75,18 @@
 
 	<tr>
 		<th>External CT Ratio</th>
-		<td>${location.externalCTRation}</td>
+		<td>${location.locationMaster.externalCTRation}</td>
 	</tr>
 
 	<tr>
 		<th>External PT Ratio</th>
-		<td>${location.externalPTRation}</td>
+		<td>${location.locationMaster.externalPTRation}</td>
 	</tr>
 
-	<tr>
-		<th>External MF</th>
-		<td>${location.externalMF}</td>
-	</tr>
+<!-- 	<tr> -->
+<!-- 		<th>External MF</th> -->
+<%-- 		<td>${location.externalMF}</td> --%>
+<!-- 	</tr> -->
 
 	<tr>
 		<th>CT Accuracy</th>

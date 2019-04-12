@@ -90,7 +90,7 @@ public class TamperLogDaoImpl  implements ITamperLogDao {
 	public void save(TamperLogTransaction txn,EAUser user) {
 		Session session=sessionFactory.openSession();
 		Transaction transaction=session.beginTransaction();
-		getSession().persist(txn);
+		session.persist(txn);
 		transaction.commit();
 		session.close();
 	}
@@ -99,7 +99,7 @@ public class TamperLogDaoImpl  implements ITamperLogDao {
 	public void update(TamperLogTransaction txn,EAUser user) {
 		Session session=sessionFactory.openSession();
 		Transaction transaction=session.beginTransaction();
-		getSession().update(txn);
+		session.update(txn);
 		transaction.commit();
 		session.close();
 	}

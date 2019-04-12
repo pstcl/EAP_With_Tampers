@@ -12,15 +12,27 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
  * The persistent class for the location_master database table.
  * 
  */
+
 @Entity
 @Table(name="location_master")
 @NamedQuery(name="LocationMaster.findAll", query="SELECT l FROM LocationMaster l")
 public class LocationMaster implements Serializable {
 
+@JsonIgnore
+@Transient
+private String error;
 
 	
 	
 	
+	public String getError() {
+	return error;
+}
+
+public void setError(String error) {
+	this.error = error;
+}
+
 	//@Column(precision=14,scale=2)
 	//private BigDecimal externalMF;
 	private String externalPTRation;
@@ -304,6 +316,14 @@ public class LocationMaster implements Serializable {
 		this.lossReportOrder = lossReportOrder;
 	}
 
+	public boolean check() {
+		if(this.getLocationId()==null || this.getCircleMaster()==null || this.getDivisionMaster()==null || this.getSubstationMaster()==null) {
+			this.setError("One of Value is Null");
+			return false;
+		}
+		this.setError("");
+		return true;
+	}
 	
 //	public BigDecimal getExternalMF() {
 //		return externalMF;
