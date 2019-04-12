@@ -319,6 +319,7 @@
 								</div>
 							</a>
 						</div>
+						
 						<sec:authorize access="hasAnyRole('ROLE_SS_AE','ROLE_SR_XEN')">
 
 							<div class="form-control col-sm-4">
@@ -347,7 +348,7 @@
 								<br>
 								<a href='getPendingLossReportLocationPM?month=11&year=2018' title='Dec'>December,2018</a>"
 								data-original-title="Select Month"><span>
-									<div class="card" data-toggle="tooltip" data-placement="top"
+								<div class="card" data-toggle="tooltip" data-placement="top"
 										title="Meters for which no data has been uploaded yet!">
 										<i class="fas fa-binoculars fa-5x"></i>
 
@@ -416,7 +417,26 @@
 							</span></a>
 						</div>
 					</sec:authorize>
+<sec:authorize
+						access="hasAnyRole('ROLE_SLDC_USER','ROLE_SLDC_ADMIN')">
 
+
+							
+							
+							<div class="form-control col-sm-4">
+							<a class="nav-link"
+								href="javascript:window.location='addMappings'">
+								<div class="card" style="align-items: center;"
+									data-toggle="tooltip" data-placement="top"
+									title="Add New Locations , Meters And locations for Report Calculations">
+									<i class="fas fa-cloud-upload-alt fa-5x"></i>
+									<div class="card-body">
+										<div class="app-title">Add Mappings</div>
+									</div>
+								</div>
+							</a>
+						</div>
+					</sec:authorize>
 
 
 				</div>

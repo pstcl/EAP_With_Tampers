@@ -69,7 +69,11 @@ public class RestService {
 		// TODO Auto-generated method stub
 		return locationDao.findSubstationByID(ssCode);
 	}
-
+/**
+ * Check Save details of changed location meter mapping
+ * @param changeMeterSnippet
+ * @return
+ */
 	public boolean saveDetails(ChangeMeterSnippet changeMeterSnippet) {
 		// TODO Auto-generated method stub
 
@@ -133,6 +137,15 @@ public class RestService {
 		return this.locationDao.listLocations(locationModel);
 	}
 
+	
+	/**
+	 * Generate interlinked select options on selecting circle,substation ,division
+	 * @param circle
+	 * @param divCode
+	 * @param substationCode
+	 * @param Locationid
+	 * @return
+	 */
 	public FilterModel getLocationModel(Integer circle, Integer divCode, Integer substationCode, String Locationid) {
 		FilterModel locationModel = new FilterModel();
 		if (circle != null) {
@@ -165,7 +178,11 @@ public class RestService {
 	public LocationEMF getLocationRecentEmfByLocid(String locationId) {
 		return locEmfDao.findLocationRecentEmf(locationId);
 	}
-
+/**
+ * Check and save details of location and emf mapping
+ * @param changeLocationEmf
+ * @return
+ */
 	public boolean saveDetailsOfLocationEmf(ChangeLocationEmf changeLocationEmf) {
 		try {
 			if (changeLocationEmf.getOldLocationEmf() != null) {
@@ -191,11 +208,18 @@ public class RestService {
 		return true;
 	}
 
+	/*
+	 * display mapped emf with location on successful changed details
+	 */
 	public List<LocationEMF> getLocationEmfListByLocid(String locationId) {
 		// TODO Auto-generated method stub
 		return locEmfDao.findLocationEmfByDate(locationId, null);
 	}
 
+	/**
+	 * Check and save details of added new meter
+	 * @param meter
+	 */
 	public void saveMeterDetails(MeterMaster meter) {
 		//ask conditions of same meter
 		if(meterDao.findByMeterSrNo(meter.getMeterSrNo())==null)
@@ -208,6 +232,10 @@ public class RestService {
 		
 	}
 
+	/**
+	 * Service to generate options in adding - location form 
+	 * @return
+	 */
 	public LocationMasterList getLocationMasterListModel() {
 		// TODO Auto-generated method stub
 		LocationMasterList list = new LocationMasterList();
@@ -219,6 +247,10 @@ public class RestService {
 		return list;
 	}
 	
+	/**
+	 * check and save details of added location in adding new location form
+	 * @param locationMaster
+	 */
 	public void saveLocationMasterDetails(LocationMaster locationMaster) {
 		//ask conditions of same meter
 		if(locationMasterDao.findById(locationMaster.getLocationId())==null) {
@@ -232,7 +264,10 @@ public class RestService {
 		return;
 		
 	}
-
+/**
+ * To generate options with fixed values in adding new meter form 
+ * @return
+ */
 	public LocationMasterList MeterListModel() {
 		// TODO Auto-generated method stub
 		LocationMasterList list = new LocationMasterList();
@@ -242,6 +277,11 @@ public class RestService {
 		return list;
 	}
 
+	/**
+	 * Service to generate options of added and can be added locations for selected month
+	 * @param addReportLocations
+	 * @return
+	 */
 	public List<LocationMaster> selectReportLocations(AddReportLocationModel addReportLocations) {
 		 
 		int month = addReportLocations.getMonth();
@@ -258,7 +298,11 @@ public class RestService {
 		//addReportLocations.setAddingLocations(pendingLocation);
 		return pendingLocation;
 	}
-
+/**
+ * Save details of changes made for report month - location form
+ * @param addReportLocations
+ * @return
+ */
 	public AddReportLocationModel saveReportLocations(AddReportLocationModel addReportLocations) {
 		int month = addReportLocations.getMonth();
 		int year = addReportLocations.getYear();

@@ -205,6 +205,15 @@ public class SubstationDataController {
 
 		return new HttpEntity<byte[]>(pdfFile, headers);
 	}
-
-
+/**
+ * App mappings Link to add Newly created Link
+ * @param model
+ * @return
+ */
+	@PreAuthorize("hasRole('ROLE_SLDC_USER') or hasRole('ROLE_SLDC_ADMIN')")
+	@RequestMapping(value = { "/addMappings" }, method = RequestMethod.GET)
+	public String addMappings( ModelMap model) {
+		return "addMappingOptions";
+	}
+	
 }
