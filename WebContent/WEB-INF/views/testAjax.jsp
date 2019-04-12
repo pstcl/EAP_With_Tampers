@@ -107,6 +107,7 @@ function showDiv(divId, element)
 
 <div class="row">
 		<div class="form-control">
+		Do you want to add Meter At new Location ?
 		<form:select path="setNewMeter" id="setNewMeter" onchange="showDiv('hidden_div', this)">
 		<option value="no">No</option>
 		<option value="yes">Yes</option>

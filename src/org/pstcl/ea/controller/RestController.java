@@ -40,6 +40,10 @@ import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+/**
+ * @author leevansha
+ *
+ */
 @Controller
 @RequestMapping("/")
 public class RestController {
@@ -47,9 +51,13 @@ public class RestController {
 	@Autowired
 	RestService restService;
 
+
 	@Autowired
 	SubstationUtilityDao populate;
 
+	/**
+	 * get meter details when option is clicked in view energy meter details
+	 */
 	@RequestMapping(value = { "/getMeterDetails" }, method = RequestMethod.GET)
 	public ModelAndView getMeterDetails(@RequestParam(value = "locationId") int locationId,
 			@RequestParam(value = "ssCode") int ssCode, ModelMap model) {
@@ -61,11 +69,26 @@ public class RestController {
 
 	}
 
+	
+	/**
+	 * Test Link:  Form for changing meter from old location to new Location
+	 * @param model
+	 * @return
+	 */
 	@RequestMapping(value = { "/testAjax" }, method = RequestMethod.GET)
 	public String testAjax(ModelMap model) {
 		return "testAjax";
 	}
 
+	/**
+	 * Generates options to select circle ,division,substation and location dynamically
+	 * @param circleCode
+	 * @param divCode
+	 * @param substationCode
+	 * @param locationid
+	 * @param model
+	 * @return
+	 */
 	@RequestMapping(value = { "/getLocationsModel" }, method = RequestMethod.POST, produces = "application/json")
 	public @ResponseBody FilterModel getLocationsModel(@RequestParam(value = "circleSelected") Integer circleCode,
 			@RequestParam(value = "divisionSelected") Integer divCode,
@@ -78,7 +101,14 @@ public class RestController {
 		// restService.getLocationModel(Integer.parseInt(circleCode),Integer.parseInt(divCode),Integer.parseInt(substationCode));
 		return locationModel;
 	}
-
+	
+	
+/**
+ * To change location details of an existing mapped meter when clicked in view energy details
+ * @param meterlocationId
+ * @param model
+ * @return
+ */
 	@RequestMapping(value = { "/changeMeterDetails" }, method = RequestMethod.GET)
 	public ModelAndView changeMeterDetails(@RequestParam(value = "meterlocationId") int meterlocationId,
 			ModelMap model) {
@@ -90,6 +120,12 @@ public class RestController {
 
 	}
 
+	/**
+	 * To change location details of unmapped meter in view energy details
+	 * @param meterId
+	 * @param model
+	 * @return
+	 */
 	@RequestMapping(value = { "/changeNewMeterDetails" }, method = RequestMethod.GET)
 	public ModelAndView changeMeterDetails(@RequestParam(value = "meterId") String meterId, ModelMap model) {
 		ChangeMeterSnippet chgMtr = new ChangeMeterSnippet();
@@ -99,13 +135,22 @@ public class RestController {
 
 	}
 
+	/**
+	 * Saves the changed meter mapping in textAjax.jsp
+	 * @param changeMeterSnippet
+	 * @param bindingResult
+	 * @param model
+	 * @return
+	 */
 	@RequestMapping(value = { "/saveMeterDetails" }, method = RequestMethod.POST)
 	public ModelAndView saveMeterDetails(ChangeMeterSnippet changeMeterSnippet, BindingResult bindingResult,
 			ModelMap model) {
-		System.out.println(changeMeterSnippet.getOldMeterLocationMap());
-		System.out.println(changeMeterSnippet.getEndDate());
-		System.out.println(changeMeterSnippet.getStartDate());
-		System.out.println(changeMeterSnippet.getMeterMaster());
+		/*
+		 * System.out.println(changeMeterSnippet.getOldMeterLocationMap());
+		 * System.out.println(changeMeterSnippet.getEndDate());
+		 * System.out.println(changeMeterSnippet.getStartDate());
+		 * System.out.println(changeMeterSnippet.getMeterMaster());
+		 */
 		Date endDate = changeMeterSnippet.getEndDate();
 		Date startDate = changeMeterSnippet.getStartDate();
 		Date current = new Date();
@@ -148,15 +193,23 @@ public class RestController {
 		return new ModelAndView("testAjax", model);
 	}
 
-	@RequestMapping(value = "/getDivisions", method = RequestMethod.GET, produces = "application/json")
-	public @ResponseBody Set<DivisionMaster> getDivisions(@RequestParam(value = "circleSelected") String circleSelected,
-			ModelMap model) {
-		int crCode = Integer.parseInt(circleSelected);// changeMeterSnippet.getCircle().getCrCode0();
-		CircleMaster circleMaster = populate.findCircleByID(crCode);// .getDivisionMasters();
+	/*
+	 * @RequestMapping(value = "/getDivisions", method = RequestMethod.GET, produces
+	 * = "application/json") public @ResponseBody Set<DivisionMaster>
+	 * getDivisions(@RequestParam(value = "circleSelected") String circleSelected,
+	 * ModelMap model) { int crCode = Integer.parseInt(circleSelected);//
+	 * changeMeterSnippet.getCircle().getCrCode0(); CircleMaster circleMaster =
+	 * populate.findCircleByID(crCode);// .getDivisionMasters();
+	 * 
+	 * return circleMaster.getDivisionMasters(); }
+	 */
 
-		return circleMaster.getDivisionMasters();
-	}
-
+	/**
+	 * To change location emf mapping of mapped locations in view energy details
+	 * @param locationId
+	 * @param model
+	 * @return
+	 */
 	@RequestMapping(value = "/changeLocationEmf", method = RequestMethod.GET)
 	public ModelAndView changeLocationEmf(@RequestParam(value = "locationId") String locationId, ModelMap model) {
 		ChangeLocationEmf chgLocEmf = new ChangeLocationEmf();
@@ -167,6 +220,13 @@ public class RestController {
 		return new ModelAndView("locationEmfForm", model);
 	}
 
+	/**
+	 * Saves changed location emf details
+	 * @param changeLocationEmf
+	 * @param bindingResult
+	 * @param model
+	 * @return
+	 */
 	@RequestMapping(value = "/changeLocationEmf", method = RequestMethod.POST)
 	public ModelAndView saveChangeLocationEmfDetails(ChangeLocationEmf changeLocationEmf, BindingResult bindingResult,
 			ModelMap model) {
@@ -211,12 +271,24 @@ public class RestController {
 		return new ModelAndView(returnModel, model);
 	}
 
+	/**
+	 * To add a new Meter 
+	 * @param model
+	 * @return
+	 */
 	@RequestMapping(value = "/addMeterDetails", method = RequestMethod.GET)
 	public ModelAndView addMeterDetails(ModelMap model) {
 		model.addAttribute("meter", new MeterMaster());
 		return new ModelAndView("addMeterDetails", model);
 	}
 
+	/**
+	 * To save added meter
+	 * @param meter
+	 * @param bindingResult
+	 * @param model
+	 * @return
+	 */
 	@RequestMapping(value = "/addMeterDetails", method = RequestMethod.POST)
 	public Object saveMeterDetails(MeterMaster meter, BindingResult bindingResult, ModelMap model) {
 
@@ -229,7 +301,9 @@ public class RestController {
 	}
 	
 	
-	
+	/*
+	 * To generate options like boundary type,feeder , utility ,device and model in add Location Master form
+	 */
 	@RequestMapping(value = { "/getLocationListModel" }, method = RequestMethod.POST, produces = "application/json")
 	public @ResponseBody LocationMasterList getLocationsMasterListModel( ModelMap model) {
 
@@ -237,6 +311,11 @@ public class RestController {
 		return listModel;
 	}
 
+	/**
+	 * To generate options like meter type,meter make and meter category in add meter form
+	 * @param model
+	 * @return
+	 */
 	@RequestMapping(value = { "/getMeterListModel" }, method = RequestMethod.POST, produces = "application/json")
 	public @ResponseBody LocationMasterList getMeterListModel( ModelMap model) {
 
@@ -244,6 +323,11 @@ public class RestController {
 		return listModel;
 	}
 	
+	/**
+	 * To add a new Location in Mapping
+	 * @param model
+	 * @return
+	 */
 	@RequestMapping(value = "/addLocationDetails", method = RequestMethod.GET)
 	public ModelAndView addLocationMasterDetails(ModelMap model) {
 		String error=null;
@@ -252,7 +336,13 @@ public class RestController {
 		return new ModelAndView("addLocationDetails", model);
 	}
 	
-
+/**
+ * To save added Locations
+ * @param locationMaster
+ * @param bindingResult
+ * @param model
+ * @return
+ */
 	@RequestMapping(value = "/addLocationDetails", method = RequestMethod.POST)
 	public Object saveLocationMeterDetails(LocationMaster locationMaster, BindingResult bindingResult, ModelMap model) {
 
@@ -266,6 +356,11 @@ public class RestController {
 		return (String) "redirect:substationMaster";
 	}
 	
+	/**
+	 * To add locations in a month for calculations first redirect to this method to select month
+	 * @param model
+	 * @return
+	 */
 	@RequestMapping(value = "/selectMonthForReportLocations", method = RequestMethod.GET)
 	public ModelAndView selectReportMonths(ModelMap model) {
 		model.addAttribute("error",null);
@@ -273,6 +368,12 @@ public class RestController {
 		return new ModelAndView("selectMonthForReportLocations", model);
 	}
 	
+	/**
+	 * check errors in entered month and year for report month and locations mapping and redirect on success case to adding/removing locations form
+	 * @param addReportLocations
+	 * @param model
+	 * @return
+	 */
 	@RequestMapping(value = "/selectMonthForReportLocations", method = RequestMethod.POST)
 	public Object selectReportLocations(AddReportLocationModel addReportLocations,ModelMap model) {
 		//System.out.println(addReportLocations.getMonth());
@@ -304,6 +405,12 @@ public class RestController {
 		return new ModelAndView("addReportLocations", model);
 	}
 	
+	/**
+	 * Save the locations mapped or removed for report month matching
+	 * @param addReportLocations
+	 * @param model
+	 * @return
+	 */
 	@RequestMapping(value="/addReportLocation",method=RequestMethod.POST)
 	public Object saveReportLocations(AddReportLocationModel addReportLocations,ModelMap model) {
 		addReportLocations = restService.saveReportLocations(addReportLocations);
