@@ -94,6 +94,7 @@ public class LocationEMFDaoImpl implements ILocationEMFDao {
 			{
 				if (null != locationEMF) {
 					session.save(locationEMF);
+					
 				}
 
 			}

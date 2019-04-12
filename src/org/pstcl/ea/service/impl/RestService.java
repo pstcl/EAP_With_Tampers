@@ -5,6 +5,7 @@ import java.math.BigDecimal;
 import java.util.List;
 import java.util.Set;
 
+import org.pstcl.ea.dao.IAddReportLocationsDao;
 import org.pstcl.ea.dao.IBoundaryTypeMasterDao;
 import org.pstcl.ea.dao.IDeviceTypeMasterDao;
 import org.pstcl.ea.dao.IFeederMasterDao;
@@ -13,9 +14,11 @@ import org.pstcl.ea.dao.ILocationMasterDao;
 import org.pstcl.ea.dao.IMeterMasterDao;
 import org.pstcl.ea.dao.MeterLocationMapDao;
 import org.pstcl.ea.dao.SubstationUtilityDao;
+import org.pstcl.ea.model.AddReportLocationModel;
 import org.pstcl.ea.model.ChangeLocationEmf;
 import org.pstcl.ea.model.ChangeMeterSnippet;
 import org.pstcl.ea.model.LocationMasterList;
+import org.pstcl.ea.model.entity.AddReportLocations;
 import org.pstcl.ea.model.entity.CircleMaster;
 import org.pstcl.ea.model.entity.DivisionMaster;
 import org.pstcl.ea.model.entity.LocationEMF;
@@ -47,6 +50,9 @@ public class RestService {
 	
 	@Autowired
 	IBoundaryTypeMasterDao boundaryTypeMasterDao;
+	
+	@Autowired 
+	IAddReportLocationsDao addReportLocationsDao; 
 
 	public MeterLocationMap getMeterDetails(int id) {
 		return mtrLocMapDao.findById(id);
@@ -234,6 +240,40 @@ public class RestService {
         list.setMeterMake(meterDao.findDistinctMeterMake());
         list.setMeterType(meterDao.findDistinctMeterType());
 		return list;
+	}
+
+	public List<LocationMaster> selectReportLocations(AddReportLocationModel addReportLocations) {
+		 
+		int month = addReportLocations.getMonth();
+		int year = addReportLocations.getYear();
+		List <LocationMaster> pendingLocation = locationMasterDao.findAllLocationMasters();
+		System.out.print((int) pendingLocation.size());
+		List<LocationMaster> list =addReportLocationsDao.findByMonthAndYear(month,year);
+		if(list!=null)
+		{
+			addReportLocations.setLocations(list);
+			pendingLocation.removeAll(list);
+		}
+		
+		//addReportLocations.setAddingLocations(pendingLocation);
+		return pendingLocation;
+	}
+
+	public AddReportLocationModel saveReportLocations(AddReportLocationModel addReportLocations) {
+		int month = addReportLocations.getMonth();
+		int year = addReportLocations.getYear();
+		List<LocationMaster> removelist =addReportLocations.getLocations();
+		List<LocationMaster> addList = addReportLocations.getAddingLocations();
+		
+		if(removelist!=null)
+			addReportLocationsDao.delete(month, year, removelist);
+		if(addList!=null)
+			for(LocationMaster loc:addList) {
+				System.out.println(loc);
+				addReportLocationsDao.save(new AddReportLocations(month,year,loc), null);
+		
+			}
+		return addReportLocations;
 	}
 
 }

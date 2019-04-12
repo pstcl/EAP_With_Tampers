@@ -46,8 +46,6 @@
 
 		}
 	</script>
-
-<%@include file="dataTablesHeader.jsp"%>
 	<div class="row">
 		<div class="alert alert-success lead">${locationMaster.error}</div>
 	</div>

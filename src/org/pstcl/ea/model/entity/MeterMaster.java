@@ -53,6 +53,7 @@ public class MeterMaster implements Serializable {
 	private String meterType;
 	private String PTAccuracy;
 	@JsonIgnore
+	@Transient
 	private String error;
 	public boolean checkDetails() {
 		if(this.getId()==null || this.getCTAccuracy()==null || this.getGridLossFactor()==null || this.getInstalledDate()==null || this.getInternalCTRatio()==null || this.getInternalMF()==null || this.getInternalPTRatio()==null || this.getPTAccuracy()==null || this.getMeterCategory()==null || this.getMeterMake()==null || this.getMeterSrNo()==null || this.getMeterType()==null)

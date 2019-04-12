@@ -48,7 +48,10 @@ public class LocationMasterDaoImpl extends AbstractDaoSLDC<String, LocationMaste
 	public List<LocationMaster> findAllLocationMasters() {
 		Criteria crit = createEntityCriteria();
 		//crit.addOrder(Order.desc("Dia_MM_G6"));
-		return (List<LocationMaster>)crit.list();
+		List <LocationMaster> list= crit.list();
+		System.out.println("list.size() - "+list.size());
+		
+		return list;
 
 	}
 

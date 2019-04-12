@@ -2,15 +2,19 @@
 package org.pstcl.ea.controller;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
 import org.pstcl.ea.dao.SubstationUtilityDao;
+import org.pstcl.ea.model.AddReportLocationModel;
 import org.pstcl.ea.model.ChangeLocationEmf;
 import org.pstcl.ea.model.ChangeMeterSnippet;
 import org.pstcl.ea.model.EAFilter;
 import org.pstcl.ea.model.LocationMasterList;
+import org.pstcl.ea.model.entity.AddReportLocations;
 import org.pstcl.ea.model.entity.CircleMaster;
 import org.pstcl.ea.model.entity.DivisionMaster;
 import org.pstcl.ea.model.entity.LocationMaster;
@@ -261,5 +265,50 @@ public class RestController {
 		restService.saveLocationMasterDetails(locationMaster);
 		return (String) "redirect:substationMaster";
 	}
+	
+	@RequestMapping(value = "/selectMonthForReportLocations", method = RequestMethod.GET)
+	public ModelAndView selectReportMonths(ModelMap model) {
+		model.addAttribute("error",null);
+		model.addAttribute("addReportLocations", new AddReportLocationModel());
+		return new ModelAndView("selectMonthForReportLocations", model);
+	}
+	
+	@RequestMapping(value = "/selectMonthForReportLocations", method = RequestMethod.POST)
+	public Object selectReportLocations(AddReportLocationModel addReportLocations,ModelMap model) {
+		//System.out.println(addReportLocations.getMonth());
+		if( addReportLocations.getYear()<1000 || addReportLocations.getYear()>9999)
+		{
+			model.addAttribute("error","Year should be of 4 digits");
+			model.addAttribute("addReportLocations", new AddReportLocationModel());
+			return new ModelAndView("selectMonthForReportLocations", model);
+		}
+		
+		
+		Set <LocationMaster> pendingLocation= new HashSet<LocationMaster>(restService.selectReportLocations(addReportLocations));
+		try {
+		Set<LocationMaster> addedLocations = new HashSet<LocationMaster>(addReportLocations.getLocations());
+		addReportLocations.setLocations(new ArrayList<LocationMaster>());
+		if(addedLocations.size()>0)
+		model.addAttribute("addedLocations",addedLocations);
+		else
+		model.addAttribute("addedLocations",null);	
+		System.out.println(addedLocations.size());
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+			model.addAttribute("addedLocations",null);
+		}
+		model.addAttribute("pendingLocation",pendingLocation);
+		
+		model.addAttribute("addReportLocations", addReportLocations);
+		return new ModelAndView("addReportLocations", model);
+	}
+	
+	@RequestMapping(value="/addReportLocation",method=RequestMethod.POST)
+	public Object saveReportLocations(AddReportLocationModel addReportLocations,ModelMap model) {
+		addReportLocations = restService.saveReportLocations(addReportLocations);
+		model.addAttribute("addReportLocations", addReportLocations);
+		return "redirect:selectMonthForReportLocations";
+	}	
 
 }
