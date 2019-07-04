@@ -18,7 +18,7 @@
 </head>
 <body onload="myFunction()" style="margin: 0;">
 
-	<%@include file="header.jsp"%>
+	<%@include file="authheader.jsp"%>
 
 	<script>
 		$(document).ready(function() {

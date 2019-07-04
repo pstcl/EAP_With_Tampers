@@ -8,9 +8,9 @@ import org.pstcl.ea.dao.IMeterMasterDao;
 import org.pstcl.ea.dao.MeterLocationMapDao;
 import org.pstcl.ea.model.SubstationMeter;
 import org.pstcl.ea.model.entity.LocationMaster;
-import org.pstcl.ea.model.entity.MeterLocationMap;
 import org.pstcl.ea.model.entity.MeterMaster;
 import org.pstcl.ea.model.entity.SubstationMaster;
+import org.pstcl.ea.model.mapping.MeterLocationMap;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

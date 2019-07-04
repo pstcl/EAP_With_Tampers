@@ -13,6 +13,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
+
 import org.pstcl.ea.util.EAUtil;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;

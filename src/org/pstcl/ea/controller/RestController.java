@@ -1,7 +1,6 @@
 
 package org.pstcl.ea.controller;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
@@ -12,33 +11,21 @@ import org.pstcl.ea.dao.SubstationUtilityDao;
 import org.pstcl.ea.model.AddReportLocationModel;
 import org.pstcl.ea.model.ChangeLocationEmf;
 import org.pstcl.ea.model.ChangeMeterSnippet;
-import org.pstcl.ea.model.EAFilter;
 import org.pstcl.ea.model.LocationMasterList;
-import org.pstcl.ea.model.entity.AddReportLocations;
-import org.pstcl.ea.model.entity.CircleMaster;
-import org.pstcl.ea.model.entity.DivisionMaster;
 import org.pstcl.ea.model.entity.LocationMaster;
-import org.pstcl.ea.model.entity.MeterLocationMap;
 import org.pstcl.ea.model.entity.MeterMaster;
+import org.pstcl.ea.model.mapping.MeterLocationMap;
 import org.pstcl.ea.service.impl.RestService;
 import org.pstcl.model.FilterModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.WebDataBinder;
-import org.springframework.web.bind.annotation.InitBinder;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
-
-import com.fasterxml.jackson.core.JsonParseException;
-import com.fasterxml.jackson.databind.JsonMappingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 /**
  * @author leevansha

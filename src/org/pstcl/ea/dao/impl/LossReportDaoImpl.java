@@ -3,7 +3,6 @@ package org.pstcl.ea.dao.impl;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.function.Predicate;
 
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
@@ -17,7 +16,6 @@ import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import org.hibernate.query.Query;
-import org.hibernate.transform.Transformers;
 import org.pstcl.ea.dao.ILossReportDao;
 import org.pstcl.ea.dao.impl.transformer.LossReportEntityTransformer;
 import org.pstcl.ea.model.EAFilter;

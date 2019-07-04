@@ -1,7 +1,5 @@
 package org.pstcl.ea.messaging;
 
-import java.util.Date;
-
 public class OutputMessage {
 
 	private String content;

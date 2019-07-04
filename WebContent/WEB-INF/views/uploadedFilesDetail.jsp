@@ -68,6 +68,22 @@
 					</button>
 					<ul class="dropdown-menu">
 						<li><a class="nav-link"
+							href="javascript:window.location='filesInRepoS?month=6&year=2019'"><span
+								class="glyphicon glyphicon-plus"></span>June,2019</a></li>
+
+						<li><a class="nav-link"
+							href="javascript:window.location='filesInRepoS?month=5&year=2019'"><span
+								class="glyphicon glyphicon-plus"></span>May,2019</a></li>
+
+						<li><a class="nav-link"
+							href="javascript:window.location='filesInRepoS?month=4&year=2019'"><span
+								class="glyphicon glyphicon-plus"></span>April,2019</a></li>
+
+						<li><a class="nav-link"
+							href="javascript:window.location='filesInRepoS?month=3&year=2019'"><span
+								class="glyphicon glyphicon-plus"></span>March,2019</a></li>
+
+						<li><a class="nav-link"
 							href="javascript:window.location='filesInRepoS?month=2&year=2019'"><span
 								class="glyphicon glyphicon-plus"></span>February,2019</a></li>
 
@@ -89,7 +105,23 @@
 						Files Pending Processing <span class="caret"></span>
 					</button>
 					<ul class="dropdown-menu">
-						<li><a class="nav-link"
+					<li><a class="nav-link"
+							href="javascript:window.location='pendingRepoFiles?month=6&year=2019'"><span
+								class="glyphicon glyphicon-plus"></span>June,2019</a></li>
+
+					<li><a class="nav-link"
+							href="javascript:window.location='pendingRepoFiles?month=5&year=2019'"><span
+								class="glyphicon glyphicon-plus"></span>May,2019</a></li>
+
+					<li><a class="nav-link"
+							href="javascript:window.location='pendingRepoFiles?month=4&year=2019'"><span
+								class="glyphicon glyphicon-plus"></span>April,2019</a></li>
+
+					<li><a class="nav-link"
+							href="javascript:window.location='pendingRepoFiles?month=3&year=2019'"><span
+								class="glyphicon glyphicon-plus"></span>March,2019</a></li>
+
+					<li><a class="nav-link"
 							href="javascript:window.location='pendingRepoFiles?month=2&year=2019'"><span
 								class="glyphicon glyphicon-plus"></span>February,2019</a></li>
 <li><a class="nav-link"
@@ -115,6 +147,16 @@
 						</button>
 						<ul class="dropdown-menu">
 
+						<li><a class="nav-link"
+								href="javascript:window.location='corruptRepoFiles?month=4&year=2019'"><span
+									class="glyphicon glyphicon-plus"></span>April,2019</a></li>
+
+						<li><a class="nav-link"
+								href="javascript:window.location='corruptRepoFiles?month=3&year=2019'"><span
+									class="glyphicon glyphicon-plus"></span>March,2019</a></li>
+
+						
+						
 							<li><a class="nav-link"
 								href="javascript:window.location='corruptRepoFiles?month=2&year=2019'"><span
 									class="glyphicon glyphicon-plus"></span>February,2019</a></li>
@@ -130,25 +172,7 @@
 					</div>
 
 
-					<div class="dropdown nav-link">
-						<button class="nav-link dropdown-toggle" type="button"
-							data-toggle="dropdown">
-							Process Corrupt Files <span class="caret"></span>
-						</button>
-						<ul class="dropdown-menu">
-
-
-							<li><a class="nav-link" href=""><span
-									class="glyphicon glyphicon-plus"></span>February,2019: Link
-									will be enabled soon</a></li>
-
-						
-
-							<li><a class="nav-link"
-								href="javascript:window.location='processCorruptRepoFiles?month=12&year=2018'"><span
-									class="glyphicon glyphicon-plus"></span>Files Without Date</a></li>
-						</ul>
-					</div>
+					
 
 					<div class="dropdown nav-link">
 						<button class="nav-link dropdown-toggle" type="button"
@@ -157,9 +181,22 @@
 						</button>
 						<ul class="dropdown-menu">
 
-							<li><a class="nav-link" href=""><span
-									class="glyphicon glyphicon-plus"></span>February,2019: Link
-									will be enabled soon</a></li>
+						<li><a class="nav-link" 
+						href="<c:url value='/processRepoFiles?month=6&year=2019' />"><span 
+ 									class="glyphicon glyphicon-plus"></span>June,2019</a></li> 
+
+						<li><a class="nav-link" 
+						href="<c:url value='/processRepoFiles?month=5&year=2019' />"><span 
+ 									class="glyphicon glyphicon-plus"></span>May,2019</a></li> 
+
+							<li><a class="nav-link" 
+						href="<c:url value='/processRepoFiles?month=4&year=2019' />"><span 
+ 									class="glyphicon glyphicon-plus"></span>April,2019</a></li> 
+
+									
+															<li><a class="nav-link" 
+						href="<c:url value='/processRepoFiles?month=3&year=2019' />"><span 
+ 									class="glyphicon glyphicon-plus"></span>March,2019</a></li> 
 
 <!-- 							<li><a class="nav-link" -->
 <%-- 								href="<c:url value='/processRepoFiles?month=1&year=2019' />"><span --%>
@@ -180,18 +217,19 @@
 						</button>
 						<ul class="dropdown-menu">
 
-							<li><a class="nav-link" href=""><span
-									class="glyphicon glyphicon-plus"></span>February,2019: Link
-									will be enabled soon</a></li>
+						<li><a class="nav-link"
+								href="<c:url value='/processInstantRegisters?month=6&year=2019' />"><span
+									class="glyphicon glyphicon-plus"></span>June,2019</a></li>
+						
+						<li><a class="nav-link"
+								href="<c:url value='/processInstantRegisters?month=5&year=2019' />"><span
+									class="glyphicon glyphicon-plus"></span>May,2019</a></li>
 
 							<li><a class="nav-link"
-								href="<c:url value='/processInstantRegisters?month=1&year=2019' />"><span
-									class="glyphicon glyphicon-plus"></span>January,2019</a></li>
+								href="<c:url value='/processInstantRegisters?month=4&year=2019' />"><span
+									class="glyphicon glyphicon-plus"></span>April,2019</a></li>
 
-							<li><a class="nav-link"
-								href="<c:url value='/processInstantRegisters?month=12&year=2018' />"><span
-									class="glyphicon glyphicon-plus"></span>December,2018</a></li>
-
+							
 
 						</ul>
 					</div>

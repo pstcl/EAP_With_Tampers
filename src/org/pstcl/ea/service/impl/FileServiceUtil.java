@@ -2,7 +2,6 @@ package org.pstcl.ea.service.impl;
 
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.nio.file.Files;
@@ -13,11 +12,8 @@ import java.util.TimerTask;
 
 import org.apache.commons.io.FilenameUtils;
 import org.pstcl.ea.model.entity.FileMaster;
-import org.pstcl.ea.service.impl.parallel.DataReaderThread;
 import org.pstcl.ea.service.impl.parallel.TimeoutProcessKiller;
 import org.pstcl.ea.util.EAUtil;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationContext;
 import org.springframework.util.FileCopyUtils;
 
 public abstract class FileServiceUtil extends EnergyAccountsService {

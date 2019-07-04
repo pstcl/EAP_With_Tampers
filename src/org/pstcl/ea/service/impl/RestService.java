@@ -21,11 +21,11 @@ import org.pstcl.ea.model.LocationMasterList;
 import org.pstcl.ea.model.entity.AddReportLocations;
 import org.pstcl.ea.model.entity.CircleMaster;
 import org.pstcl.ea.model.entity.DivisionMaster;
-import org.pstcl.ea.model.entity.LocationEMF;
 import org.pstcl.ea.model.entity.LocationMaster;
-import org.pstcl.ea.model.entity.MeterLocationMap;
 import org.pstcl.ea.model.entity.MeterMaster;
 import org.pstcl.ea.model.entity.SubstationMaster;
+import org.pstcl.ea.model.mapping.LocationMFMap;
+import org.pstcl.ea.model.mapping.MeterLocationMap;
 import org.pstcl.model.FilterModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -175,7 +175,7 @@ public class RestService {
 		return mtrLocMapDao.findLocations(meterMaster);
 	}
 
-	public LocationEMF getLocationRecentEmfByLocid(String locationId) {
+	public LocationMFMap getLocationRecentEmfByLocid(String locationId) {
 		return locEmfDao.findLocationRecentEmf(locationId);
 	}
 /**
@@ -186,12 +186,12 @@ public class RestService {
 	public boolean saveDetailsOfLocationEmf(ChangeLocationEmf changeLocationEmf) {
 		try {
 			if (changeLocationEmf.getOldLocationEmf() != null) {
-				LocationEMF updateEmf = changeLocationEmf.getOldLocationEmf();
+				LocationMFMap updateEmf = changeLocationEmf.getOldLocationEmf();
 				updateEmf.setEndDate(changeLocationEmf.getEndDate());
 				locEmfDao.update(updateEmf, null);
 			}
 			if (changeLocationEmf.getSetNewEmf().equals("yes")) {
-				LocationEMF newEmf = new LocationEMF();
+				LocationMFMap newEmf = new LocationMFMap();
 				newEmf.setLocationMaster(changeLocationEmf.getLocationMaster());
 				newEmf.setStartDate(changeLocationEmf.getStartDate());
 				newEmf.setExternalMF(new BigDecimal(changeLocationEmf.getExternalMF()));
@@ -211,7 +211,7 @@ public class RestService {
 	/*
 	 * display mapped emf with location on successful changed details
 	 */
-	public List<LocationEMF> getLocationEmfListByLocid(String locationId) {
+	public List<LocationMFMap> getLocationEmfListByLocid(String locationId) {
 		// TODO Auto-generated method stub
 		return locEmfDao.findLocationEmfByDate(locationId, null);
 	}

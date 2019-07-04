@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<Configuration status="trace">
+<Configuration status="error">
 	<Properties>
 		<Property name="basePath">D:\\</Property>
 	</Properties>
@@ -25,13 +25,13 @@
 	</Appenders>
 	<Loggers>
 		<!-- Log everything in hibernate -->
-		<Logger name="org.hibernate" level="trace" additivity="false">
+		<Logger name="org.hibernate" level="error" additivity="false">
 			<AppenderRef ref="console" />
 <!-- 			<AppenderRef ref="fileLogger" /> -->
 		</Logger>
 
 		<!-- Log SQL statements -->
-		<Logger name="org.hibernate.SQL" level="trace"
+		<Logger name="org.hibernate.SQL" level="error"
 			additivity="false">
 			<AppenderRef ref="console" />
 			
@@ -39,7 +39,7 @@
 		</Logger>
 
 		<!-- Log JDBC bind parameters -->
-		<Logger name="org.hibernate.type.descriptor.sql" level="trace"
+		<Logger name="org.hibernate.type.descriptor.sql" level="error"
 			additivity="false">
 			<AppenderRef ref="console" />
 			
@@ -53,7 +53,7 @@
 <!-- 			<appender-ref ref="fileLogger" level="info" /> -->
 <!-- 		</Logger> -->
 
-		<Root level="trace" additivity="false">
+		<Root level="error" additivity="false">
 			<appender-ref ref="console" />
 		</Root>
 	</Loggers>

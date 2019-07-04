@@ -46,7 +46,7 @@ public class HibernateConfiguration {
 	public LocalSessionFactoryBean sessionFactorySLDC() {
 		final LocalSessionFactoryBean sessionFactory = new LocalSessionFactoryBean();
 		sessionFactory.setDataSource(this.dataSourceSLDC());
-		sessionFactory.setPackagesToScan(new String[]{"org.pstcl.ea.model.entity"});
+		sessionFactory.setPackagesToScan(new String[]{"org.pstcl.ea.model"});
 		sessionFactory.setHibernateProperties(this.hibernateProperties());
 		return sessionFactory;
 

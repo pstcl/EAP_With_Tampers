@@ -1,14 +1,11 @@
 package org.pstcl.ea.service.impl;
 
 import java.math.BigDecimal;
-import java.math.RoundingMode;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
-import java.util.stream.Collectors;
 
 import org.pstcl.ea.dao.IInstantRegistersDao;
 import org.pstcl.ea.dao.ILossReportDao;
@@ -16,10 +13,8 @@ import org.pstcl.ea.dao.ITamperLogDao;
 import org.pstcl.ea.model.ConsolidatedLossReportModel;
 import org.pstcl.ea.model.LossReportModel;
 import org.pstcl.ea.model.entity.InstantRegisters;
-import org.pstcl.ea.model.entity.LocationMaster;
 import org.pstcl.ea.model.entity.LossReportEntity;
 import org.pstcl.ea.model.entity.TamperDetailsProjectionEntity;
-import org.pstcl.ea.util.BigDecimalUtil;
 import org.pstcl.ea.util.DateUtil;
 import org.pstcl.ea.util.EAUtil;
 import org.springframework.beans.factory.annotation.Autowired;

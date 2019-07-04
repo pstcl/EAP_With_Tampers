@@ -3,8 +3,6 @@ package org.pstcl.ea.model.entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 public class TamperDetailsProjectionEntity {
 	
 	

@@ -2,10 +2,8 @@ package org.pstcl.ea.model;
 
 import java.util.List;
 
-import org.pstcl.ea.model.entity.CircleMaster;
-import org.pstcl.ea.model.entity.DivisionMaster;
-import org.pstcl.ea.model.entity.MeterLocationMap;
 import org.pstcl.ea.model.entity.SubstationMaster;
+import org.pstcl.ea.model.mapping.MeterLocationMap;
 
 public class SubstationMeter {
 

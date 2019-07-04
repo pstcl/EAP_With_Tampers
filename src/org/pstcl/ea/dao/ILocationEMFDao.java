@@ -4,42 +4,42 @@ import java.util.Date;
 import java.util.List;
 
 import org.pstcl.ea.model.entity.EAUser;
-import org.pstcl.ea.model.entity.LocationEMF;
-import org.pstcl.ea.model.entity.MeterLocationMap;
+import org.pstcl.ea.model.mapping.LocationMFMap;
+import org.pstcl.ea.model.mapping.MeterLocationMap;
 
 
 public interface ILocationEMFDao {
 	
 	//ss
 
-	LocationEMF findById(int id);
+	LocationMFMap findById(int id);
 
 
 
 	void deleteById(String id);
 
-	void save(LocationEMF txn, EAUser user);
+	void save(LocationMFMap txn, EAUser user);
 
-	void update(LocationEMF txn, EAUser user);
+	void update(LocationMFMap txn, EAUser user);
 
-	void save(List<LocationEMF> locationEMFs, EAUser loggedInUser);
-
-
-
-
-	List<LocationEMF> findLocationEmfByDate(String locationId, Date current);
+	void save(List<LocationMFMap> locationEMFs, EAUser loggedInUser);
 
 
 
-	List<LocationEMF> findLocationEmfByLocAndDate(List<MeterLocationMap> mtrLocMapList, Date startDateOfMonth);
+
+	List<LocationMFMap> findLocationEmfByDate(String locationId, Date current);
 
 
 
-	LocationEMF findLocationRecentEmf(String locationId);
+	List<LocationMFMap> findLocationEmfByLocAndDate(List<MeterLocationMap> mtrLocMapList, Date startDateOfMonth);
 
 
 
-	boolean find(LocationEMF newEmf);
+	LocationMFMap findLocationRecentEmf(String locationId);
+
+
+
+	boolean find(LocationMFMap newEmf);
 
 
 

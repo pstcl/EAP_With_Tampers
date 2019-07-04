@@ -14,9 +14,8 @@ import org.hibernate.exception.ConstraintViolationException;
 import org.pstcl.ea.dao.ILocationEMFDao;
 import org.pstcl.ea.model.entity.EAUser;
 import org.pstcl.ea.model.entity.InstantRegisters;
-import org.pstcl.ea.model.entity.LocationEMF;
-import org.pstcl.ea.model.entity.LocationMaster;
-import org.pstcl.ea.model.entity.MeterLocationMap;
+import org.pstcl.ea.model.mapping.LocationMFMap;
+import org.pstcl.ea.model.mapping.MeterLocationMap;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,15 +44,15 @@ public class LocationEMFDaoImpl implements ILocationEMFDao {
 
 	@Transactional(value="sldcTxnManager")
 	protected Criteria createEntityCriteria(){
-		return getSession().createCriteria(LocationEMF.class);
+		return getSession().createCriteria(LocationMFMap.class);
 	}
 
 	@Override
 	@Transactional(value="sldcTxnManager")
-	public LocationEMF findById(int id) {
+	public LocationMFMap findById(int id) {
 
 
-		LocationEMF txn = getSession().get(LocationEMF.class, id);
+		LocationMFMap txn = getSession().get(LocationMFMap.class, id);
 		return txn;
 	}
 
@@ -62,13 +61,13 @@ public class LocationEMFDaoImpl implements ILocationEMFDao {
 	public void deleteById(String id) {
 		Criteria crit = createEntityCriteria();
 		crit.add(Restrictions.eq("id", id));
-		LocationEMF txn = (LocationEMF)crit.uniqueResult();
+		LocationMFMap txn = (LocationMFMap)crit.uniqueResult();
 		getSession().delete(txn);
 	}
 
 
 	@Override
-	public void save(LocationEMF txn,EAUser user) {
+	public void save(LocationMFMap txn,EAUser user) {
 		Session session=sessionFactory.openSession();
 		Transaction transaction=session.beginTransaction();
 		session.persist(txn);
@@ -77,7 +76,7 @@ public class LocationEMFDaoImpl implements ILocationEMFDao {
 	}
 
 	@Override
-	public void update(LocationEMF txn,EAUser user) {
+	public void update(LocationMFMap txn,EAUser user) {
 		Session session=sessionFactory.openSession();
 		Transaction transaction=session.beginTransaction();
 		session.update(txn);
@@ -86,10 +85,10 @@ public class LocationEMFDaoImpl implements ILocationEMFDao {
 	}
 
 	@Override
-	public void save(List<LocationEMF> locationEMFs, EAUser loggedInUser) {
+	public void save(List<LocationMFMap> locationEMFs, EAUser loggedInUser) {
 		Session session=sessionFactory.openSession();
 		Transaction transaction=session.beginTransaction();
-		for (LocationEMF locationEMF : locationEMFs) {
+		for (LocationMFMap locationEMF : locationEMFs) {
 			try
 			{
 				if (null != locationEMF) {
@@ -117,17 +116,17 @@ public class LocationEMFDaoImpl implements ILocationEMFDao {
 	}
 
 
-	private void saveOrUpdateInCaseDuplicateException(List<LocationEMF> locationEMFs, EAUser loggedInUser) {
+	private void saveOrUpdateInCaseDuplicateException(List<LocationMFMap> locationEMFs, EAUser loggedInUser) {
 		// TODO Auto-generated method stub
 		Session session=sessionFactory.openSession();
 		Transaction transaction=session.beginTransaction();
-		for (LocationEMF locationEMF : locationEMFs) {
+		for (LocationMFMap locationEMF : locationEMFs) {
 			try
 			{
 				Criteria crit = session.createCriteria(InstantRegisters.class);
 				crit.add(Restrictions.eq("location.locationId", locationEMF.getLocationMaster().getLocationId()));
 				//crit.add(Restrictions.eq("transactionDate",instantRegister.getTransactionDate()));
-				LocationEMF entity =(LocationEMF) crit.uniqueResult();
+				LocationMFMap entity =(LocationMFMap) crit.uniqueResult();
 				if (null != entity) {
 					//	entity.updateValues(locationEMF);
 					session.update(entity);
@@ -158,7 +157,7 @@ public class LocationEMFDaoImpl implements ILocationEMFDao {
 
 	@Override
 	@Transactional(value="sldcTxnManager")
-	public List<LocationEMF> findLocationEmfByDate(String locationId,Date startDateOftheMonth) {
+	public List<LocationMFMap> findLocationEmfByDate(String locationId,Date startDateOftheMonth) {
 
 
 
@@ -173,13 +172,13 @@ public class LocationEMFDaoImpl implements ILocationEMFDao {
 		Criterion rest5= Restrictions.isNull("endDate");
 		crit.add(Restrictions.or( rest4,rest5));
 		}
-		return (List<LocationEMF>) crit.list();
+		return (List<LocationMFMap>) crit.list();
 
 	}
 
 	@Override
 	@Transactional(value="sldcTxnManager")
-	public List<LocationEMF> findLocationEmfByLocAndDate(List<MeterLocationMap> meterLocationMapList,Date startDateOftheMonth) {
+	public List<LocationMFMap> findLocationEmfByLocAndDate(List<MeterLocationMap> meterLocationMapList,Date startDateOftheMonth) {
 
 
 
@@ -196,26 +195,26 @@ public class LocationEMFDaoImpl implements ILocationEMFDao {
 		Criterion rest4= Restrictions.ge("endDate",startDateOftheMonth);
 		Criterion rest5= Restrictions.isNull("endDate");
 		crit.add(Restrictions.or( rest4,rest5));
-		return (List<LocationEMF>) crit.list();
+		return (List<LocationMFMap>) crit.list();
 
 	}
 	@Override
-	public LocationEMF findLocationRecentEmf(String locationId) {
+	public LocationMFMap findLocationRecentEmf(String locationId) {
 		Criteria crit = createEntityCriteria();
 		crit.add((Restrictions.eq("locationMaster.locationId", locationId)));
 		crit.add(Restrictions.isNull("endDate"));
-		return (LocationEMF) crit.uniqueResult();
+		return (LocationMFMap) crit.uniqueResult();
 	}
 	
 
 	@Override
 	@Transactional(value="sldcTxnManager")
-	public boolean find(LocationEMF newEmf) {
+	public boolean find(LocationMFMap newEmf) {
 		Criteria crit = createEntityCriteria();
 		crit.add((Restrictions.eq("locationMaster.locationId", newEmf.getLocationMaster().getLocationId())));
 		crit.add((Restrictions.eq("startDate", newEmf.getStartDate())));
 		crit.add((Restrictions.eq("externalMF", newEmf.getExternalMF())));
-		List <LocationEMF> list = (List<LocationEMF>) crit.list();
+		List <LocationMFMap> list = (List<LocationMFMap>) crit.list();
 		if(list!=null && list.size()>0)
 			return true;
 		return false;

@@ -1,11 +1,12 @@
 package org.pstcl.ea.model.entity;
 
 import java.io.Serializable;
-import javax.persistence.*;
 
-import com.sun.xml.internal.ws.developer.StreamingAttachment;
-
-import java.util.Set;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.NamedQuery;
+import javax.persistence.Table;
 
 
 /**

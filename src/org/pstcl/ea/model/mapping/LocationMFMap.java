@@ -1,4 +1,4 @@
-package org.pstcl.ea.model.entity;
+package org.pstcl.ea.model.mapping;
 
 import java.math.BigDecimal;
 import java.util.Date;
@@ -13,15 +13,16 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
+import org.pstcl.ea.model.entity.LocationMaster;
 import org.pstcl.ea.util.EAUtil;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
-@Table(name="location_mf_map")
-@NamedQuery(name="LocationEMF.findAll", query="SELECT m FROM LocationEMF m")
-public class LocationEMF {
+@Table(name="map_location_mf")
+@NamedQuery(name="LocationMFMap.findAll", query="SELECT m FROM LocationMFMap m")
+public class LocationMFMap {
 	
 	
 	

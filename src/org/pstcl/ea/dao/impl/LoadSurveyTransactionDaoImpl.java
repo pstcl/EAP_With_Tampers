@@ -1,10 +1,7 @@
 package org.pstcl.ea.dao.impl;
 
-import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.Date;
-import java.util.Iterator;
 import java.util.List;
-
 
 import org.hibernate.Criteria;
 import org.hibernate.Session;
@@ -15,7 +12,6 @@ import org.hibernate.criterion.Restrictions;
 import org.hibernate.exception.ConstraintViolationException;
 import org.pstcl.ea.dao.ILoadSurveyTransactionDao;
 import org.pstcl.ea.model.ImportExportModel;
-import org.pstcl.ea.model.entity.DailyTransaction;
 import org.pstcl.ea.model.entity.EAUser;
 import org.pstcl.ea.model.entity.LoadSurveyTransaction;
 import org.pstcl.ea.model.entity.LocationMaster;

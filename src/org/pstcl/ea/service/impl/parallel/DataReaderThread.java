@@ -29,21 +29,16 @@ import org.pstcl.ea.model.entity.EAUser;
 import org.pstcl.ea.model.entity.FileMaster;
 import org.pstcl.ea.model.entity.InstantRegisters;
 import org.pstcl.ea.model.entity.LoadSurveyTransaction;
-import org.pstcl.ea.model.entity.LocationEMF;
 import org.pstcl.ea.model.entity.LocationMaster;
-import org.pstcl.ea.model.entity.LossReportEntity;
-import org.pstcl.ea.model.entity.MeterLocationMap;
 import org.pstcl.ea.model.entity.TamperLogTransaction;
-import org.pstcl.ea.service.impl.UserServiceImpl;
+import org.pstcl.ea.model.mapping.LocationMFMap;
+import org.pstcl.ea.model.mapping.MeterLocationMap;
 import org.pstcl.ea.util.DateUtil;
 import org.pstcl.ea.util.EAUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.scheduling.annotation.Async;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Service;
 
 @Component
 @Scope("prototype")
@@ -685,7 +680,7 @@ if(transactionDate==null)
 		Date startDateOfMonth=		DateUtil.startDateTimeForDailyFromFileDate(fileDetails.getTransactionDate());
 		List<MeterLocationMap> mtrLocMapList =  mtrLocDao.getLocationByMeterAndDate(fileDetails.getMeterMaster(),startDateOfMonth);
 
-		List<LocationEMF> locationEMFList=locEmfDao.findLocationEmfByLocAndDate(mtrLocMapList, startDateOfMonth); 
+		List<LocationMFMap> locationEMFList=locEmfDao.findLocationEmfByLocAndDate(mtrLocMapList, startDateOfMonth); 
 
 		List<DailyTransaction> dailyTransactions = new ArrayList<DailyTransaction>();
 
@@ -816,14 +811,14 @@ if(transactionDate==null)
 								{
 									if( locationEMFList.size()==1)
 									{
-										LocationEMF locationMap =locationEMFList.get(0);
+										LocationMFMap locationMap =locationEMFList.get(0);
 										dailyTransaction.setExternalMFMap(locationMap);
 										dailyTransaction.setExternalMF(locationMap.getExternalMF());
 										dailyTransaction.setNetWHSign(locationMap.getNetWHSign());
 									}
 									else if(locationEMFList.size()>=1)
 									{
-										for (LocationEMF locationMap : locationEMFList) {
+										for (LocationMFMap locationMap : locationEMFList) {
 											if (dailyTransaction.getLocation().getLocationId().equalsIgnoreCase(locationMap.getLocationMaster().getLocationId()))
 											{
 												if(null!=locationMap.getEndDate()&&(locationMap.getEndDate().compareTo(dailyTransaction.getTransactionDate())>=0)&&(locationMap.getStartDate().compareTo(dailyTransaction.getTransactionDate())<=0))

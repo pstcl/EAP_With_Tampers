@@ -2,14 +2,14 @@ package org.pstcl.ea.model;
 
 import java.util.Date;
 
-import org.pstcl.ea.model.entity.LocationEMF;
 import org.pstcl.ea.model.entity.LocationMaster;
+import org.pstcl.ea.model.mapping.LocationMFMap;
 import org.springframework.format.annotation.DateTimeFormat;
 
 public class ChangeLocationEmf {
 
 	private LocationMaster locationMaster;
-	private LocationEMF oldLocationEmf;
+	private LocationMFMap oldLocationEmf;
 	@DateTimeFormat(pattern = "dd/MM/yyyy")
 	private Date endDate;
 	@DateTimeFormat(pattern = "dd/MM/yyyy")
@@ -18,12 +18,12 @@ public class ChangeLocationEmf {
 	private String setNewEmf;
 	private Integer netWHSign;
 	
-	public LocationEMF getOldLocationEmf() {
+	public LocationMFMap getOldLocationEmf() {
 		return oldLocationEmf;
 	}
 
 
-	public void setOldLocationEmf(LocationEMF oldLocationEmf) {
+	public void setOldLocationEmf(LocationMFMap oldLocationEmf) {
 		this.oldLocationEmf = oldLocationEmf;
 	}
 

@@ -1,8 +1,6 @@
 package org.pstcl.ea.model.entity;
 
 import java.math.BigDecimal;
-import java.text.DecimalFormat;
-import java.time.LocalDateTime;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -19,6 +17,8 @@ import javax.persistence.UniqueConstraint;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
+import org.pstcl.ea.model.mapping.LocationMFMap;
+import org.pstcl.ea.model.mapping.MeterLocationMap;
 import org.pstcl.ea.util.EAUtil;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -62,7 +62,7 @@ public class DailyTransaction {
 	@JsonIgnore
 	@ManyToOne (fetch=FetchType.LAZY)
 	@JoinColumn(name = "MF_MAP_ID")
-	private LocationEMF externalMFMap;
+	private LocationMFMap externalMFMap;
 
 	@Column private String fileName;
 
@@ -175,7 +175,7 @@ public class DailyTransaction {
 	}
 
 
-	public LocationEMF getExternalMFMap() {
+	public LocationMFMap getExternalMFMap() {
 		return externalMFMap;
 	}
 	
@@ -291,7 +291,7 @@ public class DailyTransaction {
 
 	
 
-	public void setExternalMFMap(LocationEMF externalMFMap) {
+	public void setExternalMFMap(LocationMFMap externalMFMap) {
 		this.externalMFMap = externalMFMap;
 	}
 

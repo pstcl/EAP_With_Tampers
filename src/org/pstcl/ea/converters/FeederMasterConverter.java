@@ -1,8 +1,6 @@
 package org.pstcl.ea.converters;
 
-import org.pstcl.ea.dao.IBoundaryTypeMasterDao;
 import org.pstcl.ea.dao.IFeederMasterDao;
-import org.pstcl.ea.model.entity.BoundaryTypeMaster;
 import org.pstcl.ea.model.entity.FeederMaster;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

@@ -1,8 +1,6 @@
 package org.pstcl.ea.converters;
 
 import org.pstcl.ea.dao.IMeterMasterDao;
-import org.pstcl.ea.dao.SubstationUtilityDao;
-import org.pstcl.ea.model.entity.LocationMaster;
 import org.pstcl.ea.model.entity.MeterMaster;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

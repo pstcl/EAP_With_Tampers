@@ -2,8 +2,7 @@ package org.pstcl.ea.converters;
 
 
 import org.pstcl.ea.dao.ILocationEMFDao;
-
-import org.pstcl.ea.model.entity.LocationEMF;
+import org.pstcl.ea.model.mapping.LocationMFMap;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,7 +10,7 @@ import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Component;
 
 @Component
-public class LocationEmfConverter implements Converter<String, LocationEMF> {
+public class LocationEmfConverter implements Converter<String, LocationMFMap> {
 	static final Logger logger;
 	@Autowired
 	 ILocationEMFDao service;
@@ -20,7 +19,7 @@ public class LocationEmfConverter implements Converter<String, LocationEMF> {
 		logger = LoggerFactory.getLogger((Class) LocationEmfConverter.class);
 	}
 
-	public LocationEMF convert(final String code) {
+	public LocationMFMap convert(final String code) {
 		if(code.equalsIgnoreCase(""))
 		{
 			return null;

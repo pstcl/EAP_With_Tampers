@@ -167,7 +167,7 @@
 
 						<div class="form-control col-sm-4">
 							<a class="nav-link"
-								href="javascript:window.location='pendingRepoFiles?month=2&year=2019'">
+								href="javascript:window.location='pendingRepoFiles?month=6&year=2019'">
 								<div class="card" style="align-items: center;"
 									data-toggle="tooltip" data-placement="top"
 									title="List of Files in the Database">
@@ -208,11 +208,12 @@
 
 							<a href="#" role="button" class="nav-link btn popovers"
 								data-toggle="popover" title=""
-								data-content="<a href='getLossReport?month=1&year=2019' title='Feb 2019'>February,2019</a>
+								data-content="
+								<a href='getLossReport?month=5&year=2019' title='June 2019'>June,2019</a>
 								<br>
-								<a href='getLossReport?month=0&year=2019' title='Jan 2019'>January,2019</a>
+								<a href='getLossReport?month=4&year=2019' title='May 2019'>May,2019</a>
 								<br>
-								<a href='getLossReport?month=11&year=2018' title='Dec 2018'>December,2018</a>"
+								"
 								data-original-title="Select Month"><span>
 									<div class="card" data-toggle="tooltip" data-placement="top"
 										title="View loss report for the selected month">
@@ -256,11 +257,10 @@
 
 							<a href="#" role="button" class="nav-link btn popovers"
 								data-toggle="popover" title=""
-								data-content="<a href='getPendingLossReportLocation?month=1&year=2019' title='Feb'>Feb,2019</a>
-								<br><a href='getPendingLossReportLocation?month=0&year=2019' title='Jan'>Jan,2019</a>
+								data-content="<a href='getPendingLossReportLocation?month=5&year=2019' title='June'>June,2019</a>
 								<br>
-								
-								<a href='getPendingLossReportLocation?month=11&year=2018' title='Dec'>December,2018</a>"
+								<a href='getPendingLossReportLocation?month=4&year=2019' title='May'>May,2019</a>
+								"
 								data-original-title="Select Month"><span>
 									<div class="card" data-toggle="tooltip" data-placement="top"
 										title="Meters for which no data has been uploaded yet!">
@@ -319,12 +319,11 @@
 								</div>
 							</a>
 						</div>
-						
 						<sec:authorize access="hasAnyRole('ROLE_SS_AE','ROLE_SR_XEN')">
 
 							<div class="form-control col-sm-4">
 								<a class="nav-link"
-									href="javascript:window.location='substationHome?month=2&year=2019'">
+									href="javascript:window.location='substationHome?month=4&year=2019'">
 									<div class="card" style="align-items: center;"
 										data-toggle="tooltip" data-placement="top"
 										title="List of locations along with files uploaded in current month!">
@@ -342,13 +341,12 @@
 
 							<a href="#" role="button" class="nav-link btn popovers"
 								data-toggle="popover" title=""
-								data-content="<a href='getPendingLossReportLocationPM?month=1&year=2019' title='Feb 2019'>Feb,2019</a>
-								<br>
-								<a href='getPendingLossReportLocationPM?month=0&year=2019' title='Jan 2019'>Jan,2019</a>
-								<br>
-								<a href='getPendingLossReportLocationPM?month=11&year=2018' title='Dec'>December,2018</a>"
+								data-content="<a href='getPendingLossReportLocationPM?month=5&year=2019' title='June 2019'>June,2019</a>
+								<br><a href='getPendingLossReportLocationPM?month=4&year=2019' title='May 2019'>May,2019</a>
+								<br><a href='getPendingLossReportLocationPM?month=3&year=2019' title='April 2019'>April,2019</a>
+								"
 								data-original-title="Select Month"><span>
-								<div class="card" data-toggle="tooltip" data-placement="top"
+									<div class="card" data-toggle="tooltip" data-placement="top"
 										title="Meters for which no data has been uploaded yet!">
 										<i class="fas fa-binoculars fa-5x"></i>
 
@@ -372,11 +370,9 @@
 
 							<a href="#" role="button" class="nav-link btn popovers"
 								data-toggle="popover" title=""
-								data-content="<a href='getTamperLossReport?month=1&year=2019' title='Feb 2019'>February,2019</a>
-								<br>
-								<a href='getTamperLossReport?month=0&year=2019' title='Jan 2019'>January,2019</a>
-								<br>
-								<a href='getTamperLossReport?month=11&year=2018' title='Dec 2018'>December,2018</a>"
+								data-content="<a href='getTamperLossReport?month=5&year=2019' title='June 2019'>June,2019</a>
+								<br><a href='getTamperLossReport?month=4&year=2019' title='May 2019'>May,2019</a>
+								"
 								data-original-title="Select Month"><span>
 									<div class="card" data-toggle="tooltip" data-placement="top"
 										title="View Tamper loss report for the selected month">
@@ -399,11 +395,11 @@
 
 							<a href="#" role="button" class="nav-link btn popovers"
 								data-toggle="popover" title=""
-								data-content="<a href='getIRDetails?month=2&year=2019' title='Feb 2019'>February,2019</a>
+								data-content="<a href='getIRDetails?month=6&year=2019' title='June 2019'>June,2019</a>
 								<br>
-								<a href='getIRDetails?month=1&year=2019' title='Jan 2019'>January,2019</a>
-								<br>
-								<a href='getIRDetails?month=12&year=2018' title='Dec 2018'>December,2018</a>"
+								<a href='getIRDetails?month=5&year=2019' title='May 2019'>May,2019</a>
+								<br><a href='getIRDetails?month=4&year=2019' title='April 2019'>April,2019</a>
+								"
 								data-original-title="Select Month"><span>
 									<div class="card" data-toggle="tooltip" data-placement="top"
 										title="View Instant Register Details for the selected month">

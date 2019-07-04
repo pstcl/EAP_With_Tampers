@@ -1,37 +1,35 @@
 package org.pstcl.ea.birt.spring.core;
 
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.UnsupportedEncodingException;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.LinkedHashSet;
 import java.util.Map;
+import java.util.Set;
+
 import javax.servlet.ServletContext;
-import javax.servlet.ServletConfig;
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.eclipse.birt.report.engine.api.EXCELRenderOption;
+import org.eclipse.birt.report.engine.api.EngineConstants;
 import org.eclipse.birt.report.engine.api.HTMLRenderOption;
+import org.eclipse.birt.report.engine.api.HTMLServerImageHandler;
+import org.eclipse.birt.report.engine.api.IGetParameterDefinitionTask;
+import org.eclipse.birt.report.engine.api.IPDFRenderOption;
+import org.eclipse.birt.report.engine.api.IParameterDefnBase;
+import org.eclipse.birt.report.engine.api.IRenderOption;
 import org.eclipse.birt.report.engine.api.IReportEngine;
 import org.eclipse.birt.report.engine.api.IReportRunnable;
 import org.eclipse.birt.report.engine.api.IRunAndRenderTask;
-import org.eclipse.birt.report.engine.api.HTMLServerImageHandler;
-import org.eclipse.birt.report.engine.api.IRenderOption;
-import org.eclipse.birt.report.engine.api.RenderOption;
-import org.eclipse.birt.report.engine.api.IHTMLRenderOption;
-import org.eclipse.birt.report.engine.api.IPDFRenderOption;
-import org.eclipse.birt.report.engine.api.PDFRenderOption;
 import org.eclipse.birt.report.engine.api.IScalarParameterDefn;
-import org.eclipse.birt.report.engine.api.IGetParameterDefinitionTask;
-import org.eclipse.birt.report.engine.api.IParameterDefnBase;
-import java.util.Iterator;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Set;
-import java.util.LinkedHashSet;
-import java.io.UnsupportedEncodingException;
-import org.springframework.core.io.ClassPathResource;
-import org.springframework.web.servlet.view.AbstractView;
-import org.eclipse.birt.report.engine.api.EXCELRenderOption;
-import org.eclipse.birt.report.engine.api.EngineConstants;
-import java.io.*;
+import org.eclipse.birt.report.engine.api.PDFRenderOption;
+import org.eclipse.birt.report.engine.api.RenderOption;
 import org.springframework.util.Assert;
+import org.springframework.web.servlet.view.AbstractView;
 /**
  * 
  * @todo document me!

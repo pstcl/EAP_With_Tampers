@@ -1,6 +1,5 @@
 package org.pstcl.ea.dao;
 
-import java.util.Date;
 import java.util.List;
 
 import org.pstcl.ea.model.EAFilter;

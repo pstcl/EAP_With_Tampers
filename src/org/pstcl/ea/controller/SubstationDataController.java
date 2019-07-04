@@ -2,16 +2,9 @@ package org.pstcl.ea.controller;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.List;
-import java.util.Set;
 
-import org.pstcl.ea.dao.MeterLocationMapDao;
 import org.pstcl.ea.model.EAFilter;
 import org.pstcl.ea.model.FileModel;
-
-import org.pstcl.ea.model.entity.LocationMaster;
-import org.pstcl.ea.model.entity.MeterLocationMap;
-import org.pstcl.ea.model.entity.SubstationMaster;
 import org.pstcl.ea.service.impl.LocationMeterMappingService;
 import org.pstcl.ea.service.impl.SubstationDataServiceImpl;
 import org.pstcl.ea.service.impl.UploadingService;
@@ -46,10 +39,10 @@ public class SubstationDataController {
 
 	@Autowired
 	private UploadingService uploadingService;
-	
+
 	@Autowired
 	private LocationMeterMappingService locationMeterMappingService;
-	
+
 	@PreAuthorize("hasRole('ROLE_SS_JE') or hasRole('ROLE_SS_AE') or hasRole('ROLE_SR_XEN') or hasRole('ROLE_SE')")
 	@RequestMapping(value = "/getPendingLossReportLocationPM", method = RequestMethod.GET)
 	public String getPendingLossReportLocation(@RequestParam(value = "month") Integer month,
@@ -59,19 +52,29 @@ public class SubstationDataController {
 		return "pendingLossMetersDetail";
 	}
 
-	
-	
+
+
 	@RequestMapping(value = { "/substationMaster" }, method = { RequestMethod.GET })
 	public String substationMaster(final ModelMap model) {
 		model.addAttribute("currentUser", substationDataService.getLoggedInUser());
 		//added for editing meter details leevansha	
-		model.addAttribute("substationList", locationMeterMappingService.findSubstationEnergyMeters());
+			model.addAttribute("substationList", locationMeterMappingService.findSubstationEnergyMeters());
+		//	model.addAttribute("notMappedMeters",locationMeterMappingService.findNotMappedMeters());
+		return "substationList";
+	}
+
+	@RequestMapping(value = { "/unmappedMeters" }, method = { RequestMethod.GET })
+	public String notMappedMeters(final ModelMap model) {
+		model.addAttribute("currentUser", substationDataService.getLoggedInUser());
+		//added for editing meter details leevansha	
+		//	model.addAttribute("substationList", locationMeterMappingService.findSubstationEnergyMeters());
 		model.addAttribute("notMappedMeters",locationMeterMappingService.findNotMappedMeters());
 		return "substationList";
 	}
 
-	
-	 
+
+
+
 	@PreAuthorize("hasRole('ADMIN')")
 	@RequestMapping(value = { "/viewSubstationDetails{id}" }, method = RequestMethod.GET)
 	public String viewSubstationDetails(@PathVariable Integer id, ModelMap model) {
@@ -92,15 +95,15 @@ public class SubstationDataController {
 			@RequestParam(value = "year",required=false) Integer year,ModelMap model) {
 		EAFilter filter = new EAFilter();
 		model.addAttribute("currentUser", substationDataService.getLoggedInUser());
-//		model.addAttribute("energyMeters", substationDataService.listMeters(filter));
+		//		model.addAttribute("energyMeters", substationDataService.listMeters(filter));
 		model.addAttribute("reportMonthYearDate",DateUtil.convertMonthYearToDate(month, year) );
 		model.addAttribute("ssMeterLocations", substationDataService.getSubstationMeterFilesList(filter,month,year));
-		
+
 		return "substationHome";
 	}
-	
-	
-	
+
+
+
 	// @PreAuthorize("hasRole('ROLE_SLDC_USER') or hasRole('ROLE_SLDC_ADMIN')")
 	// @RequestMapping(value = "/uploadZipPM", method = RequestMethod.GET)
 	// public String uploadMultiZip(ModelMap modelMap) {
@@ -108,14 +111,14 @@ public class SubstationDataController {
 	// modelMap.addAttribute("fileModel", fileModel);
 	// return "addCMRIMultiZip";
 	// }
-	
+
 	@PreAuthorize("hasRole('ROLE_SS_JE') or hasRole('ROLE_SS_AE') or hasRole('ROLE_SR_XEN') or hasRole('ROLE_SE')")
 	@RequestMapping(value = { "/uploadZipPM" }, method = RequestMethod.GET)
 	public String uploadZipPM(ModelMap model) {
 		EAFilter filter = new EAFilter();
 		model.addAttribute("currentUser", substationDataService.getLoggedInUser());
-//		model.addAttribute("energyMeters", substationDataService.listMeters(filter));
-//		model.addAttribute("ssMeterLocations", substationDataService.getSubstationMeterFilesList(filter));
+		//		model.addAttribute("energyMeters", substationDataService.listMeters(filter));
+		//		model.addAttribute("ssMeterLocations", substationDataService.getSubstationMeterFilesList(filter));
 		return "substationHome";
 	}
 
@@ -125,8 +128,8 @@ public class SubstationDataController {
 		modelMap.addAttribute("fileModel", uploadingService.processMultiZipUploadedFile(fileModel));
 
 		modelMap.addAttribute("currentUser", substationDataService.getLoggedInUser());
-	//	modelMap.addAttribute("energyMeters", substationDataService.listMeters(null));
-	//	modelMap.addAttribute("ssMeterLocations", substationDataService.getSubstationMeterFilesList(null));
+		//	modelMap.addAttribute("energyMeters", substationDataService.listMeters(null));
+		//	modelMap.addAttribute("ssMeterLocations", substationDataService.getSubstationMeterFilesList(null));
 		return "substationHome";
 		// return "uploadedFilesDetail";
 	}
@@ -205,15 +208,15 @@ public class SubstationDataController {
 
 		return new HttpEntity<byte[]>(pdfFile, headers);
 	}
-/**
- * App mappings Link to add Newly created Link
- * @param model
- * @return
- */
+	/**
+	 * App mappings Link to add Newly created Link
+	 * @param model
+	 * @return
+	 */
 	@PreAuthorize("hasRole('ROLE_SLDC_USER') or hasRole('ROLE_SLDC_ADMIN')")
 	@RequestMapping(value = { "/addMappings" }, method = RequestMethod.GET)
 	public String addMappings( ModelMap model) {
 		return "addMappingOptions";
 	}
-	
+
 }

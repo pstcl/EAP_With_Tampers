@@ -1,13 +1,11 @@
 package org.pstcl.ea.service.impl.parallel;
 
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
 import org.pstcl.ea.model.CMRIFileDataModel;
-import org.pstcl.ea.model.LossReportModel;
 import org.pstcl.ea.model.FileFilter;
 import org.pstcl.ea.model.FileModel;
 import org.pstcl.ea.model.LocationFileModel;
@@ -16,7 +14,6 @@ import org.pstcl.ea.model.entity.DailyTransaction;
 import org.pstcl.ea.model.entity.FileMaster;
 import org.pstcl.ea.model.entity.InstantRegisters;
 import org.pstcl.ea.model.entity.LocationMaster;
-import org.pstcl.ea.model.entity.LossReportEntity;
 import org.pstcl.ea.model.entity.MeterMaster;
 import org.pstcl.ea.model.entity.TamperLogTransaction;
 import org.pstcl.ea.service.impl.EnergyAccountsService;

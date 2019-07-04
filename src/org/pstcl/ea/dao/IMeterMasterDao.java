@@ -4,7 +4,6 @@ import java.util.List;
 
 import org.pstcl.ea.model.EAFilter;
 import org.pstcl.ea.model.entity.EAUser;
-import org.pstcl.ea.model.entity.LocationMaster;
 import org.pstcl.ea.model.entity.MeterMaster;
 
 

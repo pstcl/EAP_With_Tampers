@@ -1,9 +1,7 @@
 package org.pstcl.ea.converters;
 
 import org.pstcl.ea.dao.MeterLocationMapDao;
-import org.pstcl.ea.model.entity.DivisionMaster;
-import org.pstcl.ea.model.entity.LocationMaster;
-import org.pstcl.ea.model.entity.MeterLocationMap;
+import org.pstcl.ea.model.mapping.MeterLocationMap;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,26 +1,14 @@
 package org.pstcl.ea.dao.impl;
 
-import java.util.Date;
 import java.util.List;
 
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Expression;
-import javax.persistence.criteria.Predicate;
-import javax.persistence.criteria.Root;
-
 import org.hibernate.Criteria;
-import org.hibernate.Session;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
-import org.hibernate.query.Query;
-import org.hibernate.type.StandardBasicTypes;
 import org.pstcl.ea.dao.ILocationMasterDao;
 import org.pstcl.ea.model.EAFilter;
-import org.pstcl.ea.model.entity.DailyTransaction;
 import org.pstcl.ea.model.entity.EAUser;
 import org.pstcl.ea.model.entity.LocationMaster;
-import org.pstcl.ea.util.DateUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;

@@ -4,7 +4,6 @@ import java.util.Date;
 import java.util.List;
 
 import org.pstcl.ea.model.ImportExportModel;
-import org.pstcl.ea.model.entity.LoadSurveyTransaction;
 import org.pstcl.ea.model.entity.EAUser;
 import org.pstcl.ea.model.entity.LoadSurveyTransaction;
 import org.pstcl.ea.model.entity.LocationMaster;

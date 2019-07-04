@@ -5,7 +5,7 @@
 <%@ taglib prefix="sec"
 	uri="http://www.springframework.org/security/tags"%>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 
 <html>
 
@@ -115,13 +115,13 @@
 							<table class="table table-striped table-bordered table-hover">
 
 								<tr>
-								    <th>Location Id </th>
+									<th>Location Id</th>
 									<th>Meter Sr. No.</th>
 									<th>Meter Type/Make</th>
 									<th>Location</th>
 									<th>Boundary Type</th>
-                                    <th>Start Date </th>
-                                    <th>End Date</th>
+									<th>Start Date</th>
+									<th>End Date</th>
 
 								</tr>
 
@@ -130,28 +130,33 @@
 
 
 									<tr>
-                                        <td>${location.locationMaster.locationId }</td>
+										<td>${location.locationMaster.locationId }</td>
 										<td>${location.meterMaster.meterSrNo}</td>
 										<td>${location.meterMaster.meterType}</td>
 										<td>${location.locationMaster.feederMaster.feederName}</td>
 										<td>${location.locationMaster.boundaryTypeMaster.boundaryType}</td>
-                                         <td>
-                                         <fmt:formatDate value="${location.startDate}" pattern="yyyy-MM-dd HH:mm:ss" /></td>
-                                          <td>
-                                         <fmt:formatDate value="${location.endDate}" pattern="yyyy-MM-dd HH:mm:ss" /></td>
-                                         <td><a href="changeLocationEmf?locationId=${location.locationMaster.locationId}">Change Location Emf</a></td>
-										<td><button data-toggle="collapse"
+										<td><fmt:formatDate value="${location.startDate}"
+												pattern="yyyy-MM-dd HH:mm:ss" /></td>
+										<td><fmt:formatDate value="${location.endDate}"
+												pattern="yyyy-MM-dd HH:mm:ss" /></td>
+										<td><a class="btn btn-primary" 
+											href="changeLocationEmf?locationId=${location.locationMaster.locationId}">Edit
+												EMF Mapping</a></td>
+										<td><button class="btn btn-primary" data-toggle="collapse"
 												data-target="#demo${indexStatus.index+1 }"
 												onclick="getMeterData('${location.id}','${substation.substationMaster.ssCode}','demo${indexStatusSubstationList.index}_${indexStatus.index+1 }')">Meter
 												Details</button></td>
-												<c:choose>
-						<c:when test="${location.endDate == null}">
-										<td><a href="changeMeterDetails?meterlocationId=${location.id}">Change Details</a>	</td>	
-</c:when>
-</c:choose>
+										<c:choose>
+											<c:when test="${location.endDate == null}">
+												<td><a class="btn btn-primary" 
+													href="changeMeterDetails?meterlocationId=${location.id}">Change  
+														Meter Location</a></td>
+											</c:when>
+										</c:choose>
 									</tr>
 									<tr>
-										<td><div id="demo${indexStatusSubstationList.index}_${indexStatus.index+1 }"
+										<td><div
+												id="demo${indexStatusSubstationList.index}_${indexStatus.index+1 }"
 												class="collapse in"></div></td>
 									</tr>
 
@@ -164,32 +169,34 @@
 					<td></td>
 					<td></td>
 					<td>
-					<table class="table table-striped table-bordered table-hover">	
-					<thead>
-					<tr>
-					<th>Meter Sr No</th>
-					<th>Meter Type</th>
-					<th>Add Mapping</th>
-					</tr>
-					</thead>
-					<tbody>
-				<c:forEach items="${notMappedMeters}" var="meter"
-					varStatus="indexStatusSubstationList">
-					
-						
-					<tr>
-					
-					<td>${meter.meterSrNo}</td>
-					<td>${meter.meterType}</td>
-					<td><a href="changeNewMeterDetails?meterId=${meter.meterSrNo}">Change Details</a></td>	
-					</tr>
-					
-				</c:forEach>
-				</tbody>
-				</table>
-				</td>
-					</tr>
-	
+						<table class="table table-striped table-bordered table-hover">
+							<thead>
+								<tr>
+									<th>Meter Sr No</th>
+									<th>Meter Type</th>
+									<th>Add Mapping</th>
+								</tr>
+							</thead>
+							<tbody>
+								<c:forEach items="${notMappedMeters}" var="meter"
+									varStatus="indexStatusSubstationList">
+
+
+									<tr>
+
+										<td>${meter.meterSrNo}</td>
+										<td>${meter.meterType}</td>
+										<td><a
+											href="changeNewMeterDetails?meterId=${meter.meterSrNo}">Change
+												Details</a></td>
+									</tr>
+
+								</c:forEach>
+							</tbody>
+						</table>
+					</td>
+				</tr>
+
 			</table>
 			<div class="modal fade" id="myModal">
 				<div class="modal-dialog modal-lg">

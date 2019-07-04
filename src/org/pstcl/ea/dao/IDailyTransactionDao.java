@@ -3,12 +3,9 @@ package org.pstcl.ea.dao;
 import java.util.Date;
 import java.util.List;
 
-import org.pstcl.ea.model.ImportExportModel;
 import org.pstcl.ea.model.entity.DailyTransaction;
 import org.pstcl.ea.model.entity.EAUser;
 import org.pstcl.ea.model.entity.LocationMaster;
-import org.pstcl.ea.model.entity.LossReportEntity;
-import org.pstcl.ea.model.entity.SubstationMaster;
 
 
 public interface IDailyTransactionDao  {

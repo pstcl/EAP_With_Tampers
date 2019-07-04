@@ -2,12 +2,9 @@ package org.pstcl.ea.model;
 
 import java.util.Date;
 
-import org.pstcl.ea.model.entity.CircleMaster;
-import org.pstcl.ea.model.entity.DivisionMaster;
 import org.pstcl.ea.model.entity.LocationMaster;
-import org.pstcl.ea.model.entity.MeterLocationMap;
 import org.pstcl.ea.model.entity.MeterMaster;
-import org.pstcl.ea.model.entity.SubstationMaster;
+import org.pstcl.ea.model.mapping.MeterLocationMap;
 import org.springframework.format.annotation.DateTimeFormat;
 
 

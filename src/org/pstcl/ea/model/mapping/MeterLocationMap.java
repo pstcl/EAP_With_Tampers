@@ -1,4 +1,4 @@
-package org.pstcl.ea.model.entity;
+package org.pstcl.ea.model.mapping;
 
 import java.util.Date;
 
@@ -11,12 +11,14 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
+import org.pstcl.ea.model.entity.LocationMaster;
+import org.pstcl.ea.model.entity.MeterMaster;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
-@Table(name="meter_location_map")
+@Table(name="map_meter_location")
 @NamedQuery(name="MeterLocationMap.findAll", query="SELECT m FROM MeterLocationMap m")
 public class MeterLocationMap {
 	

@@ -2,8 +2,6 @@ package org.pstcl.ea.dao.impl;
 
 import java.util.List;
 
-import javax.persistence.EntityManagerFactory;
-
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -14,16 +12,12 @@ import org.pstcl.ea.dao.SubstationUtilityDao;
 import org.pstcl.ea.model.EAModel;
 import org.pstcl.ea.model.entity.CircleMaster;
 import org.pstcl.ea.model.entity.DivisionMaster;
-import org.pstcl.ea.model.entity.EAUser;
 import org.pstcl.ea.model.entity.LocationMaster;
 import org.pstcl.ea.model.entity.SubstationMaster;
-import org.pstcl.ea.model.entity.TamperLogTransaction;
 import org.pstcl.model.FilterModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
-
-import com.fasterxml.classmate.Filter;
 
 @Repository("substationUtilityDao")
 @org.springframework.transaction.annotation.Transactional(value="sldcTxnManager")

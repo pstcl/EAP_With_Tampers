@@ -4,8 +4,6 @@ package org.pstcl.ea.dao.impl;
 import java.io.Serializable;
 import java.lang.reflect.ParameterizedType;
 
-import javax.persistence.EntityManagerFactory;
-
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;

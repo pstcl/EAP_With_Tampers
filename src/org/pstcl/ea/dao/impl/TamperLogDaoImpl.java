@@ -1,10 +1,7 @@
 package org.pstcl.ea.dao.impl;
 
-import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.Date;
-import java.util.Iterator;
 import java.util.List;
-
 
 import org.hibernate.Criteria;
 import org.hibernate.Session;
@@ -15,15 +12,13 @@ import org.hibernate.criterion.Restrictions;
 import org.hibernate.exception.ConstraintViolationException;
 import org.hibernate.transform.Transformers;
 import org.pstcl.ea.dao.ITamperLogDao;
-import org.pstcl.ea.dao.ITamperLogDao;
 import org.pstcl.ea.model.ImportExportModel;
-import org.pstcl.ea.model.entity.DailyTransaction;
 import org.pstcl.ea.model.entity.EAUser;
-import org.pstcl.ea.model.entity.TamperLogTransaction;
-import org.pstcl.ea.util.DateUtil;
 import org.pstcl.ea.model.entity.LocationMaster;
 import org.pstcl.ea.model.entity.SubstationMaster;
 import org.pstcl.ea.model.entity.TamperDetailsProjectionEntity;
+import org.pstcl.ea.model.entity.TamperLogTransaction;
+import org.pstcl.ea.util.DateUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

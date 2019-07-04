@@ -1,6 +1,5 @@
-package org.pstcl.ea.model.entity;
+package org.pstcl.ea.model.mapping;
 
-import java.math.BigDecimal;
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -8,13 +7,19 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
+import org.pstcl.ea.model.entity.LocationMaster;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
-@Table(name="LOSS_REPORT_LOCATIONS")
-@NamedQuery(name="LocationLossReportStatus.findAll", query="SELECT m FROM LocationLossReportStatus m")
-public class LocationLossReportStatus {
+@Table(name="MAP_LOSS_REPORT_LOCATIONS")
+@NamedQuery(name="MapLossReportLocations.findAll", query="SELECT m FROM MapLossReportLocations m")
+public class MapLossReportLocations {
 	
 	
 	
@@ -25,6 +30,9 @@ public class LocationLossReportStatus {
 	int id;
 	
 	
+	@JsonIgnore
+	@ManyToOne 
+	@JoinColumn(name = "LOC_ID")
 	private LocationMaster locationMaster;
 	
 	@Column(length=45,name="LOSS_REPORT_CRITERIA")

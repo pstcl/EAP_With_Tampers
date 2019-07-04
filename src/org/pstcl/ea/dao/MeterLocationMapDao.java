@@ -1,12 +1,11 @@
 package org.pstcl.ea.dao;
 
-import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 
 import org.pstcl.ea.model.entity.EAUser;
-import org.pstcl.ea.model.entity.MeterLocationMap;
 import org.pstcl.ea.model.entity.MeterMaster;
+import org.pstcl.ea.model.mapping.MeterLocationMap;
 
 public interface MeterLocationMapDao {
 

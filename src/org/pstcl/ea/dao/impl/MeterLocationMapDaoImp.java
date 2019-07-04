@@ -8,17 +8,11 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.criterion.Criterion;
-import org.hibernate.criterion.Projection;
-import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
-import org.hibernate.exception.ConstraintViolationException;
 import org.pstcl.ea.dao.MeterLocationMapDao;
-
 import org.pstcl.ea.model.entity.EAUser;
-import org.pstcl.ea.model.entity.InstantRegisters;
-import org.pstcl.ea.model.entity.MeterLocationMap;
 import org.pstcl.ea.model.entity.MeterMaster;
-import org.pstcl.ea.util.EAUtil;
+import org.pstcl.ea.model.mapping.MeterLocationMap;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

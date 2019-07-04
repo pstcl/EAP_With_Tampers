@@ -4,7 +4,6 @@ import java.util.List;
 
 import org.pstcl.ea.model.entity.EAUser;
 import org.pstcl.ea.model.entity.InstantRegisters;
-import org.pstcl.ea.model.entity.LocationMaster;
 
 
 public interface IInstantRegistersDao {

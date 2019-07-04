@@ -7,7 +7,6 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.pstcl.ea.dao.IFeederMasterDao;
 import org.pstcl.ea.model.entity.FeederMaster;
-import org.pstcl.ea.model.entity.TamperLogTransaction;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
